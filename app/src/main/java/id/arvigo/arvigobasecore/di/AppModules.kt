@@ -1,10 +1,10 @@
 package id.arvigo.arvigobasecore.di
 
-import id.arvigo.arvigobasecore.BuildConfig
 import id.arvigo.arvigobasecore.network.ApiService
 import id.arvigo.arvigobasecore.util.Constant.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.androidx.compose.BuildConfig
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
