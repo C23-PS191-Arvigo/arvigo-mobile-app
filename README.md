@@ -1,4 +1,4 @@
-# arvigo-mobile-app
+# Arvigo Mobile App
 
 This repository contains the front end implementation of the Arvigo app, which is an application for trying out products before making a purchase.
 
@@ -7,6 +7,7 @@ This repository contains the front end implementation of the Arvigo app, which i
 The Arvigo mobile app is built using the Kotlin programming language and Jetpack Compose as the UI framework. It consumes the API from the backend and provides a consumer-ready interface through the mobile software.
 
 ## Getting Started
+**soon to be developed**
 
 ## Branch Naming Convention
 When naming branches, it is recommended to use the following prefixes:
