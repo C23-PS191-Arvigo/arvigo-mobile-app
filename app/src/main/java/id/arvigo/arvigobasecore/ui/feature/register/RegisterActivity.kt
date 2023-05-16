@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.register
+package id.arvigo.arvigobasecore.ui.feature.register
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import id.arvigo.arvigobasecore.ui.register.ui.theme.ArvigoBaseCoreTheme
+import id.arvigo.arvigobasecore.ui.feature.register.ui.theme.ArvigoBaseCoreTheme
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

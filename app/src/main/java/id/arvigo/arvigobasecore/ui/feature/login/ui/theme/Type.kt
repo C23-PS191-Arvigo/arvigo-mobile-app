@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.register.ui.theme
+package id.arvigo.arvigobasecore.ui.feature.login.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

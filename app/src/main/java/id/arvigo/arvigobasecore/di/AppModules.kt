@@ -1,6 +1,6 @@
 package id.arvigo.arvigobasecore.di
 
-import id.arvigo.arvigobasecore.network.ApiService
+import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.util.Constant.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

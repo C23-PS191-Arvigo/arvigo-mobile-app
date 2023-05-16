@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.login.ui.theme
+package id.arvigo.arvigobasecore.ui.feature.login.ui.theme
 
 import android.app.Activity
 import android.os.Build
