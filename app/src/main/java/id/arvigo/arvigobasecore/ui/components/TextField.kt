@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextFieldDefaults
@@ -35,8 +37,8 @@ fun UsernameTextField(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 48.dp)
-            .clip(RoundedCornerShape(16.dp))
             .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(16.dp))
     )
 }
 
@@ -55,8 +57,8 @@ fun NameTextField(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 48.dp)
-            .clip(RoundedCornerShape(16.dp))
             .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(16.dp))
     )
 }
 
@@ -66,12 +68,12 @@ fun PasswordTextField(
     androidx.compose.material3.TextField(
         value = "",
         onValueChange = {},
-/*        leadingIcon = {
+        leadingIcon = {
             Icon(
-                imageVector = Icons.Default.,
+                imageVector = Icons.Default.Lock,
                 contentDescription = null,
             )
-        },*/
+        },
         colors = TextFieldDefaults.textFieldColors(
             disabledIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
@@ -81,7 +83,33 @@ fun PasswordTextField(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 48.dp)
-            .clip(RoundedCornerShape(16.dp))
             .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(16.dp))
+    )
+}
+
+@Composable
+fun EmailTextField(
+) {
+    androidx.compose.material3.TextField(
+        value = "",
+        onValueChange = {},
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Email,
+                contentDescription = null,
+            )
+        },
+        colors = TextFieldDefaults.textFieldColors(
+            disabledIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        placeholder = { androidx.compose.material3.Text("Email") },
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 48.dp)
+            .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(16.dp))
     )
 }
