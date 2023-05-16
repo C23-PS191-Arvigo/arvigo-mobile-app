@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.register.ui.theme
+package id.arvigo.arvigobasecore.ui.feature.register.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
