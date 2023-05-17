@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.feature
+package id.arvigo.arvigobasecore.ui.feature.home
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
