@@ -1,8 +1,6 @@
 package id.arvigo.arvigobasecore.ui.feature
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TopAppBar
@@ -18,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import id.arvigo.arvigobasecore.ui.component.CarouselCard
 import id.arvigo.arvigobasecore.ui.component.PrimarySearch
 
 @Composable
@@ -50,10 +49,16 @@ fun HomeContent() {
         LazyColumn(
             modifier = Modifier.padding(it)
         ) {
-            
+            item {
+                Column() {
+                    Spacer(modifier = Modifier.padding(top = 16.dp))
+                    CarouselCard()
+                }
+            }
         }
     }
 }
+
 
 @Preview
 @Composable
