@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.components
+package id.arvigo.arvigobasecore.ui.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn

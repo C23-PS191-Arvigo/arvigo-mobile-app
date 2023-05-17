@@ -21,10 +21,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.ui.components.EmailTextField
-import id.arvigo.arvigobasecore.ui.components.NameTextField
-import id.arvigo.arvigobasecore.ui.components.PasswordTextField
-import id.arvigo.arvigobasecore.ui.components.UsernameTextField
+import id.arvigo.arvigobasecore.ui.component.EmailTextField
+import id.arvigo.arvigobasecore.ui.component.NameTextField
+import id.arvigo.arvigobasecore.ui.component.PasswordTextField
+import id.arvigo.arvigobasecore.ui.component.UsernameTextField
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
 @Composable
@@ -80,7 +80,7 @@ fun RegisterScreenContent() {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview3() {
+fun RegisterPreview() {
     ArvigoBaseCoreTheme {
         RegisterScreen()
     }
