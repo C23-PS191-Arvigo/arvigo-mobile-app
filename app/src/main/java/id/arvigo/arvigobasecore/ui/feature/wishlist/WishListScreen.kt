@@ -1,7 +1,5 @@
 package id.arvigo.arvigobasecore.ui.feature.wishlist
 
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +7,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,35 +48,6 @@ fun WishListScreen(
     if (currentRoute != null) {
         selectedTabIndex = tabs.indexOfFirst { it.screen.route == currentRoute }.takeIf { it != -1 } ?: 0
     }
-
-    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-    val backCallback = remember {
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (selectedTabIndex == 1) {
-                    selectedTabIndex = 0
-                    navController.navigate(Screen.ProductWishlist.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        restoreState = true
-                        launchSingleTop = true
-                    }
-                } else {
-                    isEnabled = false
-                    backDispatcher?.onBackPressed()
-                }
-            }
-        }
-    }
-
-    DisposableEffect(backDispatcher) {
-        backCallback.isEnabled = true
-        backDispatcher?.addCallback(backCallback)
-        onDispose {
-            backCallback.remove()
-        }
-    }
     
     Column(modifier = Modifier.fillMaxSize()) {
         TabRow(
@@ -94,14 +62,13 @@ fun WishListScreen(
                         navController.navigate(
                             route = item.screen.route,
                             builder = {
-                                selectedTabIndex = index
                                 navController.navigate(route = item.screen.route) {
                                     popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
                                     }
-                                    restoreState = true
                                     launchSingleTop = true
                                 }
+                                selectedTabIndex = index
                             }
                         )
                     }
