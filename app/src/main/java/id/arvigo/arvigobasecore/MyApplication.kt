@@ -1,6 +1,7 @@
-package id.arvigo.arvigobasecore.di
+package id.arvigo.arvigobasecore
 
 import android.app.Application
+import id.arvigo.arvigobasecore.di.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext
 
