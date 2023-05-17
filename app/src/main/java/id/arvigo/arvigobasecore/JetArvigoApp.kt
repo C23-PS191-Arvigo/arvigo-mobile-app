@@ -1,20 +1,14 @@
 package id.arvigo.arvigobasecore
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -23,6 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import id.arvigo.arvigobasecore.ui.feature.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
+import id.arvigo.arvigobasecore.ui.feature.wishlist.WishlistScreen
 import id.arvigo.arvigobasecore.ui.navigation.NavigationItem
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 
@@ -32,7 +27,16 @@ fun JetArvigoApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     Scaffold(
+        bottomBar = {
+            if (currentRoute != Screen.DetailReward.route) {
+                BottomBar(navController)
+            }
+        },
         modifier = modifier
     ) {
         NavHost(
@@ -44,6 +48,7 @@ fun JetArvigoApp(
                 HomeScreen()
             }
             composable(Screen.Wishlist.route) {
+                WishlistScreen()
             }
             composable(Screen.Profile.route) {
                 ProfileScreen()
@@ -59,7 +64,7 @@ private fun BottomBar(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    BottomNavigation(
+    NavigationBar(
         modifier = modifier
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -81,9 +86,9 @@ private fun BottomBar(
                 screen = Screen.Profile
             ),
         )
-        BottomNavigation {
+        NavigationBar() {
             navigationItems.map { item ->
-                BottomNavigationItem(
+                NavigationBarItem(
                     icon = {
                         Icon(
                             imageVector = item.icon,
