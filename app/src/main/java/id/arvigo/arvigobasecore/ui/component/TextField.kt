@@ -14,14 +14,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun UsernameTextField(
+    value: String,
+    onValueChange: (String) -> Unit
 ) {
     androidx.compose.material3.TextField(
-        value = "",
-        onValueChange = {},
+        value = value,
+        onValueChange = onValueChange,
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Person,
@@ -44,10 +47,12 @@ fun UsernameTextField(
 
 @Composable
 fun NameTextField(
+    value: String,
+    onValueChange: (String) -> Unit
 ) {
     androidx.compose.material3.TextField(
-        value = "",
-        onValueChange = {},
+        value = value,
+        onValueChange = onValueChange,
         colors = TextFieldDefaults.textFieldColors(
             disabledIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
@@ -64,10 +69,12 @@ fun NameTextField(
 
 @Composable
 fun PasswordTextField(
+    value: String,
+    onValueChange: (String) -> Unit
 ) {
     androidx.compose.material3.TextField(
-        value = "",
-        onValueChange = {},
+        value = value,
+        onValueChange = onValueChange,
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Lock,
@@ -79,6 +86,7 @@ fun PasswordTextField(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
+        visualTransformation = PasswordVisualTransformation(),
         placeholder = { androidx.compose.material3.Text("Password") },
         modifier = Modifier
             .fillMaxWidth()
@@ -89,11 +97,42 @@ fun PasswordTextField(
 }
 
 @Composable
-fun EmailTextField(
+fun RePasswordTextField(
+    value: String,
+    onValueChange: (String) -> Unit
 ) {
     androidx.compose.material3.TextField(
-        value = "",
-        onValueChange = {},
+        value = value,
+        onValueChange = onValueChange,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Lock,
+                contentDescription = null,
+            )
+        },
+        colors = TextFieldDefaults.textFieldColors(
+            disabledIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        visualTransformation = PasswordVisualTransformation(),
+        placeholder = { androidx.compose.material3.Text("Retype your Password") },
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 48.dp)
+            .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(16.dp))
+    )
+}
+
+@Composable
+fun EmailTextField(
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    androidx.compose.material3.TextField(
+        value = value,
+        onValueChange = onValueChange,
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Email,
