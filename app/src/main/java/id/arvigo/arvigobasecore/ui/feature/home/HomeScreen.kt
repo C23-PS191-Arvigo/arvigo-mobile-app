@@ -121,6 +121,11 @@ fun MainMenu(title: String, icon: Int, onClick: () -> Unit) {
                     .clickable { onClick() },
                 contentScale = ContentScale.Crop
             )
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(15.dp))
+                .background(Color.Black.copy(alpha = 0.5f))) {
+            }
             Text(text = title, style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
         }
     }
