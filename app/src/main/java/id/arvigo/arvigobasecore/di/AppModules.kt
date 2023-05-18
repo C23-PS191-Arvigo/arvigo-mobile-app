@@ -2,6 +2,7 @@ package id.arvigo.arvigobasecore.di
 
 import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
+import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.util.Constant.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -34,4 +35,5 @@ val networkModule = module {
 
 val viewModelModules = module {
     viewModel { LoginViewModel() }
+    viewModel { RegisterViewModel(get()) }
 }
