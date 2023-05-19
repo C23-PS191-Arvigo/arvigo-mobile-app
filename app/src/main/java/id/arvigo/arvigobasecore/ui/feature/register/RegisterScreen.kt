@@ -91,7 +91,8 @@ fun RegisterScreenContent(
                 Spacer(modifier = Modifier.padding(16.dp))
                 PasswordTextField(
                     value = passwordState,
-                    onValueChange = { passwordState = it }
+                    onValueChange = { passwordState = it },
+                    placeHolder = "Password"
                 )
                 Spacer(modifier = Modifier.padding(16.dp))
                 RePasswordTextField(
@@ -107,6 +108,8 @@ fun RegisterScreenContent(
                     CircularProgressIndicator() // Show the loading indicator in the center
                 }
             } else {
+                val isFormValid = fullNameState.isNotEmpty() && emailState.isNotEmpty() &&
+                        (passwordState.isNotEmpty() )&& confirmPasswordState.isNotEmpty()
                 Button(
                     onClick = {
                         val email = emailState
@@ -121,7 +124,8 @@ fun RegisterScreenContent(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(16.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    enabled = isFormValid
                 ) {
                     Text(text = "Register")
                 }
