@@ -15,9 +15,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import id.arvigo.arvigobasecore.ui.feature.HomeScreen
+import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
-import id.arvigo.arvigobasecore.ui.feature.wishlist.WishlistScreen
+import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.NavigationItem
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 
@@ -48,7 +48,7 @@ fun JetArvigoApp(
                 HomeScreen()
             }
             composable(Screen.Wishlist.route) {
-                WishlistScreen()
+                WishListScreen()
             }
             composable(Screen.Profile.route) {
                 ProfileScreen()
