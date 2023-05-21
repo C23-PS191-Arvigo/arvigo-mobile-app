@@ -46,7 +46,7 @@ class RegisterViewModel(
                     }
                 } else {
                     // Registration failed
-                    val errorMessage = response.message()
+                    val errorMessage = response.errorBody()?.string()
                     // Handle the error response accordingly
                     _responseMessage.value = "Registration failed: $errorMessage"
                     Log.d("neoTag", "Registration failed: $errorMessage")
