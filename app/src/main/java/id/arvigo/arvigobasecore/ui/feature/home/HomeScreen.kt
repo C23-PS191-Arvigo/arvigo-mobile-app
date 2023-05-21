@@ -1,9 +1,218 @@
 package id.arvigo.arvigobasecore.ui.feature.home
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.google.accompanist.flowlayout.FlowMainAxisAlignment
+import id.arvigo.arvigobasecore.R
+import id.arvigo.arvigobasecore.ui.component.CarouselCard
+import id.arvigo.arvigobasecore.ui.component.PrimarySearch
+import com.google.accompanist.flowlayout.SizeMode
+
+
+
 
 @Composable
 fun HomeScreen() {
-    Text(text = "home")
+   HomeContent()
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeContent() {
+    val text by remember { mutableStateOf("") }
+    Scaffold(
+        modifier = Modifier,
+        topBar = {
+            SmallTopAppBar(
+                title = {
+                    PrimarySearch(query = text)
+                },
+                actions = {
+                    IconButton(onClick = { /* doSomething() */ }) {
+                        Icon(
+                            imageVector = Icons.Filled.Notifications,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
+        }
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize()
+        ) {
+            item {
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+                CarouselCard()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    MainMenu(title = "Stores", icon = R.drawable.ic_stores, onClick = {})
+                    MainMenu(title = "Brands", icon = R.drawable.ic_brand, onClick = {})
+                    MainMenu(title = "Eyewear", icon = R.drawable.ic_eyewear, onClick = {})
+                    MainMenu(title = "Makeup", icon = R.drawable.ic_makeup, onClick = {})
+                }
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    MainMenu(title = "Headwear", icon = R.drawable.ic_headwear, onClick = {})
+                    MainMenu(title = "Watch", icon = R.drawable.ic_watch, onClick = {})
+                    MainMenu(title = "Shoes", icon = R.drawable.ic_shoes, onClick = {})
+                    MainMenu(title = "Bags", icon = R.drawable.ic_bags, onClick = {})
+                }
+                Spacer(modifier = Modifier.padding(top = 22.dp))
+                Text(
+                    text = "Other Recommendation",
+                    style = MaterialTheme.typography.headlineSmall.copy(color = Color.Black, fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+            item {
+                val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
+                com.google.accompanist.flowlayout.FlowRow(
+                    mainAxisSize = SizeMode.Expand,
+                    mainAxisAlignment = FlowMainAxisAlignment.SpaceBetween
+                ) {
+                    for (i in 1..10) {
+                        Box(
+                            modifier = Modifier
+                                .width(itemSize)
+                                .height(300.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Card(
+                                modifier = Modifier
+                                    .padding(horizontal = 8.dp, vertical = 10.dp)
+                                    .height(300.dp)
+                                    .fillMaxSize()
+                                    .clickable { }
+                            ) {
+                                Column() {
+                                    Card(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(160.dp)
+                                            .padding(horizontal = 10.dp, vertical = 10.dp),
+                                    ) {
+                                        AsyncImage(
+                                            model = ImageRequest.Builder(LocalContext.current)
+                                                .data("https://picsum.photos/id/237/500/800")
+                                                .crossfade(true)
+                                                .build(),
+                                            contentDescription = null,
+                                            contentScale = ContentScale.Crop,
+                                            placeholder = painterResource(id = R.drawable.img_placeholder),
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                        )
+                                    }
+                                    Text(
+                                        text = "Kacamata Potocromic + Blueray",
+                                        style = MaterialTheme.typography.headlineSmall,
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier.padding(horizontal = 10.dp)
+                                    )
+                                    Spacer(modifier = Modifier.padding(top = 10.dp))
+                                    Text(text = "Toko Unggu", style = MaterialTheme.typography.titleLarge.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainMenu(title: String, icon: Int, onClick: () -> Unit) {
+    Card(
+        modifier =Modifier
+            .size(85.dp),
+        shape = RoundedCornerShape(15.dp),
+    ) {
+        Box(
+            modifier = Modifier
+                .width(85.dp)
+                .height(85.dp)
+                .background(Color.Cyan),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(painter = painterResource(id = icon), contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { onClick() },
+                contentScale = ContentScale.Crop
+            )
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(15.dp))
+                .background(Color.Black.copy(alpha = 0.5f))) {
+            }
+            Text(text = title, style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
+        }
+    }
+}
+
+fun LazyGridScope.GridContent() {
+    GridCells.Fixed(2)
+    items(10) {
+        Box(
+            modifier = Modifier
+                .width(200.dp)
+                .height(200.dp)
+                .background(Color.Cyan),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "Item $it", style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun HomePrev() {
+
 }
