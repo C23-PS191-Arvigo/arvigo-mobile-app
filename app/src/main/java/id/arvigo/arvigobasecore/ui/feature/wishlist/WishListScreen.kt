@@ -20,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.screen.ProductWishlistScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.screen.StoreWishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.Screen
@@ -93,6 +94,14 @@ fun WishListScreen(
 @Composable
 fun WishListPreview() {
     ArvigoBaseCoreTheme {
-        WishListScreen()
+        ProductWishlistScreen()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TemptPreview() {
+    ArvigoBaseCoreTheme {
+        HomeScreen()
     }
 }

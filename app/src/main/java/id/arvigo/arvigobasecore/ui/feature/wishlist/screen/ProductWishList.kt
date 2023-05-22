@@ -1,13 +1,14 @@
 package id.arvigo.arvigobasecore.ui.feature.wishlist.screen
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import id.arvigo.arvigobasecore.ui.component.ProductLazyGrid
+import id.arvigo.arvigobasecore.ui.feature.wishlist.model.FakeProductData.dummyProduct
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
 @Composable
 fun ProductWishlistScreen() {
-    Text(text = "Product wishlist")
+    ProductLazyGrid(itemList = dummyProduct)
 }
 
 @Preview(showBackground = true)
