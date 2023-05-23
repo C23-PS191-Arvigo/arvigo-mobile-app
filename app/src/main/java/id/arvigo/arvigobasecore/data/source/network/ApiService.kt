@@ -6,6 +6,7 @@ import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.Field
 import retrofit2.http.POST
 
 interface ApiService {
@@ -14,7 +15,7 @@ interface ApiService {
         @Body request: RegisterRequest
     ): Call<RegisterResponse>
 
-    @POST("/v1/auth/login-user")
+    @POST("/v1/auth/login")
     fun login(
         @Body request: LoginRequest
     ): LoginResponse

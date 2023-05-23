@@ -1,5 +1,6 @@
 package id.arvigo.arvigobasecore.di
 
+import id.arvigo.arvigobasecore.data.repository.AuthRepositoryImpl
 import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
@@ -34,6 +35,10 @@ val networkModule = module {
 }
 
 val viewModelModules = module {
-    viewModel { LoginViewModel() }
+    viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
+}
+
+val repositoryModules = module {
+    single { AuthRepositoryImpl(get()) }
 }

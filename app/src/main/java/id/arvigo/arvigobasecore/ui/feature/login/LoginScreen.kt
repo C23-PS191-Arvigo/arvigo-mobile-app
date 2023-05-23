@@ -23,7 +23,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import id.arvigo.arvigobasecore.R
+import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun LoginScreen() {
@@ -33,7 +35,9 @@ fun LoginScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreenContent() {
+fun LoginScreenContent(
+    viewModel: LoginViewModel = getViewModel()
+) {
     Scaffold() {
         Column(
             modifier = Modifier
@@ -56,9 +60,7 @@ fun LoginScreenContent() {
             Spacer(modifier = Modifier.padding(6.dp))
             Text(text = "Sign In to Continue", style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray))
             Spacer(modifier = Modifier.padding(32.dp))
-            InputLogin()
-            Spacer(modifier = Modifier.padding(60.dp))
-            PrimaryButton(title = "Sign In", onClick = {})
+            InputLogin(viewModel = viewModel)
             Spacer(modifier = Modifier.padding(24.dp))
             LoginCheck()
         }
@@ -66,16 +68,18 @@ fun LoginScreenContent() {
 }
 
 @Composable
-fun InputLogin() {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
+fun InputLogin(
+    viewModel: LoginViewModel
+) {
+    var email by remember { mutableStateOf(TextFieldValue("")) }
     var pass by remember { mutableStateOf(TextFieldValue("")) }
     Column() {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = text,
+            value = email,
             leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon", tint = Color.LightGray) },
             onValueChange = {
-                text = it
+                email = it
             },
             shape = RoundedCornerShape(10.dp),
             placeholder = { Text(text = "Your Email", color =  Color.LightGray) },
@@ -100,6 +104,17 @@ fun InputLogin() {
             ),
             visualTransformation = PasswordVisualTransformation()
         )
+        Spacer(modifier = Modifier.padding(60.dp))
+        PrimaryButton(title = "Sign In", onClick = {
+
+            val loginRequest = LoginRequest(
+                email = email.text,
+                password = pass.text,
+                role = "mobile-app"
+            )
+
+            viewModel.login(loginRequest)
+        })
     }
 }
 
