@@ -1,7 +1,9 @@
 package id.arvigo.arvigobasecore.di
 
 import id.arvigo.arvigobasecore.data.repository.AuthRepositoryImpl
+import id.arvigo.arvigobasecore.data.source.local.AuthPreferences
 import id.arvigo.arvigobasecore.data.source.network.ApiService
+import id.arvigo.arvigobasecore.domain.usecase.LoginUseCase
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.util.Constant.BASE_URL
@@ -39,6 +41,11 @@ val viewModelModules = module {
     viewModel { RegisterViewModel(get()) }
 }
 
-val repositoryModules = module {
-    single { AuthRepositoryImpl(get()) }
+val useCaseModule = module {
+    factory { LoginUseCase(get()) }
 }
+
+val dataPreferencesModule = module {
+    single { AuthPreferences(get()) }
+}
+

@@ -10,8 +10,10 @@ import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +40,12 @@ fun LoginScreen() {
 fun LoginScreenContent(
     viewModel: LoginViewModel = getViewModel()
 ) {
+    val emailState = viewModel.emailState.value
+    val passwordState = viewModel.passwordState.value
+    val loginState = viewModel.loginState.value
+    val scaffoldState = rememberScaffoldState()
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+
     Scaffold() {
         Column(
             modifier = Modifier
@@ -60,63 +68,46 @@ fun LoginScreenContent(
             Spacer(modifier = Modifier.padding(6.dp))
             Text(text = "Sign In to Continue", style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray))
             Spacer(modifier = Modifier.padding(32.dp))
-            InputLogin(viewModel = viewModel)
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = emailState.text,
+                leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon", tint = Color.LightGray) },
+                onValueChange = {
+                    viewModel.setEmail(it)
+                },
+                shape = RoundedCornerShape(10.dp),
+                placeholder = { Text(text = "Your Email", color =  Color.LightGray) },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = Color.LightGray
+                ),
+            )
+            Spacer(modifier = Modifier.padding(top = 12.dp))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = passwordState.text,
+                leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "passIcon", tint =  Color.LightGray) },
+                onValueChange = {
+                    viewModel.setPassword(it)
+                },
+                shape = RoundedCornerShape(10.dp),
+                placeholder = { Text(text = "Password", color =  Color.LightGray) },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = Color.LightGray
+                ),
+                visualTransformation = PasswordVisualTransformation()
+            )
+            Spacer(modifier = Modifier.padding(60.dp))
+            PrimaryButton(title = "Sign In", onClick = {
+                viewModel.loginUser()
+            })
             Spacer(modifier = Modifier.padding(24.dp))
             LoginCheck()
         }
     }
 }
 
-@Composable
-fun InputLogin(
-    viewModel: LoginViewModel
-) {
-    var email by remember { mutableStateOf(TextFieldValue("")) }
-    var pass by remember { mutableStateOf(TextFieldValue("")) }
-    Column() {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = email,
-            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon", tint = Color.LightGray) },
-            onValueChange = {
-                email = it
-            },
-            shape = RoundedCornerShape(10.dp),
-            placeholder = { Text(text = "Your Email", color =  Color.LightGray) },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = Color.LightGray
-            ),
-        )
-        Spacer(modifier = Modifier.padding(top = 12.dp))
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = pass,
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "passIcon", tint =  Color.LightGray) },
-            onValueChange = {
-                pass = it
-            },
-            shape = RoundedCornerShape(10.dp),
-            placeholder = { Text(text = "Password", color =  Color.LightGray) },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = Color.LightGray
-            ),
-            visualTransformation = PasswordVisualTransformation()
-        )
-        Spacer(modifier = Modifier.padding(60.dp))
-        PrimaryButton(title = "Sign In", onClick = {
-
-            val loginRequest = LoginRequest(
-                email = email.text,
-                password = pass.text,
-                role = "mobile-app"
-            )
-
-            viewModel.login(loginRequest)
-        })
-    }
-}
 
 @Composable
 fun LoginCheck() {
