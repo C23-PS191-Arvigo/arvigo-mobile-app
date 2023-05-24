@@ -4,8 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import id.arvigo.arvigobasecore.data.repository.AuthRepositoryImpl
-import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.domain.model.TextFieldState
 import id.arvigo.arvigobasecore.domain.usecase.LoginUseCase
 import id.arvigo.arvigobasecore.ui.common.UiEvents
