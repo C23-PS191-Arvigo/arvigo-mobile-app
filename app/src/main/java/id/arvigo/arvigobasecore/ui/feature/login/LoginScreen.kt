@@ -24,13 +24,19 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.*
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
+import id.arvigo.arvigobasecore.ui.common.UiEvents
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
 
+@NavDestinationDsl
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+
+) {
     LoginScreenContent()
 }
 
@@ -38,13 +44,31 @@ fun LoginScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreenContent(
-    viewModel: LoginViewModel = getViewModel()
+    viewModel: LoginViewModel = getViewModel(),
+
 ) {
     val emailState = viewModel.emailState.value
     val passwordState = viewModel.passwordState.value
     val loginState = viewModel.loginState.value
     val scaffoldState = rememberScaffoldState()
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvents.SnackbarEvent -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message,
+                    )
+                }
+                is UiEvents.NavigateEvent -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Login Successful",
+                    )
+                }
+            }
+        }
+    }
 
     Scaffold() {
         Column(

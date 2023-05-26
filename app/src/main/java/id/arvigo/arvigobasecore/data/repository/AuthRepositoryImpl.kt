@@ -35,6 +35,7 @@ class AuthRepositoryImpl(
         return try {
             val response = apiService.login(loginRequest)
             preferences.saveAuthToken(response.data.token)
+            Log.e("TAG", "login: ${response.data.token}")
             Resource.Success(Unit)
         } catch (e: IOException) {
             Resource.Error(e.message.toString())
