@@ -10,8 +10,10 @@ import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,18 +24,52 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.*
 import id.arvigo.arvigobasecore.R
+import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
+import id.arvigo.arvigobasecore.ui.common.UiEvents
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
+import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.getViewModel
 
+@NavDestinationDsl
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+
+) {
     LoginScreenContent()
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreenContent() {
+fun LoginScreenContent(
+    viewModel: LoginViewModel = getViewModel(),
+
+) {
+    val emailState = viewModel.emailState.value
+    val passwordState = viewModel.passwordState.value
+    val loginState = viewModel.loginState.value
+    val scaffoldState = rememberScaffoldState()
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvents.SnackbarEvent -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message,
+                    )
+                }
+                is UiEvents.NavigateEvent -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Login Successful",
+                    )
+                }
+            }
+        }
+    }
+
     Scaffold() {
         Column(
             modifier = Modifier
@@ -56,52 +92,46 @@ fun LoginScreenContent() {
             Spacer(modifier = Modifier.padding(6.dp))
             Text(text = "Sign In to Continue", style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray))
             Spacer(modifier = Modifier.padding(32.dp))
-            InputLogin()
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = emailState.text,
+                leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon", tint = Color.LightGray) },
+                onValueChange = {
+                    viewModel.setEmail(it)
+                },
+                shape = RoundedCornerShape(10.dp),
+                placeholder = { Text(text = "Your Email", color =  Color.LightGray) },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = Color.LightGray
+                ),
+            )
+            Spacer(modifier = Modifier.padding(top = 12.dp))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = passwordState.text,
+                leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "passIcon", tint =  Color.LightGray) },
+                onValueChange = {
+                    viewModel.setPassword(it)
+                },
+                shape = RoundedCornerShape(10.dp),
+                placeholder = { Text(text = "Password", color =  Color.LightGray) },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = Color.LightGray
+                ),
+                visualTransformation = PasswordVisualTransformation()
+            )
             Spacer(modifier = Modifier.padding(60.dp))
-            PrimaryButton(title = "Sign In", onClick = {})
+            PrimaryButton(title = "Sign In", onClick = {
+                viewModel.loginUser()
+            })
             Spacer(modifier = Modifier.padding(24.dp))
             LoginCheck()
         }
     }
 }
 
-@Composable
-fun InputLogin() {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
-    var pass by remember { mutableStateOf(TextFieldValue("")) }
-    Column() {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = text,
-            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon", tint = Color.LightGray) },
-            onValueChange = {
-                text = it
-            },
-            shape = RoundedCornerShape(10.dp),
-            placeholder = { Text(text = "Your Email", color =  Color.LightGray) },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = Color.LightGray
-            ),
-        )
-        Spacer(modifier = Modifier.padding(top = 12.dp))
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = pass,
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "passIcon", tint =  Color.LightGray) },
-            onValueChange = {
-                pass = it
-            },
-            shape = RoundedCornerShape(10.dp),
-            placeholder = { Text(text = "Password", color =  Color.LightGray) },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = Color.LightGray
-            ),
-            visualTransformation = PasswordVisualTransformation()
-        )
-    }
-}
 
 @Composable
 fun LoginCheck() {
