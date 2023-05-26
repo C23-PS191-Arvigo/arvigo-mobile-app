@@ -100,7 +100,61 @@ fun HomeContent() {
                     MainMenu(title = "Shoes", icon = R.drawable.ic_shoes, onClick = {})
                     MainMenu(title = "Bags", icon = R.drawable.ic_bags, onClick = {})
                 }
-                Spacer(modifier = Modifier.padding(top = 22.dp))
+                Spacer(modifier = Modifier.padding(top = 26.dp))
+                Text(
+                    text = "Recommendation for you",
+                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+                Spacer(modifier = Modifier.padding(top = 12.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp, vertical = 8.dp)
+                        ) {
+                            Text(text = "Personality", style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.SemiBold))
+                            Button(onClick = { /*TODO*/ }) {
+                                Text(text = "Test", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
+                            }
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.padding(top = 12.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp, vertical = 8.dp)
+                        ) {
+                            Text(text = "Face shape", style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.SemiBold))
+                            Button(onClick = { /*TODO*/ }) {
+                                Text(text = "Test", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
+                            }
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.padding(top = 26.dp))
                 Text(
                     text = "Other Recommendation",
                     style = MaterialTheme.typography.headlineSmall.copy(color = Color.Black, fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,

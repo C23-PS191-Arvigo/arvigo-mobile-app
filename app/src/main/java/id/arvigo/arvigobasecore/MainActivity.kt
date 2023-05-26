@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     val newBackStackEntry by navController.currentBackStackEntryAsState()
                     val route = newBackStackEntry?.destination?.route
 
-                   LoginScreen()
+                   JetArvigoApp()
                 }
             }
         }
