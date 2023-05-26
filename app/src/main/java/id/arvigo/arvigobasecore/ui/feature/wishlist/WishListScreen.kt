@@ -102,6 +102,6 @@ fun WishListPreview() {
 @Composable
 fun TemptPreview() {
     ArvigoBaseCoreTheme {
-        HomeScreen()
+
     }
 }

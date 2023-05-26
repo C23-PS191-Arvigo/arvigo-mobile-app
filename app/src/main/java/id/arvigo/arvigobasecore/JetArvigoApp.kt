@@ -18,6 +18,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
+import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
+import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
@@ -36,7 +38,7 @@ fun JetArvigoApp(
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != Screen.DetailReward.route) {
+            if (currentRoute != Screen.Personality.route && currentRoute != Screen.PersonalityMainTest.route) {
                 BottomBar(navController)
             }
         },
@@ -59,13 +61,27 @@ fun JetArvigoApp(
                 }
             }
             composable(Screen.Home.route) {
-                HomeScreen()
+                HomeScreen(
+                    navigateToPersonalityTest = {
+                        navController.navigate(Screen.Personality.route)
+                    }
+                )
             }
             composable(Screen.Wishlist.route) {
                 WishListScreen()
             }
             composable(Screen.Profile.route) {
                 ProfileScreen()
+            }
+            composable(Screen.Personality.route) {
+                PersonalityScreen(
+                    navigateToStartTest = {
+                        navController.navigate(Screen.PersonalityMainTest.route)
+                    }
+                )
+            }
+            composable(Screen.PersonalityMainTest.route) {
+                PersonalityMainTestScreen()
             }
         }
     }

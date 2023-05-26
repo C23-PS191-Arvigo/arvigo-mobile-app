@@ -11,4 +11,7 @@ sealed class Screen(val route: String) {
     }
     object StoreWishlist : Screen("store_wishlist")
     object ProductWishlist : Screen("product_wishlist")
+
+    object Personality : Screen("personality")
+    object PersonalityMainTest : Screen("personality_main_test")
 }
