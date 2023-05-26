@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
+import id.arvigo.arvigobasecore.ui.component.CustomCard
 import id.arvigo.arvigobasecore.ui.component.MenuRowItem
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
@@ -121,47 +122,9 @@ fun ProfileCard() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubscriptionCard() {
-    Card(
-        modifier = Modifier
-            .height(100.dp)
-            .fillMaxSize()
-            .padding(horizontal = 10.dp, vertical = 10.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-
-            ) {
-            Column(
-                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Subscription",
-                    style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
-                Spacer(modifier = Modifier.padding(top = 5.dp))
-                Text(
-                    text = "You have not subscribed.",
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                )
-            }
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-                Text(text = "Pricing")
-            }
-        }
-    }
+    CustomCard(title = "Subscription", desc = "You have not subscribed.", button = "Pricing")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
