@@ -1,6 +1,7 @@
 package id.arvigo.arvigobasecore.ui.feature.profile
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
@@ -19,11 +22,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -36,6 +39,7 @@ import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.CustomCard
 import id.arvigo.arvigobasecore.ui.component.MenuRowItem
+import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,36 +48,38 @@ fun ProfileScreen() {
     Scaffold(
         topBar = { DefTopBar(onMenuClick = {}) }
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier.padding(it)
         ) {
-            Spacer(modifier = Modifier.padding(10.dp))
-            ProfileCard()
-            Spacer(modifier = Modifier.padding(20.dp))
-            SubscriptionCard()
-            PersonalityCard()
-            FaceTypeCard()
-            ProfileRowItems()
+            item {
+                Spacer(modifier = Modifier.padding(10.dp))
+                ProfileCard()
+                Spacer(modifier = Modifier.padding(20.dp))
+                SubscriptionCard()
+                PersonalityCard()
+                FaceTypeCard()
+                ProfileRowItems()
+            }
         }
     }
 }
 
 @Composable
 fun DefTopBar(onMenuClick: () -> Unit) {
-    SmallTopAppBar(
-        title = { Text(text = "Profile") },
-        actions = {
-            IconButton(onClick = { onMenuClick }) {
-                Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = "",
-                )
+    StatelessTopBar(
+        navigationIcon = {},
+        title = "Profile",
+        actionIcon = {
+            IconButton(onClick = onMenuClick ) {
+            Icon(
+                imageVector = Icons.Default.Settings,
+                contentDescription = "Profile",
+            )
             }
-        },
+        }
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileCard() {
     Row(
@@ -81,10 +87,10 @@ fun ProfileCard() {
         modifier = Modifier
             .height(100.dp)
             .fillMaxWidth()
-            .padding(horizontal = 30.dp, vertical = 10.dp)
+            .padding(horizontal = 20.dp, vertical = 10.dp)
             .wrapContentWidth(Alignment.Start),
     ) {
-        Card(
+        Box(
             modifier = Modifier
                 .width(80.dp)
                 .padding(horizontal = 4.dp, vertical = 4.dp),
@@ -98,6 +104,7 @@ fun ProfileCard() {
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(id = R.drawable.img_placeholder),
                 alignment = Alignment.Center,
+                modifier = Modifier.clip(CircleShape)
             )
         }
         Spacer(modifier = Modifier.padding(4.dp))
@@ -223,7 +230,7 @@ fun ProfileRowItems() {
 
 @Preview(showBackground = true)
 @Composable
-fun ItemPreview() {
+fun ProfilePreview() {
     ArvigoBaseCoreTheme {
         ProfileScreen()
     }
