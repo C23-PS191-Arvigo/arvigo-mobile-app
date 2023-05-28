@@ -70,7 +70,7 @@ fun NameTextField(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
-        placeholder = { Text("Name") },
+        placeholder = { Text("Nama") },
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 48.dp)
@@ -140,7 +140,7 @@ fun PasswordTextField(
 
     if (showError) {
         Text(
-            text = "Password must be at least 6 characters long",
+            text = "Password harus memiliki panjang diatas 6 karakter.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.error,
             modifier = Modifier.padding(start = 16.dp, top = 4.dp)
@@ -153,7 +153,7 @@ fun RePasswordTextField(
     value: String,
     onValueChange: (String) -> Unit
 ) {
-    PasswordTextField(value = value, onValueChange = onValueChange, placeHolder = "Retype your password")
+    PasswordTextField(value = value, onValueChange = onValueChange, placeHolder = "Tulis kembali password anda.")
 }
 
 @Composable

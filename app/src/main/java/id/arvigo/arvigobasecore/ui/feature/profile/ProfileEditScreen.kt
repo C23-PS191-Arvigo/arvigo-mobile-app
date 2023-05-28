@@ -107,11 +107,11 @@ fun ProfileEditTopBar(
                 )
             }
         },
-        title = "Personal Data",
+        title = "Data Pribadi",
         actionIcon = {
             IconButton(onClick = onActionClick ) {
                 Text(
-                    text = "Save",
+                    text = "Simpan",
                     style = TextStyle.Default
                 )
             }
