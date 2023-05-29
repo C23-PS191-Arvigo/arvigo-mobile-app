@@ -113,7 +113,7 @@ fun ProfileCard() {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Name",
+                text = "Nama",
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -131,7 +131,7 @@ fun ProfileCard() {
 
 @Composable
 fun SubscriptionCard() {
-    CustomCard(title = "Subscription", desc = "You have not subscribed.", button = "Pricing")
+    CustomCard(title = "Langganan", desc = "Anda belum berlangganan.", button = "Lihat Harga")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -154,7 +154,7 @@ fun PersonalityCard() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Subscription",
+                    text = "Langganan",
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                     modifier = Modifier.padding(horizontal = 10.dp)
                 )
@@ -198,13 +198,13 @@ fun FaceTypeCard() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Face Type",
+                    text = "Tipe Muka",
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                     modifier = Modifier.padding(horizontal = 10.dp)
                 )
                 Spacer(modifier = Modifier.padding(top = 5.dp))
                 Text(
-                    text = "Rounded",
+                    text = "Bulat",
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -216,7 +216,7 @@ fun FaceTypeCard() {
                 modifier = Modifier
                     .padding(16.dp)
             ) {
-                Text(text = "Change")
+                Text(text = "Ubah")
             }
         }
     }
@@ -224,7 +224,7 @@ fun FaceTypeCard() {
 
 @Composable
 fun ProfileRowItems() {
-    MenuRowItem(name = "About App") {}
+    MenuRowItem(name = "Tentang Aplikasi") {}
     MenuRowItem(name = "Logout") {}
 }
 
