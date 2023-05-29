@@ -18,11 +18,16 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
+import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
+import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
+import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
-import id.arvigo.arvigobasecore.ui.navigation.NavigationItem
-import id.arvigo.arvigobasecore.ui.navigation.Screen
+import id.arvigo.arvigobasecore.ui.navigation.*
+import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
+import id.arvigo.arvigobasecore.ui.navigation.nav_graph.homeNavGraph
+import id.arvigo.arvigobasecore.ui.navigation.nav_graph.personalityNavGraph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,7 +41,7 @@ fun JetArvigoApp(
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != Screen.DetailReward.route) {
+            if (currentRoute != Screen.Personality.route && currentRoute != Screen.PersonalityMainTest.route) {
                 BottomBar(navController)
             }
         },
@@ -47,25 +52,30 @@ fun JetArvigoApp(
             startDestination = Screen.Home.route,
             modifier = Modifier.padding(it)
         ) {
-            navigation(
-                startDestination = Screen.Login.route,
-                route = "auth"
-            ) {
-                composable(Screen.Login.route) {
-                    LoginScreen()
-                }
-                composable(Screen.Register.route) {
-                    RegisterScreen()
-                }
-            }
             composable(Screen.Home.route) {
-                HomeScreen()
+                HomeScreen(
+                    navController = navController,
+                )
             }
             composable(Screen.Wishlist.route) {
                 WishListScreen()
             }
             composable(Screen.Profile.route) {
                 ProfileScreen()
+            }
+            authNavGraph(navController = navController)
+            composable(Screen.Personality.route) {
+                PersonalityScreen(
+                    navController = navController,
+                )
+            }
+            composable(Screen.PersonalityMainTest.route) {
+                PersonalityMainTestScreen(
+                    navController = navController,
+                )
+            }
+            composable(Screen.PersonalityResult.route) {
+                PersonalityResultScreen()
             }
         }
     }

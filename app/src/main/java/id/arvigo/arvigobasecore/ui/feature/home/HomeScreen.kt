@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavDestinationDsl
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -41,17 +42,23 @@ import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.CarouselCard
 import id.arvigo.arvigobasecore.ui.component.PrimarySearch
 import com.google.accompanist.flowlayout.SizeMode
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 
 
-@NavDestinationDsl
 @Composable
-fun HomeScreen() {
-   HomeContent()
+fun HomeScreen(
+    navController: NavController,
+) {
+   HomeContent(
+      navController = navController,
+   )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeContent() {
+fun HomeContent(
+   navController: NavController,
+) {
     val text by remember { mutableStateOf("") }
     Scaffold(
         modifier = Modifier,
@@ -123,8 +130,10 @@ fun HomeContent() {
                                 .fillMaxWidth()
                                 .padding(horizontal = 10.dp, vertical = 8.dp)
                         ) {
-                            Text(text = "Personality", style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.SemiBold))
-                            Button(onClick = { /*TODO*/ }) {
+                            Text(text = "Personality", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
+                            Button(onClick = {
+                                navController.navigate(Screen.Personality.route)
+                            }) {
                                 Text(text = "Test", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
                         }
@@ -147,7 +156,7 @@ fun HomeContent() {
                                 .fillMaxWidth()
                                 .padding(horizontal = 10.dp, vertical = 8.dp)
                         ) {
-                            Text(text = "Face shape", style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.SemiBold))
+                            Text(text = "Face shape", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
                             Button(onClick = { /*TODO*/ }) {
                                 Text(text = "Test", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
@@ -157,7 +166,7 @@ fun HomeContent() {
                 Spacer(modifier = Modifier.padding(top = 26.dp))
                 Text(
                     text = "Other Recommendation",
-                    style = MaterialTheme.typography.headlineSmall.copy(color = Color.Black, fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }

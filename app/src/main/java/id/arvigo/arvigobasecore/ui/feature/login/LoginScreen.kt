@@ -29,15 +29,18 @@ import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.ui.common.UiEvents
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
 
 @NavDestinationDsl
 @Composable
 fun LoginScreen(
-
+   navController: NavController,
 ) {
-    LoginScreenContent()
+    LoginScreenContent(
+       navController = navController,
+    )
 }
 
 
@@ -45,7 +48,7 @@ fun LoginScreen(
 @Composable
 fun LoginScreenContent(
     viewModel: LoginViewModel = getViewModel(),
-
+   navController: NavController,
 ) {
     val emailState = viewModel.emailState.value
     val passwordState = viewModel.passwordState.value
@@ -127,14 +130,18 @@ fun LoginScreenContent(
                 viewModel.loginUser()
             })
             Spacer(modifier = Modifier.padding(24.dp))
-            LoginCheck()
+            LoginCheck(
+               navController = navController,
+            )
         }
     }
 }
 
 
 @Composable
-fun LoginCheck() {
+fun LoginCheck(
+   navController: NavController,
+) {
    Column(
          modifier = Modifier.fillMaxWidth(),
          horizontalAlignment = Alignment.CenterHorizontally,
@@ -157,7 +164,9 @@ fun LoginCheck() {
                text = "Register",
                color = MaterialTheme.colorScheme.primary,
                fontWeight = FontWeight.SemiBold,
-               modifier = Modifier.clickable {  }
+               modifier = Modifier.clickable {
+                   navController.navigate(Screen.Register.route)
+               }
            )
        }
    }
@@ -166,5 +175,4 @@ fun LoginCheck() {
 @Preview(showBackground = true)
 @Composable
 fun LoginPrev() {
-    LoginCheck()
 }
