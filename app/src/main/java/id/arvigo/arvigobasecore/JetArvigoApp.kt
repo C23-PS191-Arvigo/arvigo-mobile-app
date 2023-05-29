@@ -15,19 +15,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
-import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
+import id.arvigo.arvigobasecore.ui.feature.profile.PricingScreen
+import id.arvigo.arvigobasecore.ui.feature.profile.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
-import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.*
 import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
-import id.arvigo.arvigobasecore.ui.navigation.nav_graph.homeNavGraph
-import id.arvigo.arvigobasecore.ui.navigation.nav_graph.personalityNavGraph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,9 +58,12 @@ fun JetArvigoApp(
                 WishListScreen()
             }
             composable(Screen.Profile.route) {
-                ProfileScreen()
+                ProfileScreen(
+                    navController = navController
+                )
             }
             authNavGraph(navController = navController)
+            // Personality
             composable(Screen.Personality.route) {
                 PersonalityScreen(
                     navController = navController,
@@ -76,6 +76,13 @@ fun JetArvigoApp(
             }
             composable(Screen.PersonalityResult.route) {
                 PersonalityResultScreen()
+            }
+            //Profile
+            composable(Screen.ProfileEdit.route){
+                ProfileEditScreen(navController)
+            }
+            composable(Screen.Pricing.route){
+                PricingScreen()
             }
         }
     }

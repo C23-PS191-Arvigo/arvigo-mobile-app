@@ -16,7 +16,12 @@ interface ApiService {
     ): Call<RegisterResponse>
 
     @POST("/v1/auth/login")
-    fun login(
+    suspend fun login(
         @Body request: LoginRequest
     ): LoginResponse
+
+/*    @POST("/v1/auth/login")
+    suspend fun loginNew(
+        @Body request: LoginRequest
+    ):*/
 }

@@ -1,32 +1,29 @@
 package id.arvigo.arvigobasecore.ui.feature.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.*
 import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.ui.common.UiEvents
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
 import id.arvigo.arvigobasecore.ui.navigation.Screen
@@ -50,13 +47,33 @@ fun LoginScreenContent(
     viewModel: LoginViewModel = getViewModel(),
    navController: NavController,
 ) {
+    val loginResult by viewModel.loginResult.observeAsState()
     val emailState = viewModel.emailState.value
     val passwordState = viewModel.passwordState.value
     val loginState = viewModel.loginState.value
     val scaffoldState = rememberScaffoldState()
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(key1 = true) {
+    val role = "mobile-app"
+
+    when (loginResult) {
+        is LoginApiResults.Success -> {
+            val userId = (loginResult as LoginApiResults.Success).userId
+            val token = (loginResult as LoginApiResults.Success).token
+            // Handle successful login
+            Log.d("neo-tag", "LoginScreenContent: $userId, $token")
+        }
+        is LoginApiResults.Error -> {
+            val errorMessage = (loginResult as LoginApiResults.Error).errorMessage
+            // Handle login error
+            Log.e("neo-tag", "LoginScreenContent: $errorMessage", )
+        }
+        else -> {
+            // Initial state or loading state
+        }
+    }
+
+   /* LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is UiEvents.SnackbarEvent -> {
@@ -71,7 +88,7 @@ fun LoginScreenContent(
                 }
             }
         }
-    }
+    }*/
 
     Scaffold() {
         Column(
@@ -86,7 +103,9 @@ fun LoginScreenContent(
             Image(
                 painter = painterResource(id = R.drawable.img_logo),
                 contentDescription = null,
-                modifier = Modifier.width(400.dp).height(100.dp)
+                modifier = Modifier
+                    .width(400.dp)
+                    .height(100.dp)
             )
             Spacer(modifier = Modifier.padding(16.dp))
             Text(text = "Welcome to Arvigo", style = MaterialTheme.typography.titleLarge.copy(
@@ -126,9 +145,16 @@ fun LoginScreenContent(
                 visualTransformation = PasswordVisualTransformation()
             )
             Spacer(modifier = Modifier.padding(60.dp))
-            PrimaryButton(title = "Sign In", onClick = {
-                viewModel.loginUser()
-            })
+            Button(onClick = {
+
+                viewModel.loginNew(emailState.text, passwordState.text, role)
+            }) {
+                Text(text = "Sign In")
+            }
+            /*PrimaryButton(title = "Sign In", onClick = {
+                val role = "mobile-app"
+                viewModel.loginNew(emailState.text, passwordState.text, role)
+            })*/
             Spacer(modifier = Modifier.padding(24.dp))
             LoginCheck(
                navController = navController,
