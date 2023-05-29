@@ -34,19 +34,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.CustomCard
 import id.arvigo.arvigobasecore.ui.component.MenuRowItem
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    navController: NavController
+) {
     Scaffold(
-        topBar = { DefTopBar(onMenuClick = {}) }
+        topBar = { DefTopBar(onMenuClick = {
+            navController.navigate(Screen.ProfileEdit.route)
+        }) }
     ) {
         LazyColumn(
             modifier = Modifier.padding(it)
@@ -232,6 +238,8 @@ fun ProfileRowItems() {
 @Composable
 fun ProfilePreview() {
     ArvigoBaseCoreTheme {
-        ProfileScreen()
+/*        ProfileScreen(
+            navController = navController
+        )*/
     }
 }

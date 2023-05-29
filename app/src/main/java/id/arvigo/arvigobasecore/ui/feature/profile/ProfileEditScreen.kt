@@ -1,18 +1,15 @@
 package id.arvigo.arvigobasecore.ui.feature.profile
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
@@ -44,9 +42,18 @@ import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileEditScreen() {
+fun ProfileEditScreen(
+    navController: NavController
+) {
     Scaffold(
-        topBar = { ProfileEditTopBar(onMenuClick = {}) {} }
+        topBar = {
+            ProfileEditTopBar(
+                onMenuClick = {
+                    navController.navigateUp()
+                },
+                onActionClick = {}
+            )
+        }
     ) {
         var emailState by remember { mutableStateOf("") }
         var passwordState by remember { mutableStateOf("") }
@@ -60,25 +67,31 @@ fun ProfileEditScreen() {
         ) {
             item {
                 Spacer(modifier = Modifier.padding(8.dp))
-                ProfileEdit()
+                ProfilePictureEdit()
                 Spacer(modifier = Modifier.padding(8.dp))
-                NameTextField(value = fullNameState, onValueChange = {fullNameState = it})
+                NameTextField(value = fullNameState, onValueChange = { fullNameState = it })
                 Spacer(modifier = Modifier.padding(8.dp))
-                EmailTextField(value = emailState, onValueChange = {emailState = it})
+                EmailTextField(value = emailState, onValueChange = { emailState = it })
                 Spacer(modifier = Modifier.padding(8.dp))
-                PasswordTextField(value = passwordState, onValueChange = {passwordState = it}, placeHolder = "Password")
+                PasswordTextField(
+                    value = passwordState,
+                    onValueChange = { passwordState = it },
+                    placeHolder = "Password"
+                )
                 Spacer(modifier = Modifier.padding(8.dp))
-                RePasswordTextField(value = confirmPasswordState, onValueChange = {confirmPasswordState = it})
+                RePasswordTextField(
+                    value = confirmPasswordState,
+                    onValueChange = { confirmPasswordState = it })
             }
         }
     }
 }
 
 @Composable
-fun ProfileEdit() {
+fun ProfilePictureEdit() {
     Box(
         modifier = Modifier
-            .width(80.dp)
+            //.width(80.dp)
             .padding(horizontal = 4.dp, vertical = 4.dp),
     ) {
         AsyncImage(
@@ -121,7 +134,7 @@ fun ProfileEditTopBar(
         },
         title = "Data Pribadi",
         actionIcon = {
-            IconButton(onClick = onActionClick ) {
+            IconButton(onClick = onActionClick) {
                 Text(
                     text = "Simpan",
                     style = TextStyle.Default,
@@ -136,6 +149,6 @@ fun ProfileEditTopBar(
 @Composable
 fun ProfileEditPreview() {
     ArvigoBaseCoreTheme {
-        ProfileEditScreen()
+        //  ProfileEditScreen()
     }
 }

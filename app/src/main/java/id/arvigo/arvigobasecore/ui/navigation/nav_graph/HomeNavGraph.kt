@@ -26,7 +26,7 @@ fun NavGraphBuilder.homeNavGraph(
             WishListScreen()
         }
         composable(Screen.Profile.route) {
-            ProfileScreen()
+            ProfileScreen(navController)
         }
     }
 }
