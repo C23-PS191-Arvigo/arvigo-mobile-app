@@ -1,5 +1,11 @@
 package id.arvigo.arvigobasecore.ui.navigation
 
+
+const val ROOT_GRAPH_ROUTE = "root"
+const val AUTH_GRAPH_ROUTE = "auth"
+const val HOME_GRAPH_ROUTE = "home"
+const val PERSONALITY_GRAPH_ROUTE = "personality"
+
 sealed class Screen(val route: String) {
     object Home : Screen("home")
     object Wishlist : Screen("wishlist")
@@ -14,4 +20,5 @@ sealed class Screen(val route: String) {
 
     object Personality : Screen("personality")
     object PersonalityMainTest : Screen("personality_main_test")
+    object PersonalityResult : Screen("personality_result")
 }

@@ -12,14 +12,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 
 @Composable
 fun PersonalityScreen(
-    navigateToStartTest: () -> Unit,
+   navController: NavController,
 ) {
     PersonalityContent(
-        navigateToStartTest = navigateToStartTest
+       navController = navController,
     )
 }
 
@@ -27,7 +29,7 @@ fun PersonalityScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonalityContent(
-    navigateToStartTest: () -> Unit
+    navController: NavController,
 ) {
     Scaffold() {
         Column(
@@ -49,7 +51,7 @@ fun PersonalityContent(
                     .weight(0.3f)
             ) {
                 PrimaryButton(title = "Start Test", onClick = {
-                    navigateToStartTest()
+                    navController.navigate(Screen.PersonalityMainTest.route)
                 } )
             }
         }

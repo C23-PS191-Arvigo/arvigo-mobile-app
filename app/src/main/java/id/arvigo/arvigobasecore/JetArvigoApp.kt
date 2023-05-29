@@ -19,12 +19,15 @@ import androidx.navigation.navigation
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
+import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
-import id.arvigo.arvigobasecore.ui.navigation.NavigationItem
-import id.arvigo.arvigobasecore.ui.navigation.Screen
+import id.arvigo.arvigobasecore.ui.navigation.*
+import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
+import id.arvigo.arvigobasecore.ui.navigation.nav_graph.homeNavGraph
+import id.arvigo.arvigobasecore.ui.navigation.nav_graph.personalityNavGraph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,22 +52,9 @@ fun JetArvigoApp(
             startDestination = Screen.Home.route,
             modifier = Modifier.padding(it)
         ) {
-            navigation(
-                startDestination = Screen.Login.route,
-                route = "auth"
-            ) {
-                composable(Screen.Login.route) {
-                    LoginScreen()
-                }
-                composable(Screen.Register.route) {
-                    RegisterScreen()
-                }
-            }
             composable(Screen.Home.route) {
                 HomeScreen(
-                    navigateToPersonalityTest = {
-                        navController.navigate(Screen.Personality.route)
-                    }
+                    navController = navController,
                 )
             }
             composable(Screen.Wishlist.route) {
@@ -73,15 +63,19 @@ fun JetArvigoApp(
             composable(Screen.Profile.route) {
                 ProfileScreen()
             }
+            authNavGraph(navController = navController)
             composable(Screen.Personality.route) {
                 PersonalityScreen(
-                    navigateToStartTest = {
-                        navController.navigate(Screen.PersonalityMainTest.route)
-                    }
+                    navController = navController,
                 )
             }
             composable(Screen.PersonalityMainTest.route) {
-                PersonalityMainTestScreen()
+                PersonalityMainTestScreen(
+                    navController = navController,
+                )
+            }
+            composable(Screen.PersonalityResult.route) {
+                PersonalityResultScreen()
             }
         }
     }

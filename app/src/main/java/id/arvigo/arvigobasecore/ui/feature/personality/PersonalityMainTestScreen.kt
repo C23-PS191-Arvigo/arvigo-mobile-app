@@ -10,17 +10,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 
 @Composable
-fun PersonalityMainTestScreen() {
-    PersonalityMainTestContent()
+fun PersonalityMainTestScreen(
+   navController: NavController,
+) {
+    PersonalityMainTestContent(
+        navController = navController,
+    )
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PersonalityMainTestContent() {
+fun PersonalityMainTestContent(
+    navController: NavController,
+) {
 
     Scaffold() {
         Column(
@@ -43,7 +51,7 @@ fun PersonalityMainTestContent() {
                     .padding(horizontal = 15.dp, vertical = 4.dp)
             ) {
                 PrimaryButton(title = "Continue", onClick = {
-
+                    navController.navigate(Screen.PersonalityResult.route)
                 } )
             }
         }

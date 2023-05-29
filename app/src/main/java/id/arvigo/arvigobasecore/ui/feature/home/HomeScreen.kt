@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavDestinationDsl
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -41,22 +42,22 @@ import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.CarouselCard
 import id.arvigo.arvigobasecore.ui.component.PrimarySearch
 import com.google.accompanist.flowlayout.SizeMode
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 
 
-@NavDestinationDsl
 @Composable
 fun HomeScreen(
-    navigateToPersonalityTest: () -> Unit,
+    navController: NavController,
 ) {
    HomeContent(
-       navigateToPersonalityTest = navigateToPersonalityTest,
+      navController = navController,
    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeContent(
-    navigateToPersonalityTest: () -> Unit,
+   navController: NavController,
 ) {
     val text by remember { mutableStateOf("") }
     Scaffold(
@@ -131,7 +132,7 @@ fun HomeContent(
                         ) {
                             Text(text = "Personality", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
                             Button(onClick = {
-                                navigateToPersonalityTest()
+                                navController.navigate(Screen.Personality.route)
                             }) {
                                 Text(text = "Test", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
