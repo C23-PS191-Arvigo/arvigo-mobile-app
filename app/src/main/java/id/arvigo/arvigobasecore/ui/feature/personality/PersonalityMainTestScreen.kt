@@ -11,8 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityDataItem
+import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityResponse
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
 import id.arvigo.arvigobasecore.ui.navigation.Screen
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PersonalityMainTestScreen(
@@ -29,7 +32,8 @@ fun PersonalityMainTestScreen(
 fun PersonalityMainTestContent(
     navController: NavController,
 ) {
-
+    val viewModel: PersonalityViewModel = getViewModel()
+    val state by viewModel.state.collectAsState()
     Scaffold() {
         Column(
             modifier = Modifier
@@ -40,8 +44,20 @@ fun PersonalityMainTestContent(
                     .fillMaxWidth()
                     .weight(3.8f)
             ) {
-                items(10) {
-                    PersonalTestCard()
+                if(state.isEmpty()) {
+                    item {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(align = Alignment.Center)
+                        )
+                    }
+                }
+                items(viewModel.state.value.size) {data ->
+                    val dataResult = state[data]
+                    PersonalTestCard(
+                        data = dataResult.question,
+                    )
                 }
             }
             Surface(
@@ -62,7 +78,9 @@ fun PersonalityMainTestContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PersonalTestCard() {
+fun PersonalTestCard(
+    data: String,
+) {
 
     var state by remember {
         mutableStateOf(false)
@@ -77,7 +95,7 @@ fun PersonalTestCard() {
                 .padding(horizontal = 16.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Contoh soal test kepribadian dari API", style = MaterialTheme.typography.titleLarge)
+            Text(text = data, style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.padding(top = 12.dp))
             Row(
                 modifier = Modifier
@@ -113,5 +131,7 @@ fun PersonalTestCard() {
 @Preview
 @Composable
 fun PersonalTestCardPrev() {
-    PersonalTestCard()
+    PersonalTestCard(
+        data = "I am the life of the party.",
+    )
 }
