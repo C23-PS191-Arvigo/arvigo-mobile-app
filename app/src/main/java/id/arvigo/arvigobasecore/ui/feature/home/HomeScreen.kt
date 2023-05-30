@@ -38,11 +38,14 @@ import androidx.navigation.NavDestinationDsl
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
+import com.google.accompanist.flowlayout.SizeMode
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.CarouselCard
 import id.arvigo.arvigobasecore.ui.component.PrimarySearch
-import com.google.accompanist.flowlayout.SizeMode
+import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeUiState
+import id.arvigo.arvigobasecore.ui.feature.personality.uistate.PersonalityUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
+import org.koin.androidx.compose.getViewModel
 
 
 @Composable
@@ -54,11 +57,12 @@ fun HomeScreen(
    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun HomeContent(
    navController: NavController,
 ) {
+    val viewModel: HomeViewModel = getViewModel()
     val text by remember { mutableStateOf("") }
     Scaffold(
         modifier = Modifier,
@@ -176,50 +180,70 @@ fun HomeContent(
                     mainAxisSize = SizeMode.Expand,
                     mainAxisAlignment = FlowMainAxisAlignment.SpaceBetween
                 ) {
-                    for (i in 1..10) {
-                        Box(
-                            modifier = Modifier
-                                .width(itemSize)
-                                .height(300.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Card(
-                                modifier = Modifier
-                                    .padding(horizontal = 8.dp, vertical = 10.dp)
-                                    .height(300.dp)
-                                    .fillMaxSize()
-                                    .clickable { }
-                            ) {
-                                Column() {
+
+                    val response = viewModel.response.value
+
+                    when (response) {
+                        is HomeUiState.Success -> {
+                            response.data.forEachIndexed { index, recommendation ->
+                                Box(
+                                    modifier = Modifier
+                                        .width(itemSize)
+                                        .height(300.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
                                     Card(
                                         modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(160.dp)
-                                            .padding(horizontal = 10.dp, vertical = 10.dp),
+                                            .padding(horizontal = 8.dp, vertical = 10.dp)
+                                            .height(300.dp)
+                                            .fillMaxSize()
+                                            .clickable { }
                                     ) {
-                                        AsyncImage(
-                                            model = ImageRequest.Builder(LocalContext.current)
-                                                .data("https://picsum.photos/id/237/500/800")
-                                                .crossfade(true)
-                                                .build(),
-                                            contentDescription = null,
-                                            contentScale = ContentScale.Crop,
-                                            placeholder = painterResource(id = R.drawable.img_placeholder),
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                        )
+                                        Column() {
+                                            Card(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .height(160.dp)
+                                                    .padding(horizontal = 10.dp, vertical = 10.dp),
+                                            ) {
+                                                AsyncImage(
+                                                    model = ImageRequest.Builder(LocalContext.current)
+                                                        .data(recommendation.image)
+                                                        .crossfade(true)
+                                                        .build(),
+                                                    contentDescription = null,
+                                                    contentScale = ContentScale.Crop,
+                                                    placeholder = painterResource(id = R.drawable.img_placeholder),
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                )
+                                            }
+                                            Text(
+                                                text = recommendation.name,
+                                                style = MaterialTheme.typography.headlineSmall,
+                                                maxLines = 2,
+                                                overflow = TextOverflow.Ellipsis,
+                                                modifier = Modifier.padding(horizontal = 10.dp)
+                                            )
+                                            Spacer(modifier = Modifier.padding(top = 10.dp))
+                                            Text(text = recommendation.brand, style = MaterialTheme.typography.titleLarge.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                                        }
                                     }
-                                    Text(
-                                        text = "Kacamata Potocromic + Blueray",
-                                        style = MaterialTheme.typography.headlineSmall,
-                                        maxLines = 2,
-                                        overflow = TextOverflow.Ellipsis,
-                                        modifier = Modifier.padding(horizontal = 10.dp)
-                                    )
-                                    Spacer(modifier = Modifier.padding(top = 10.dp))
-                                    Text(text = "Toko Unggu", style = MaterialTheme.typography.titleLarge.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
                                 }
                             }
+                        }
+                        is HomeUiState.Failure -> {
+                            Text(text = response.error.message ?: "Unknown Error")
+                        }
+                        HomeUiState.Loading -> {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(align = Alignment.Center)
+                            )
+                        }
+                        HomeUiState.Empty -> {
+                            Text(text = "Empty Data")
                         }
                     }
                 }
