@@ -23,8 +23,8 @@ interface ApiService {
     ): LoginResponse
 
     @GET("/v1/questionnaires")
-    fun getQuestionnaires(
+    suspend fun getQuestionnaires(
         @Header("Authorization") token: String,
-    ): Response<Personality>
+    ): Personality
 
 }
