@@ -2,6 +2,7 @@ package id.arvigo.arvigobasecore.data.source.network
 
 import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.data.source.network.response.LoginResponse
+import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
 import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityDataItem
 import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityResponse
@@ -26,5 +27,10 @@ interface ApiService {
     suspend fun getQuestionnaires(
         @Header("Authorization") token: String,
     ): Personality
+
+    @GET("/v1/homes")
+    suspend fun getHomeProduct(
+        @Header("Authorization") token: String,
+    ): HomeProduct
 
 }

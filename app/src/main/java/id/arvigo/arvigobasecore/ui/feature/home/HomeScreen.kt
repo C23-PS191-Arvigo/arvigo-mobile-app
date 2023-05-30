@@ -38,10 +38,10 @@ import androidx.navigation.NavDestinationDsl
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
+import com.google.accompanist.flowlayout.SizeMode
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.CarouselCard
 import id.arvigo.arvigobasecore.ui.component.PrimarySearch
-import com.google.accompanist.flowlayout.SizeMode
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 
 
@@ -54,7 +54,7 @@ fun HomeScreen(
    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun HomeContent(
    navController: NavController,
