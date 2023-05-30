@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -38,7 +39,13 @@ fun JetArvigoApp(
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != Screen.Personality.route && currentRoute != Screen.PersonalityMainTest.route) {
+            val excludedRoutes = listOf(
+                Screen.Personality.route,
+                Screen.PersonalityMainTest.route,
+                Screen.Login.route,
+                Screen.Register.route
+            )
+            if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
             }
         },
@@ -46,7 +53,7 @@ fun JetArvigoApp(
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = AUTH_GRAPH_ROUTE,
             modifier = Modifier.padding(it)
         ) {
             composable(Screen.Home.route) {

@@ -17,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -39,7 +40,6 @@ fun LoginScreen(
        navController = navController,
     )
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +73,7 @@ fun LoginScreenContent(
         }
     }
 
-   /* LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is UiEvents.SnackbarEvent -> {
@@ -88,7 +88,7 @@ fun LoginScreenContent(
                 }
             }
         }
-    }*/
+    }
 
     Scaffold() {
         Column(
@@ -145,16 +145,11 @@ fun LoginScreenContent(
                 visualTransformation = PasswordVisualTransformation()
             )
             Spacer(modifier = Modifier.padding(60.dp))
-            Button(onClick = {
-
+            val context = LocalContext.current
+            PrimaryButton(title = "Sign In") {
                 viewModel.loginNew(emailState.text, passwordState.text, role)
-            }) {
-                Text(text = "Sign In")
+                navController.navigate(Screen.Home.route)
             }
-            /*PrimaryButton(title = "Sign In", onClick = {
-                val role = "mobile-app"
-                viewModel.loginNew(emailState.text, passwordState.text, role)
-            })*/
             Spacer(modifier = Modifier.padding(24.dp))
             LoginCheck(
                navController = navController,
