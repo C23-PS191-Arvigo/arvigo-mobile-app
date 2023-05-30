@@ -2,6 +2,7 @@ package id.arvigo.arvigobasecore.ui.feature.personality
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.*
@@ -11,8 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityData
+import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityDataItem
+import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityResponse
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
+import id.arvigo.arvigobasecore.ui.feature.personality.uistate.PersonalityUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PersonalityMainTestScreen(
@@ -29,19 +35,38 @@ fun PersonalityMainTestScreen(
 fun PersonalityMainTestContent(
     navController: NavController,
 ) {
-
+    val viewModel: PersonalityViewModel = getViewModel()
+    val state by viewModel.state.collectAsState()
     Scaffold() {
         Column(
             modifier = Modifier
                 .padding(it)
         ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(3.8f)
-            ) {
-                items(10) {
-                    PersonalTestCard()
+            val result = viewModel.response.value
+            when(result) {
+                is PersonalityUiState.Success -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(3.8f)
+                    ) {
+                        items(result.data) {response ->
+                            PersonalTestCard(data = response)
+                        }
+                    }
+                }
+                is PersonalityUiState.Failure -> {
+                    Text(text = result.error.message ?: "Unknown Error")
+                }
+                PersonalityUiState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(align = Alignment.Center)
+                    )
+                }
+                PersonalityUiState.Empty -> {
+                    Text(text = "Empty Data")
                 }
             }
             Surface(
@@ -62,7 +87,9 @@ fun PersonalityMainTestContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PersonalTestCard() {
+fun PersonalTestCard(
+    data: PersonalityData,
+) {
 
     var state by remember {
         mutableStateOf(false)
@@ -77,7 +104,7 @@ fun PersonalTestCard() {
                 .padding(horizontal = 16.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Contoh soal test kepribadian dari API", style = MaterialTheme.typography.titleLarge)
+            Text(text = data.question, style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.padding(top = 12.dp))
             Row(
                 modifier = Modifier
@@ -113,5 +140,4 @@ fun PersonalTestCard() {
 @Preview
 @Composable
 fun PersonalTestCardPrev() {
-    PersonalTestCard()
 }

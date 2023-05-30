@@ -1,11 +1,13 @@
 package id.arvigo.arvigobasecore.di
 
 import id.arvigo.arvigobasecore.data.repository.DefaultAuthRepository
+import id.arvigo.arvigobasecore.data.repository.PersonalityRepository
 import id.arvigo.arvigobasecore.data.source.local.AuthPreferences
 import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.domain.repository.AuthRepository
 import id.arvigo.arvigobasecore.domain.usecase.LoginUseCase
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
+import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.util.Constant.BASE_URL
 import okhttp3.OkHttpClient
@@ -40,11 +42,15 @@ val networkModule = module {
 val viewModelModules = module {
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
+    viewModel { PersonalityViewModel(get()) }
 }
 
 val useCaseModule = module {
     single { LoginUseCase(get()) }
     single<AuthRepository> { DefaultAuthRepository() }
+    single<PersonalityRepository> {
+        PersonalityRepository(get())
+    }
 }
 
 val dataPreferencesModule = module {
