@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
@@ -41,7 +42,7 @@ fun JetArvigoApp(
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != Screen.Personality.route && currentRoute != Screen.PersonalityMainTest.route) {
+            if (currentRoute != Screen.Personality.route && currentRoute != Screen.PersonalityMainTest.route && currentRoute != Screen.Brand.route ) {
                 BottomBar(navController)
             }
         },
@@ -62,6 +63,11 @@ fun JetArvigoApp(
             }
             composable(Screen.Profile.route) {
                 ProfileScreen()
+            }
+            composable(Screen.Brand.route) {
+                BrandScreen(
+                    navController = navController,
+                )
             }
             authNavGraph(navController = navController)
             composable(Screen.Personality.route) {

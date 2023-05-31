@@ -1,5 +1,6 @@
 package id.arvigo.arvigobasecore.di
 
+import id.arvigo.arvigobasecore.data.repository.BrandRepository
 import id.arvigo.arvigobasecore.data.repository.DefaultAuthRepository
 import id.arvigo.arvigobasecore.data.repository.HomeProductRepository
 import id.arvigo.arvigobasecore.data.repository.PersonalityRepository
@@ -7,6 +8,7 @@ import id.arvigo.arvigobasecore.data.source.local.AuthPreferences
 import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.domain.repository.AuthRepository
 import id.arvigo.arvigobasecore.domain.usecase.LoginUseCase
+import id.arvigo.arvigobasecore.ui.feature.brand.BrandViewModel
 import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
@@ -46,6 +48,7 @@ val viewModelModules = module {
     viewModel { RegisterViewModel(get()) }
     viewModel { PersonalityViewModel(get()) }
     viewModel { HomeViewModel(get()) }
+    viewModel { BrandViewModel(get()) }
 }
 
 val useCaseModule = module {
@@ -56,6 +59,9 @@ val useCaseModule = module {
     }
     single<HomeProductRepository> {
         HomeProductRepository(get())
+    }
+    single<BrandRepository> {
+        BrandRepository(get())
     }
 }
 

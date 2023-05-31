@@ -96,7 +96,9 @@ fun HomeContent(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     MainMenu(title = "Stores", icon = R.drawable.ic_stores, onClick = {})
-                    MainMenu(title = "Brands", icon = R.drawable.ic_brand, onClick = {})
+                    MainMenu(title = "Brands", icon = R.drawable.ic_brand, onClick = {
+                        navController.navigate(Screen.Brand.route)
+                    })
                     MainMenu(title = "Eyewear", icon = R.drawable.ic_eyewear, onClick = {})
                     MainMenu(title = "Makeup", icon = R.drawable.ic_makeup, onClick = {})
                 }
