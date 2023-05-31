@@ -44,7 +44,7 @@ val networkModule = module {
 }
 
 val viewModelModules = module {
-    viewModel { LoginViewModel(get()) }
+    viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { PersonalityViewModel(get()) }
     viewModel { HomeViewModel(get()) }

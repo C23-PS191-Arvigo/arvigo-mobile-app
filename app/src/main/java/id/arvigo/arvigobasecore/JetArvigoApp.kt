@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -18,17 +19,15 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
-import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
+import id.arvigo.arvigobasecore.ui.feature.profile.PricingScreen
+import id.arvigo.arvigobasecore.ui.feature.profile.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
-import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.*
 import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
-import id.arvigo.arvigobasecore.ui.navigation.nav_graph.homeNavGraph
-import id.arvigo.arvigobasecore.ui.navigation.nav_graph.personalityNavGraph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +41,13 @@ fun JetArvigoApp(
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != Screen.Personality.route && currentRoute != Screen.PersonalityMainTest.route && currentRoute != Screen.Brand.route ) {
+            val excludedRoutes = listOf(
+                Screen.Personality.route,
+                Screen.PersonalityMainTest.route,
+                Screen.Login.route,
+                Screen.Register.route
+            )
+            if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
             }
         },
@@ -62,7 +67,9 @@ fun JetArvigoApp(
                 WishListScreen()
             }
             composable(Screen.Profile.route) {
-                ProfileScreen()
+                ProfileScreen(
+                    navController = navController
+                )
             }
             composable(Screen.Brand.route) {
                 BrandScreen(
@@ -70,6 +77,7 @@ fun JetArvigoApp(
                 )
             }
             authNavGraph(navController = navController)
+            // Personality
             composable(Screen.Personality.route) {
                 PersonalityScreen(
                     navController = navController,
@@ -82,6 +90,13 @@ fun JetArvigoApp(
             }
             composable(Screen.PersonalityResult.route) {
                 PersonalityResultScreen()
+            }
+            //Profile
+            composable(Screen.ProfileEdit.route){
+                ProfileEditScreen(navController)
+            }
+            composable(Screen.Pricing.route){
+                PricingScreen()
             }
         }
     }
