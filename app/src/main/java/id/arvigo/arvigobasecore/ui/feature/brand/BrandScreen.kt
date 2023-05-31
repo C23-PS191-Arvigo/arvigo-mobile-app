@@ -77,11 +77,12 @@ fun BrandScreenContent(
         when(response) {
             is BrandUiState.Success -> {
                 LazyVerticalGrid(
-                    columns = GridCells.Adaptive(160.dp),
+                    columns = GridCells.Adaptive(180.dp),
                     state = LazyGridState(),
-                    contentPadding = PaddingValues(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    contentPadding = PaddingValues(12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.padding(top = 32.dp)
                 ){
                     items(response.data){ data ->
                         BrandCard(brand = data)
@@ -121,7 +122,7 @@ fun BrandCard(
     Box(
         modifier = Modifier
             .width(itemSize)
-            .height(260.dp),
+            .height(250.dp),
         contentAlignment = Alignment.Center
     ) {
         Card(
@@ -144,14 +145,20 @@ fun BrandCard(
                         .fillMaxWidth()
                         .height(150.dp)
                 )
-                Spacer(modifier = Modifier.padding(top = 10.dp))
-                Text(
-                    text = brand.name,
-                    style = MaterialTheme.typography.headlineSmall,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
+                Spacer(modifier = Modifier.padding(top = 8.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(
+                        text = brand.name,
+                        style = MaterialTheme.typography.headlineSmall,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(horizontal = 10.dp)
+                    )
+                }
             }
         }
     }
