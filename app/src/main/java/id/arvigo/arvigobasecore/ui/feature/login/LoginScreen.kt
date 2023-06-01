@@ -1,32 +1,31 @@
 package id.arvigo.arvigobasecore.ui.feature.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.*
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator.popBackStack
 import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.ui.common.UiEvents
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
 import id.arvigo.arvigobasecore.ui.navigation.Screen
@@ -43,35 +42,80 @@ fun LoginScreen(
     )
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreenContent(
     viewModel: LoginViewModel = getViewModel(),
    navController: NavController,
 ) {
+    val loginResult by viewModel.loginResult.observeAsState()
     val emailState = viewModel.emailState.value
     val passwordState = viewModel.passwordState.value
     val loginState = viewModel.loginState.value
     val scaffoldState = rememberScaffoldState()
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
+    val isUserLoggedIn by viewModel.isUserLoggedIn.collectAsState()
 
-    LaunchedEffect(key1 = true) {
-        viewModel.eventFlow.collectLatest { event ->
-            when (event) {
-                is UiEvents.SnackbarEvent -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message,
-                    )
-                }
-                is UiEvents.NavigateEvent -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = "Login Successful",
-                    )
+    val role = "mobile-app"
+
+
+
+//    LaunchedEffect(Unit) {
+//        viewModel.eventFlow.collectLatest { event ->
+//            when (event) {
+//                is UiEvents.SnackbarEvent -> {
+//                    scaffoldState.snackbarHostState.showSnackbar(
+//                        message = event.message,
+//                    )
+//                }
+//                is UiEvents.NavigateEvent -> {
+//                    scaffoldState.snackbarHostState.showSnackbar(
+//                        message = "Login Successful",
+//                    )
+//                    navController.navigate(event.route) {
+//                        popUpTo(Screen.Login.route) {
+//                            inclusive = true
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    LaunchedEffect(isUserLoggedIn) {
+        if (isUserLoggedIn) {
+            // User is logged in, navigate to the home screen
+            navController.navigate(Screen.Home.route) {
+                popUpTo(Screen.Login.route) {
+                    inclusive = true
                 }
             }
         }
     }
+
+   LaunchedEffect(key1 = loginResult) {
+       when (loginResult) {
+           is LoginApiResults.Success -> {
+               val userId = (loginResult as LoginApiResults.Success).userId
+               val token = (loginResult as LoginApiResults.Success).token
+               // Handle successful login
+               Log.d("LOGIN TAG SUCCESS", "LoginScreenContent: $userId, $token")
+               navController.navigate(Screen.Home.route) {
+                   popUpTo(Screen.Login.route) {
+                       inclusive = true
+                   }
+               }
+           }
+           is LoginApiResults.Error -> {
+               val errorMessage = (loginResult as LoginApiResults.Error).errorMessage
+               // Handle login error
+               Log.e("LOGIN TAG ERROR", "LoginScreenContent: $errorMessage", )
+           }
+           else -> {
+               // Initial state or loading state
+           }
+       }
+   }
 
     Scaffold() {
         Column(
@@ -86,7 +130,9 @@ fun LoginScreenContent(
             Image(
                 painter = painterResource(id = R.drawable.img_logo),
                 contentDescription = null,
-                modifier = Modifier.width(400.dp).height(100.dp)
+                modifier = Modifier
+                    .width(400.dp)
+                    .height(100.dp)
             )
             Spacer(modifier = Modifier.padding(16.dp))
             Text(text = "Welcome to Arvigo", style = MaterialTheme.typography.titleLarge.copy(
@@ -126,14 +172,25 @@ fun LoginScreenContent(
                 visualTransformation = PasswordVisualTransformation()
             )
             Spacer(modifier = Modifier.padding(60.dp))
+            val context = LocalContext.current
             PrimaryButton(title = "Sign In", onClick = {
-                viewModel.loginUser()
+                viewModel.loginNew(emailState.text, passwordState.text, role)
+
             })
             Spacer(modifier = Modifier.padding(24.dp))
             LoginCheck(
                navController = navController,
             )
         }
+    }
+}
+
+@Composable
+fun SnackBarMessage(
+    message: String,
+) {
+    Snackbar {
+        Text(text = message, color = Color.White)
     }
 }
 

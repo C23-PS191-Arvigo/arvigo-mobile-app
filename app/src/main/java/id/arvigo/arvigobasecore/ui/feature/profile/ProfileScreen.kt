@@ -1,6 +1,7 @@
 package id.arvigo.arvigobasecore.ui.feature.profile
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
@@ -19,11 +22,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -31,48 +34,58 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
+import id.arvigo.arvigobasecore.ui.component.CustomCard
 import id.arvigo.arvigobasecore.ui.component.MenuRowItem
+import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    navController: NavController
+) {
     Scaffold(
-        topBar = { DefTopBar(onMenuClick = {}) }
+        topBar = { DefTopBar(onMenuClick = {
+            navController.navigate(Screen.ProfileEdit.route)
+        }) }
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier.padding(it)
         ) {
-            Spacer(modifier = Modifier.padding(10.dp))
-            ProfileCard()
-            Spacer(modifier = Modifier.padding(20.dp))
-            SubscriptionCard()
-            PersonalityCard()
-            FaceTypeCard()
-            ProfileRowItems()
+            item {
+                Spacer(modifier = Modifier.padding(10.dp))
+                ProfileCard()
+                Spacer(modifier = Modifier.padding(20.dp))
+                SubscriptionCard()
+                PersonalityCard()
+                FaceTypeCard()
+                ProfileRowItems()
+            }
         }
     }
 }
 
 @Composable
 fun DefTopBar(onMenuClick: () -> Unit) {
-    SmallTopAppBar(
-        title = { Text(text = "Profile") },
-        actions = {
-            IconButton(onClick = { onMenuClick }) {
-                Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = "",
-                )
+    StatelessTopBar(
+        navigationIcon = {},
+        title = "Profile",
+        actionIcon = {
+            IconButton(onClick = onMenuClick ) {
+            Icon(
+                imageVector = Icons.Default.Settings,
+                contentDescription = "Profile",
+            )
             }
-        },
+        }
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileCard() {
     Row(
@@ -80,10 +93,10 @@ fun ProfileCard() {
         modifier = Modifier
             .height(100.dp)
             .fillMaxWidth()
-            .padding(horizontal = 30.dp, vertical = 10.dp)
+            .padding(horizontal = 20.dp, vertical = 10.dp)
             .wrapContentWidth(Alignment.Start),
     ) {
-        Card(
+        Box(
             modifier = Modifier
                 .width(80.dp)
                 .padding(horizontal = 4.dp, vertical = 4.dp),
@@ -97,6 +110,7 @@ fun ProfileCard() {
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(id = R.drawable.img_placeholder),
                 alignment = Alignment.Center,
+                modifier = Modifier.clip(CircleShape)
             )
         }
         Spacer(modifier = Modifier.padding(4.dp))
@@ -105,7 +119,7 @@ fun ProfileCard() {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Name",
+                text = "Nama",
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -121,47 +135,9 @@ fun ProfileCard() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubscriptionCard() {
-    Card(
-        modifier = Modifier
-            .height(100.dp)
-            .fillMaxSize()
-            .padding(horizontal = 10.dp, vertical = 10.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-
-            ) {
-            Column(
-                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Subscription",
-                    style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
-                Spacer(modifier = Modifier.padding(top = 5.dp))
-                Text(
-                    text = "You have not subscribed.",
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                )
-            }
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-                Text(text = "Pricing")
-            }
-        }
-    }
+    CustomCard(title = "Langganan", desc = "Anda belum berlangganan.", button = "Lihat Harga")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -184,7 +160,7 @@ fun PersonalityCard() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Subscription",
+                    text = "Langganan",
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                     modifier = Modifier.padding(horizontal = 10.dp)
                 )
@@ -228,13 +204,13 @@ fun FaceTypeCard() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Face Type",
+                    text = "Tipe Muka",
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                     modifier = Modifier.padding(horizontal = 10.dp)
                 )
                 Spacer(modifier = Modifier.padding(top = 5.dp))
                 Text(
-                    text = "Rounded",
+                    text = "Bulat",
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -246,7 +222,7 @@ fun FaceTypeCard() {
                 modifier = Modifier
                     .padding(16.dp)
             ) {
-                Text(text = "Change")
+                Text(text = "Ubah")
             }
         }
     }
@@ -254,14 +230,16 @@ fun FaceTypeCard() {
 
 @Composable
 fun ProfileRowItems() {
-    MenuRowItem(name = "About App") {}
+    MenuRowItem(name = "Tentang Aplikasi") {}
     MenuRowItem(name = "Logout") {}
 }
 
 @Preview(showBackground = true)
 @Composable
-fun ItemPreview() {
+fun ProfilePreview() {
     ArvigoBaseCoreTheme {
-        ProfileScreen()
+/*        ProfileScreen(
+            navController = navController
+        )*/
     }
 }

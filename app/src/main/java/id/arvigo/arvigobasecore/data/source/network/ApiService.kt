@@ -5,12 +5,9 @@ import id.arvigo.arvigobasecore.data.source.network.response.LoginResponse
 import id.arvigo.arvigobasecore.data.source.network.response.brands.BrandResponse
 import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
-import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityDataItem
-import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -22,7 +19,7 @@ interface ApiService {
     @POST("/v1/auth/login")
     fun login(
         @Body request: LoginRequest
-    ): LoginResponse
+    ): Call<LoginResponse>
 
     @GET("/v1/questionnaires")
     suspend fun getQuestionnaires(
@@ -39,4 +36,9 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): BrandResponse
 
+
+/*    @POST("/v1/auth/login")
+    suspend fun loginNew(
+        @Body request: LoginRequest
+    ):*/
 }
