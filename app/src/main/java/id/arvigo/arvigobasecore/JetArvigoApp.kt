@@ -19,12 +19,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
+import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
+import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.*
 import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
@@ -55,7 +57,7 @@ fun JetArvigoApp(
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.Login.route,
             modifier = Modifier.padding(it)
         ) {
             composable(Screen.Home.route) {
@@ -76,7 +78,16 @@ fun JetArvigoApp(
                     navController = navController,
                 )
             }
-            authNavGraph(navController = navController)
+            //auth
+            composable(Screen.Login.route) {
+                LoginScreen(
+                    navController = navController,
+                )
+            }
+            composable(Screen.Register.route) {
+                RegisterScreen()
+            }
+
             // Personality
             composable(Screen.Personality.route) {
                 PersonalityScreen(

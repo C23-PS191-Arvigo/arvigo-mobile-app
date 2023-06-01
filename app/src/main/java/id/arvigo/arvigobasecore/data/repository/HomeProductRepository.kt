@@ -1,20 +1,23 @@
 package id.arvigo.arvigobasecore.data.repository
 
 import android.util.Log
+import id.arvigo.arvigobasecore.data.source.local.AuthPreferences
 import id.arvigo.arvigobasecore.data.source.network.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class HomeProductRepository(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val authPreferences: AuthPreferences,
 ) {
 
     fun getHomeProduct() = flow {
-        val token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZnVsbF9uYW1lIjoiWXVzdWYgV2liaXNvbm8iLCJyb2xlIjoiIiwiZXhwIjoxNzE1NDM5NTE4fQ.MdIUScrs-IX8G7QVesn12irYUof5zmiaiNSWXn4ObDE"
-        Log.d("Hit API", "get Home Product")
+
+        val token = authPreferences.getAuthToken()
+        Log.d("Hit API Home Product", "get Home Product")
         emit(apiService.getHomeProduct(
-            token = token
+            token = "Bearer $token"
         ).data.recommendations)
     }.flowOn(Dispatchers.IO)
 

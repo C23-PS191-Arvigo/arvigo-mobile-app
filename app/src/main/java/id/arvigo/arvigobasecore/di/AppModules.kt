@@ -1,5 +1,10 @@
 package id.arvigo.arvigobasecore.di
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import id.arvigo.arvigobasecore.data.repository.BrandRepository
 import id.arvigo.arvigobasecore.data.repository.DefaultAuthRepository
 import id.arvigo.arvigobasecore.data.repository.HomeProductRepository
@@ -16,6 +21,7 @@ import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.util.Constant.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.compose.BuildConfig
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -55,17 +61,22 @@ val useCaseModule = module {
     single { LoginUseCase(get()) }
     single<AuthRepository> { DefaultAuthRepository() }
     single<PersonalityRepository> {
-        PersonalityRepository(get())
+        PersonalityRepository(get(), get())
     }
     single<HomeProductRepository> {
-        HomeProductRepository(get())
+        HomeProductRepository(get(), get())
     }
     single<BrandRepository> {
-        BrandRepository(get())
+        BrandRepository(get(), get())
     }
 }
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth_key")
+
 val dataPreferencesModule = module {
-    single { AuthPreferences(get()) }
+
+    single {
+        AuthPreferences( dataStore = androidContext().dataStore)
+    }
 }
 

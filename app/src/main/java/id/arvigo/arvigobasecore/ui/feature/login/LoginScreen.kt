@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.*
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator.popBackStack
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.common.UiEvents
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
@@ -53,42 +54,68 @@ fun LoginScreenContent(
     val loginState = viewModel.loginState.value
     val scaffoldState = rememberScaffoldState()
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
+    val isUserLoggedIn by viewModel.isUserLoggedIn.collectAsState()
 
     val role = "mobile-app"
 
-    when (loginResult) {
-        is LoginApiResults.Success -> {
-            val userId = (loginResult as LoginApiResults.Success).userId
-            val token = (loginResult as LoginApiResults.Success).token
-            // Handle successful login
-            Log.d("neo-tag", "LoginScreenContent: $userId, $token")
-        }
-        is LoginApiResults.Error -> {
-            val errorMessage = (loginResult as LoginApiResults.Error).errorMessage
-            // Handle login error
-            Log.e("neo-tag", "LoginScreenContent: $errorMessage", )
-        }
-        else -> {
-            // Initial state or loading state
-        }
-    }
 
-    LaunchedEffect(key1 = true) {
-        viewModel.eventFlow.collectLatest { event ->
-            when (event) {
-                is UiEvents.SnackbarEvent -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message,
-                    )
-                }
-                is UiEvents.NavigateEvent -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = "Login Successful",
-                    )
+
+//    LaunchedEffect(Unit) {
+//        viewModel.eventFlow.collectLatest { event ->
+//            when (event) {
+//                is UiEvents.SnackbarEvent -> {
+//                    scaffoldState.snackbarHostState.showSnackbar(
+//                        message = event.message,
+//                    )
+//                }
+//                is UiEvents.NavigateEvent -> {
+//                    scaffoldState.snackbarHostState.showSnackbar(
+//                        message = "Login Successful",
+//                    )
+//                    navController.navigate(event.route) {
+//                        popUpTo(Screen.Login.route) {
+//                            inclusive = true
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    LaunchedEffect(isUserLoggedIn) {
+        if (isUserLoggedIn) {
+            // User is logged in, navigate to the home screen
+            navController.navigate(Screen.Home.route) {
+                popUpTo(Screen.Login.route) {
+                    inclusive = true
                 }
             }
         }
     }
+
+   LaunchedEffect(key1 = loginResult) {
+       when (loginResult) {
+           is LoginApiResults.Success -> {
+               val userId = (loginResult as LoginApiResults.Success).userId
+               val token = (loginResult as LoginApiResults.Success).token
+               // Handle successful login
+               Log.d("LOGIN TAG SUCCESS", "LoginScreenContent: $userId, $token")
+               navController.navigate(Screen.Home.route) {
+                   popUpTo(Screen.Login.route) {
+                       inclusive = true
+                   }
+               }
+           }
+           is LoginApiResults.Error -> {
+               val errorMessage = (loginResult as LoginApiResults.Error).errorMessage
+               // Handle login error
+               Log.e("LOGIN TAG ERROR", "LoginScreenContent: $errorMessage", )
+           }
+           else -> {
+               // Initial state or loading state
+           }
+       }
+   }
 
     Scaffold() {
         Column(
@@ -146,15 +173,24 @@ fun LoginScreenContent(
             )
             Spacer(modifier = Modifier.padding(60.dp))
             val context = LocalContext.current
-            PrimaryButton(title = "Sign In") {
+            PrimaryButton(title = "Sign In", onClick = {
                 viewModel.loginNew(emailState.text, passwordState.text, role)
-                navController.navigate(Screen.Home.route)
-            }
+
+            })
             Spacer(modifier = Modifier.padding(24.dp))
             LoginCheck(
                navController = navController,
             )
         }
+    }
+}
+
+@Composable
+fun SnackBarMessage(
+    message: String,
+) {
+    Snackbar {
+        Text(text = message, color = Color.White)
     }
 }
 
