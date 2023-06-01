@@ -28,6 +28,7 @@ import id.arvigo.arvigobasecore.ui.feature.profile.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
+import id.arvigo.arvigobasecore.ui.feature.splash.SplashScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.*
 import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
@@ -51,6 +52,7 @@ fun JetArvigoApp(
                 Screen.Register.route,
                 Screen.Brand.route,
                 Screen.Eyewear.route,
+                Screen.Splash.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -60,9 +62,14 @@ fun JetArvigoApp(
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screen.Login.route,
+            startDestination = Screen.Splash.route,
             modifier = Modifier.padding(it)
         ) {
+            composable(Screen.Splash.route) {
+                SplashScreen(
+                    navController = navController,
+                )
+            }
             composable(Screen.Home.route) {
                 HomeScreen(
                     navController = navController,

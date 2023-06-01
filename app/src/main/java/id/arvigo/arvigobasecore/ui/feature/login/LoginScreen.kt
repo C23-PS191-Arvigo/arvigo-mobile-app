@@ -82,16 +82,16 @@ fun LoginScreenContent(
 //        }
 //    }
 
-    LaunchedEffect(isUserLoggedIn) {
-        if (isUserLoggedIn) {
-            // User is logged in, navigate to the home screen
-            navController.navigate(Screen.Home.route) {
-                popUpTo(Screen.Login.route) {
-                    inclusive = true
-                }
-            }
-        }
-    }
+//    LaunchedEffect(isUserLoggedIn) {
+//        if (isUserLoggedIn) {
+//            // User is logged in, navigate to the home screen
+//            navController.navigate(Screen.Home.route) {
+//                popUpTo(Screen.Login.route) {
+//                    inclusive = true
+//                }
+//            }
+//        }
+//    }
 
    LaunchedEffect(key1 = loginResult) {
        when (loginResult) {
