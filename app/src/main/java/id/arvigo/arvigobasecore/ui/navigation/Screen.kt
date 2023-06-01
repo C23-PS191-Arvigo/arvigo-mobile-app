@@ -7,6 +7,7 @@ const val HOME_GRAPH_ROUTE = "home"
 const val PERSONALITY_GRAPH_ROUTE = "personality"
 
 sealed class Screen(val route: String) {
+    object Splash : Screen("splash")
     object Home : Screen("home")
     object Wishlist : Screen("wishlist")
     object Profile : Screen("profile")
@@ -25,4 +26,5 @@ sealed class Screen(val route: String) {
     object ProfileEdit : Screen("profile_edit")
     object Pricing : Screen("pricing_screen")
     object Brand : Screen("brand")
+    object Eyewear : Screen("eyewear")
 }

@@ -61,10 +61,6 @@ class LoginViewModel(
     val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
 
 
-    init {
-        checkLogin()
-    }
-
     fun loginNew(email: String, password: String, role: String){
         viewModelScope.launch {
             try {
@@ -127,12 +123,12 @@ class LoginViewModel(
         }
     }
 
-    private fun checkLogin() {
-        viewModelScope.launch {
-            val token = authPreferences.getAuthToken()
-            _isUserLoggedIn.value = !token.isNullOrEmpty()
-        }
-    }
+//    private fun checkLogin() {
+//        viewModelScope.launch {
+//            val token = authPreferences.getAuthToken()
+//            _isUserLoggedIn.value = !token.isNullOrEmpty()
+//        }
+//    }
 
 //    fun loginUser(){
 //        viewModelScope.launch {

@@ -82,7 +82,7 @@ fun BrandScreenContent(
                     contentPadding = PaddingValues(12.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.padding(top = 32.dp)
+                    modifier = Modifier.padding(it)
                 ){
                     items(response.data){ data ->
                         BrandCard(brand = data)
@@ -104,11 +104,6 @@ fun BrandScreenContent(
             }
         }
 
-        LazyColumn(
-            modifier = Modifier.padding(it)
-        ) {
-
-        }
      }
 }
 

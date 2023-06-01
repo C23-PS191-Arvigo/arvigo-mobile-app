@@ -15,15 +15,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -43,12 +40,14 @@ import id.arvigo.arvigobasecore.ui.component.MenuRowItem
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     navController: NavController
 ) {
+    val viewModel: ProfileViewModel = getViewModel()
     Scaffold(
         topBar = { DefTopBar(onMenuClick = {
             navController.navigate(Screen.ProfileEdit.route)
@@ -64,7 +63,10 @@ fun ProfileScreen(
                 SubscriptionCard()
                 PersonalityCard()
                 FaceTypeCard()
-                ProfileRowItems()
+                ProfileRowItems(
+                    navController = navController,
+                    viewModel = viewModel,
+                )
             }
         }
     }
@@ -229,10 +231,57 @@ fun FaceTypeCard() {
 }
 
 @Composable
-fun ProfileRowItems() {
+fun ProfileRowItems(
+    navController: NavController,
+    viewModel: ProfileViewModel,
+) {
+    val openDialog = remember { mutableStateOf(false) }
     MenuRowItem(name = "Tentang Aplikasi") {}
-    MenuRowItem(name = "Logout") {}
+    MenuRowItem(name = "Logout", onMenuClick = { openDialog.value = true })
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = {
+                openDialog.value = false
+            },
+            title = {
+                Text(text = "Logout")
+            },
+            text = {
+                Text(text = "Are your sure want to logout?")
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        openDialog.value = false
+                        viewModel.logout()
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Profile.route) {
+                                inclusive = true
+                            }
+                            popUpTo(Screen.Home.route) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                ) {
+                    Text("Confirm")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        openDialog.value = false
+                    }
+                ) {
+                    Text("Dismiss")
+                }
+            }
+        )
+    }
 }
+
+
+
 
 @Preview(showBackground = true)
 @Composable

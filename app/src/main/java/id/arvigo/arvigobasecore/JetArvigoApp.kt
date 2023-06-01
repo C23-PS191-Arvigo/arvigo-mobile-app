@@ -18,6 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
+import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearScreen
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
@@ -27,6 +28,7 @@ import id.arvigo.arvigobasecore.ui.feature.profile.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
+import id.arvigo.arvigobasecore.ui.feature.splash.SplashScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.*
 import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
@@ -47,7 +49,10 @@ fun JetArvigoApp(
                 Screen.Personality.route,
                 Screen.PersonalityMainTest.route,
                 Screen.Login.route,
-                Screen.Register.route
+                Screen.Register.route,
+                Screen.Brand.route,
+                Screen.Eyewear.route,
+                Screen.Splash.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -57,9 +62,14 @@ fun JetArvigoApp(
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screen.Login.route,
+            startDestination = Screen.Splash.route,
             modifier = Modifier.padding(it)
         ) {
+            composable(Screen.Splash.route) {
+                SplashScreen(
+                    navController = navController,
+                )
+            }
             composable(Screen.Home.route) {
                 HomeScreen(
                     navController = navController,
@@ -108,6 +118,12 @@ fun JetArvigoApp(
             }
             composable(Screen.Pricing.route){
                 PricingScreen()
+            }
+            //category
+            composable(Screen.Eyewear.route){
+                EyewearScreen(
+                    navController = navController,
+                )
             }
         }
     }
