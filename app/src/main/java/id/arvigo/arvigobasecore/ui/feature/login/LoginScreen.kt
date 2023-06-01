@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,6 +56,8 @@ fun LoginScreenContent(
     val scaffoldState = rememberScaffoldState()
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
     val isUserLoggedIn by viewModel.isUserLoggedIn.collectAsState()
+    val (snackbarVisibleState, setSnackBarState) = remember { mutableStateOf(false) }
+
 
     val role = "mobile-app"
 
@@ -110,6 +113,7 @@ fun LoginScreenContent(
                val errorMessage = (loginResult as LoginApiResults.Error).errorMessage
                // Handle login error
                Log.e("LOGIN TAG ERROR", "LoginScreenContent: $errorMessage", )
+               setSnackBarState(!snackbarVisibleState)
            }
            else -> {
                // Initial state or loading state
@@ -117,7 +121,9 @@ fun LoginScreenContent(
        }
    }
 
-    Scaffold() {
+    Scaffold(
+
+    ) {
         Column(
             modifier = Modifier
                 .padding(it)
@@ -181,6 +187,15 @@ fun LoginScreenContent(
             LoginCheck(
                navController = navController,
             )
+            if (snackbarVisibleState) {
+                Snackbar(
+                    modifier = Modifier.padding(8.dp),
+                    contentColor = Color.White,
+                    containerColor = Color.Red,
+                ) { Text(text = "Login Failed, please try again with correct email and password!", style = TextStyle(
+                    color = Color.White,
+                )) }
+            }
         }
     }
 }
