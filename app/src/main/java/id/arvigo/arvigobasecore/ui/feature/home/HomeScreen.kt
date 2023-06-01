@@ -99,7 +99,9 @@ fun HomeContent(
                     MainMenu(title = "Brands", icon = R.drawable.ic_brand, onClick = {
                         navController.navigate(Screen.Brand.route)
                     })
-                    MainMenu(title = "Eyewear", icon = R.drawable.ic_eyewear, onClick = {})
+                    MainMenu(title = "Eyewear", icon = R.drawable.ic_eyewear, onClick = {
+                        navController.navigate(Screen.Eyewear.route)
+                    })
                     MainMenu(title = "Makeup", icon = R.drawable.ic_makeup, onClick = {})
                 }
                 Spacer(modifier = Modifier.padding(top = 16.dp))
