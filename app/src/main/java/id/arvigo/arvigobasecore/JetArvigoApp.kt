@@ -18,6 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
+import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearScreen
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
@@ -47,7 +48,9 @@ fun JetArvigoApp(
                 Screen.Personality.route,
                 Screen.PersonalityMainTest.route,
                 Screen.Login.route,
-                Screen.Register.route
+                Screen.Register.route,
+                Screen.Brand.route,
+                Screen.Eyewear.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -108,6 +111,12 @@ fun JetArvigoApp(
             }
             composable(Screen.Pricing.route){
                 PricingScreen()
+            }
+            //category
+            composable(Screen.Eyewear.route){
+                EyewearScreen(
+                    navController = navController,
+                )
             }
         }
     }

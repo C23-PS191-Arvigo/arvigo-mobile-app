@@ -3,6 +3,7 @@ package id.arvigo.arvigobasecore.data.source.network
 import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.data.source.network.response.LoginResponse
 import id.arvigo.arvigobasecore.data.source.network.response.brands.BrandResponse
+import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryResponse
 import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
@@ -35,6 +36,11 @@ interface ApiService {
     suspend fun getBrands(
         @Header("Authorization") token: String,
     ): BrandResponse
+
+    @GET("/v1/categories/1/list-product")
+    suspend fun getEyewearCategory(
+        @Header("Authorization") token: String,
+    ): CategoryResponse
 
 
 /*    @POST("/v1/auth/login")
