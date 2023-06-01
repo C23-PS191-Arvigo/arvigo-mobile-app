@@ -15,6 +15,7 @@ import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearViewModel
 import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
+import id.arvigo.arvigobasecore.ui.feature.profile.ProfileViewModel
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashViewModel
 import id.arvigo.arvigobasecore.util.Constant.BASE_URL
@@ -56,6 +57,7 @@ val viewModelModules = module {
     viewModel { BrandViewModel(get()) }
     viewModel { EyewearViewModel(get())}
     viewModel { SplashViewModel(get()) }
+    viewModel { ProfileViewModel(get()) }
 }
 
 val useCaseModule = module {
