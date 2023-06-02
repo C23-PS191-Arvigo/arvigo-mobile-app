@@ -165,7 +165,9 @@ fun HomeContent(
                                 .padding(horizontal = 10.dp, vertical = 8.dp)
                         ) {
                             Text(text = "Face shape", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
-                            Button(onClick = { /*TODO*/ }) {
+                            Button(onClick = {
+                                navController.navigate(Screen.FaceShapeIntro.route)
+                            }) {
                                 Text(text = "Test", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
                         }
