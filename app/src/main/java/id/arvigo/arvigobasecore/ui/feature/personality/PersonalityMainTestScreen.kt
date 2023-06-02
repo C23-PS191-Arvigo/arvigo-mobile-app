@@ -5,6 +5,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -37,7 +39,26 @@ fun PersonalityMainTestContent(
 ) {
     val viewModel: PersonalityViewModel = getViewModel()
     val state by viewModel.state.collectAsState()
-    Scaffold() {
+    Scaffold(
+        modifier = Modifier,
+        topBar = {
+            SmallTopAppBar(
+                title = {
+                    Text(text = "Personality Question")
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "back",
+                        )
+                    }
+                },
+            )
+        }
+    ) {
         Column(
             modifier = Modifier
                 .padding(it)

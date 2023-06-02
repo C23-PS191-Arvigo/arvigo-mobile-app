@@ -19,6 +19,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearScreen
+import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapeIntroScreen
+import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapePhotoScreen
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
@@ -53,6 +55,8 @@ fun JetArvigoApp(
                 Screen.Brand.route,
                 Screen.Eyewear.route,
                 Screen.Splash.route,
+                Screen.FaceShapeIntro.route,
+                Screen.FaceShapePhoto.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -124,6 +128,15 @@ fun JetArvigoApp(
                 EyewearScreen(
                     navController = navController,
                 )
+            }
+            //face-shape
+            composable(Screen.FaceShapeIntro.route){
+                FaceShapeIntroScreen(
+                    navController = navController,
+                )
+            }
+            composable(Screen.FaceShapePhoto.route) {
+                FaceShapePhotoScreen()
             }
         }
     }
