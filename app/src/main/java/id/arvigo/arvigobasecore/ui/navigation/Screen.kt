@@ -8,6 +8,7 @@ const val PERSONALITY_GRAPH_ROUTE = "personality"
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
+    object Onboarding : Screen("onboarding")
     object Home : Screen("home")
     object Wishlist : Screen("wishlist")
     object Profile : Screen("profile")
