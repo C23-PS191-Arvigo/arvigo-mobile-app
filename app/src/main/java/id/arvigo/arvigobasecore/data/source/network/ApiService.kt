@@ -42,6 +42,11 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): CategoryResponse
 
+    @GET("/v1/homes/search/{search}")
+    suspend fun searchProduct(
+        @Header("Authorization") token: String,
+        @Path("search") search: String,
+    ): CategoryResponse
 
 /*    @POST("/v1/auth/login")
     suspend fun loginNew(

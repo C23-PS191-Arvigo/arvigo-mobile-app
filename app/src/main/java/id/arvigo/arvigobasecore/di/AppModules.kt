@@ -17,6 +17,7 @@ import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileViewModel
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
+import id.arvigo.arvigobasecore.ui.feature.search.SearchViewModel
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashViewModel
 import id.arvigo.arvigobasecore.util.Constant.BASE_URL
 import okhttp3.OkHttpClient
@@ -58,6 +59,7 @@ val viewModelModules = module {
     viewModel { EyewearViewModel(get())}
     viewModel { SplashViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
+    viewModel { SearchViewModel(get()) }
 }
 
 val useCaseModule = module {
@@ -74,6 +76,9 @@ val useCaseModule = module {
     }
     single<CategoryRepository> {
         CategoryRepository(get(), get())
+    }
+    single<SearchProductRepository> {
+        SearchProductRepository(get(), get())
     }
 }
 
