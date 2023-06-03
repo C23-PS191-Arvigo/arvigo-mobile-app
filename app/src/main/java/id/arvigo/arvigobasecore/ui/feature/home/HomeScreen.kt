@@ -14,10 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -63,13 +60,33 @@ fun HomeContent(
    navController: NavController,
 ) {
     val viewModel: HomeViewModel = getViewModel()
-    val text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf("") }
     Scaffold(
         modifier = Modifier,
         topBar = {
             SmallTopAppBar(
                 title = {
-                    PrimarySearch(query = text)
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(64.dp)
+                            .padding(vertical = 8.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .clickable {
+                                navController.navigate(Screen.Search.route)
+                            }
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(64.dp)
+                                .padding(horizontal = 12.dp)
+                        ) {
+                            Icon(imageVector = Icons.Default.Search, contentDescription = "" )
+                            Text(text = "Search", modifier = Modifier.padding(start = 8.dp))
+                        }
+                    }
                 },
                 actions = {
                     IconButton(onClick = { /* doSomething() */ }) {

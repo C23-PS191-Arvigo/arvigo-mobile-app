@@ -29,4 +29,5 @@ sealed class Screen(val route: String) {
     object Eyewear : Screen("eyewear")
     object FaceShapeIntro : Screen("faceshape_intro")
     object FaceShapePhoto : Screen("faceshape_photo")
+    object Search : Screen("search")
 }
