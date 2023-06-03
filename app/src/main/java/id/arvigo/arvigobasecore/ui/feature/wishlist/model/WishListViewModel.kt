@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import id.arvigo.arvigobasecore.ui.feature.brand.uistate.BrandUiState
 import id.arvigo.arvigobasecore.ui.feature.wishlist.ProductsUiState
 import id.arvigo.arvigobasecore.data.repository.WishListsRepository
 import kotlinx.coroutines.flow.catch

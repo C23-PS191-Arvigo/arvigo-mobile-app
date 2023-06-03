@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -30,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -90,6 +88,7 @@ fun DefTopBar(onMenuClick: () -> Unit) {
 
 @Composable
 fun ProfileCard() {
+    val viewModel : ProfileViewModel = getViewModel()
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -121,7 +120,7 @@ fun ProfileCard() {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Nama",
+                text = viewModel.fullName.toString(),
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -129,7 +128,7 @@ fun ProfileCard() {
             )
             Spacer(modifier = Modifier.padding(top = 5.dp))
             Text(
-                text = "email@example.com",
+                text = viewModel.email.toString(),
                 style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                 modifier = Modifier.padding(horizontal = 10.dp)
             )
@@ -247,7 +246,7 @@ fun ProfileRowItems(
                 Text(text = "Logout")
             },
             text = {
-                Text(text = "Are your sure want to logout?")
+                Text(text = "Apakah kamu yakin bahwa kamu ingin logout?")
             },
             confirmButton = {
                 TextButton(
@@ -264,7 +263,7 @@ fun ProfileRowItems(
                         }
                     }
                 ) {
-                    Text("Confirm")
+                    Text("Logout")
                 }
             },
             dismissButton = {
@@ -273,7 +272,7 @@ fun ProfileRowItems(
                         openDialog.value = false
                     }
                 ) {
-                    Text("Dismiss")
+                    Text("Tidak")
                 }
             }
         )

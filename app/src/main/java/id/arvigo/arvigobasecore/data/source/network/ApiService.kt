@@ -7,6 +7,7 @@ import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryRe
 import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreResponse
+import id.arvigo.arvigobasecore.ui.feature.profile.ProfileResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
 import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListsResponse
@@ -59,4 +60,10 @@ interface ApiService {
     suspend fun getWishLists(
         @Header("Authorization") token: String,
     ): WishListsResponse
+
+    @GET("/v1/users/{userId}")
+    suspend fun getProfile(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): ProfileResponse
 }

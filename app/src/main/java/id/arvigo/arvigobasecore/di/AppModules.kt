@@ -15,6 +15,7 @@ import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearViewModel
 import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
+import id.arvigo.arvigobasecore.ui.feature.profile.ProfileRepository
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileViewModel
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.ui.feature.search.SearchViewModel
@@ -60,7 +61,7 @@ val viewModelModules = module {
     viewModel { BrandViewModel(get()) }
     viewModel { EyewearViewModel(get())}
     viewModel { SplashViewModel(get()) }
-    viewModel { ProfileViewModel(get()) }
+    viewModel { ProfileViewModel(get(),get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { StoreViewModel(get()) }
     viewModel { WishListViewModel(get()) }
@@ -88,6 +89,7 @@ val useCaseModule = module {
         StoreRepository(get(), get())
     }
     single { WishListsRepository(get(),get()) }
+    single { ProfileRepository(get(),get()) }
 }
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth_key")
