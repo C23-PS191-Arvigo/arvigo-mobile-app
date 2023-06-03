@@ -31,4 +31,5 @@ sealed class Screen(val route: String) {
     object FaceShapeIntro : Screen("faceshape_intro")
     object FaceShapePhoto : Screen("faceshape_photo")
     object Search : Screen("search")
+    object Store : Screen("store")
 }

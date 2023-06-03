@@ -6,6 +6,7 @@ import id.arvigo.arvigobasecore.data.source.network.response.brands.BrandRespons
 import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryResponse
 import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
+import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
 import retrofit2.Call
@@ -47,6 +48,11 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("search") search: String,
     ): CategoryResponse
+
+    @GET("/v1/homes/merchant")
+    suspend fun getStores(
+        @Header("Authorization") token: String,
+    ): StoreResponse
 
 /*    @POST("/v1/auth/login")
     suspend fun loginNew(

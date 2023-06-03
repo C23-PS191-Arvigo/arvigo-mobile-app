@@ -33,6 +33,7 @@ import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.search.SearchScreen
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashScreen
+import id.arvigo.arvigobasecore.ui.feature.stores.StoreScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.*
 import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
@@ -61,6 +62,7 @@ fun JetArvigoApp(
                 Screen.FaceShapePhoto.route,
                 Screen.Search.route,
                 Screen.Onboarding.route,
+                Screen.Store.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -150,6 +152,12 @@ fun JetArvigoApp(
             //search
             composable(Screen.Search.route){
                 SearchScreen(
+                    navController = navController,
+                )
+            }
+            //store
+            composable(Screen.Store.route){
+                StoreScreen(
                     navController = navController,
                 )
             }
