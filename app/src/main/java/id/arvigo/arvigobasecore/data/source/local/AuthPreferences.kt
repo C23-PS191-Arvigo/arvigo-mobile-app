@@ -5,7 +5,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import id.arvigo.arvigobasecore.util.Constant.AUTH_KEY
+import id.arvigo.arvigobasecore.util.Constant.ONBOARDING_KEY
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 class AuthPreferences(private val dataStore: DataStore<Preferences>) {
 
@@ -28,6 +31,16 @@ class AuthPreferences(private val dataStore: DataStore<Preferences>) {
             preferences.remove(AUTH_KEY)
         }
         Log.d("AuthPreferences", "clearAuthToken: Token cleared")
+    }
+
+    suspend fun saveOnboardingState(isOnboardingDone: Boolean) {
+        dataStore.edit { pref ->
+            pref[ONBOARDING_KEY] = isOnboardingDone
+        }
+    }
+
+    val onboardingStatusFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[ONBOARDING_KEY] ?: false
     }
 
 }

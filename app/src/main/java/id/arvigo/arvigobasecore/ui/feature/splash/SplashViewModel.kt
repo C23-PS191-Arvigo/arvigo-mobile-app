@@ -21,8 +21,12 @@ class SplashViewModel(
     private val _isUserLoggedIn = MutableStateFlow(false)
     val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
 
+    private val _isOnbordingVisited = MutableStateFlow(false)
+    val isOnboardingVisited: StateFlow<Boolean> = _isOnbordingVisited
+
     init {
         checkAuthToken()
+        observeOnboardingStatus()
     }
 
     fun checkAuthToken() {
@@ -31,6 +35,28 @@ class SplashViewModel(
             if (authToken != null) {
                 _isUserLoggedIn.value = !authToken.isNullOrEmpty()
             }
+        }
+    }
+
+    private fun observeOnboardingStatus() {
+        viewModelScope.launch {
+            authPreferences.onboardingStatusFlow.collect { status ->
+                if (status) {
+                    // User has completed onboarding
+                    // Perform any necessary actions
+                    _isOnbordingVisited.value = status
+                } else {
+                    // User has not completed onboarding
+                    // Perform onboarding-related actions
+                    _isOnbordingVisited.value = status
+                }
+            }
+        }
+    }
+
+    fun saveOnboardingStatus(status: Boolean) {
+        viewModelScope.launch {
+            authPreferences.saveOnboardingState(status)
         }
     }
 

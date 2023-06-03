@@ -28,26 +28,38 @@ fun SplashScreen(
     val viewModel: SplashViewModel = getViewModel()
 
     val isUserLoggedIn by viewModel.isUserLoggedIn.collectAsState()
+    val isOnboardingVisited by viewModel.isOnboardingVisited.collectAsState()
 
     LaunchedEffect(isUserLoggedIn) {
 
         delay(3000)
 
-        if (isUserLoggedIn) {
-            // User is logged in, navigate to the home screen
-            navController.navigate(Screen.Home.route) {
-                popUpTo(Screen.Splash.route) {
-                    inclusive = true
+        if (isOnboardingVisited){
+            if (isUserLoggedIn) {
+                // User is logged in, navigate to the home screen
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.Splash.route) {
+                        inclusive = true
+                    }
+                }
+            } else {
+                // User is not logged in, navigate to the login screen
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Splash.route) {
+                        inclusive = true
+                    }
                 }
             }
         } else {
-            // User is not logged in, navigate to the login screen
-            navController.navigate(Screen.Login.route) {
+            navController.navigate(Screen.Onboarding.route) {
                 popUpTo(Screen.Splash.route) {
                     inclusive = true
                 }
             }
         }
+
+
+
     }
 
     Scaffold() {
