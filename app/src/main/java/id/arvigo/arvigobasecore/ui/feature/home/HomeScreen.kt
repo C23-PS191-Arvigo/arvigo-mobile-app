@@ -112,7 +112,9 @@ fun HomeContent(
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    MainMenu(title = "Stores", icon = R.drawable.ic_stores, onClick = {})
+                    MainMenu(title = "Stores", icon = R.drawable.ic_stores, onClick = {
+                        navController.navigate(Screen.Store.route)
+                    })
                     MainMenu(title = "Brands", icon = R.drawable.ic_brand, onClick = {
                         navController.navigate(Screen.Brand.route)
                     })
