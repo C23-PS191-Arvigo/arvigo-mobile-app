@@ -8,4 +8,5 @@ object Constant {
     const val AUTH_PREFERENCES = "AUTH_PREF"
     val ONBOARDING_KEY = booleanPreferencesKey("ONBOARDING_KEY")
     val AUTH_KEY = stringSetPreferencesKey("auth_key")
+    val AUTH_ID = stringSetPreferencesKey("auth_id")
 }

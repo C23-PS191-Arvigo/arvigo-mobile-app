@@ -79,6 +79,7 @@ class LoginViewModel(
                            if (userId != null && token != null) {
                                viewModelScope.launch {
                                    authPreferences.saveAuthToken(token)
+                                   authPreferences.saveAuthId(userId.toString())
                                }
                                // Update the login result with success
                                _loginResult.value = LoginApiResults.Success(userId, token)
