@@ -157,7 +157,7 @@ fun StoreCard(
                     }
                 }
                 androidx.compose.material3.Button(onClick = { }) {
-                    Text(text = "See", style = TextStyle(color = Color.White, fontWeight = FontWeight.SemiBold))
+                    Text(text = "Lihat", style = TextStyle(color = Color.White, fontWeight = FontWeight.SemiBold))
                 }
             }
             Spacer(modifier = Modifier.height(12.dp))

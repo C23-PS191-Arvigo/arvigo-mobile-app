@@ -41,7 +41,7 @@ fun EyewearScreenContent(
         topBar = {
             SmallTopAppBar(
                 title = {
-                    Text(text = "Eyewear")
+                    Text(text = "Kacamata")
                 },
                 navigationIcon = {
                     IconButton(onClick = {
