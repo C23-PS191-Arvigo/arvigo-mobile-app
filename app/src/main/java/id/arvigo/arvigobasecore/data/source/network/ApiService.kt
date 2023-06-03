@@ -54,6 +54,11 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): StoreResponse
 
+    @GET("/v1/categories/2/list-product")
+    suspend fun getMakeupCategory(
+        @Header("Authorization") token: String,
+    ): CategoryResponse
+
 /*    @POST("/v1/auth/login")
     suspend fun loginNew(
         @Body request: LoginRequest
