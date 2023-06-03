@@ -125,7 +125,9 @@ fun HomeContent(
                     MainMenu(title = "Kacamata", icon = R.drawable.ic_eyewear, onClick = {
                         navController.navigate(Screen.Eyewear.route)
                     })
-                    MainMenu(title = "Makeup", icon = R.drawable.ic_makeup, onClick = {})
+                    MainMenu(title = "Makeup", icon = R.drawable.ic_makeup, onClick = {
+                        navController.navigate(Screen.Makeup.route)
+                    })
                 }
                 Spacer(modifier = Modifier.padding(top = 16.dp))
                 Row(
