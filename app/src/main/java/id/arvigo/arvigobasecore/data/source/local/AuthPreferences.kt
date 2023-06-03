@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import id.arvigo.arvigobasecore.util.Constant.AUTH_ID
 import id.arvigo.arvigobasecore.util.Constant.AUTH_KEY
 import id.arvigo.arvigobasecore.util.Constant.ONBOARDING_KEY
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +27,20 @@ class AuthPreferences(private val dataStore: DataStore<Preferences>) {
         return token
     }
 
+    suspend fun saveAuthId(loginId:String){
+        dataStore.edit { pref ->
+            pref[AUTH_ID] = setOf(loginId)
+        }
+        Log.d("AuthPreferences", "saveAuthID: $loginId")
+    }
+
+    suspend fun getAuthId(): String? {
+        val preferences = dataStore.data.first()
+        val id = preferences[AUTH_ID]?.firstOrNull()
+        Log.d("AuthPreferences", "getAuthID: $id")
+        return id
+    }
+
     suspend fun clearAuthToken() {
         dataStore.edit { preferences ->
             preferences.remove(AUTH_KEY)
@@ -42,5 +57,7 @@ class AuthPreferences(private val dataStore: DataStore<Preferences>) {
     val onboardingStatusFlow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[ONBOARDING_KEY] ?: false
     }
+
+
 
 }
