@@ -9,6 +9,7 @@ import id.arvigo.arvigobasecore.data.source.network.response.personality.Persona
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
+import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListsResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -54,8 +55,8 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): StoreResponse
 
-/*    @POST("/v1/auth/login")
-    suspend fun loginNew(
-        @Body request: LoginRequest
-    ):*/
+    @GET("/v1/wishlists")
+    suspend fun getWishLists(
+        @Header("Authorization") token: String,
+    ): WishListsResponse
 }

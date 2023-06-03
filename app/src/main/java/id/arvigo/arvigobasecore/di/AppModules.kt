@@ -20,6 +20,7 @@ import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.ui.feature.search.SearchViewModel
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashViewModel
 import id.arvigo.arvigobasecore.ui.feature.stores.StoreViewModel
+import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListViewModel
 import id.arvigo.arvigobasecore.util.Constant.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -62,6 +63,7 @@ val viewModelModules = module {
     viewModel { ProfileViewModel(get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { StoreViewModel(get()) }
+    viewModel { WishListViewModel(get()) }
 }
 
 val useCaseModule = module {
@@ -85,6 +87,7 @@ val useCaseModule = module {
     single<StoreRepository> {
         StoreRepository(get(), get())
     }
+    single { WishListsRepository(get(),get()) }
 }
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth_key")

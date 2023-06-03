@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.feature.wishlist.model
+package id.arvigo.arvigobasecore.data.source.network.response.wishlist
 
 data class Product(
     val id: Long,
