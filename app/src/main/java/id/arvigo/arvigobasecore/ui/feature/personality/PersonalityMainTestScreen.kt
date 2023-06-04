@@ -142,7 +142,7 @@ fun PersonalityMainTestContent(
             ) {
                if (switchButton.value) {
                    PrimaryButton(title = "Lihat Rekomendasi", onClick = {
-
+                        navController.navigate(Screen.PersonalRecomendation.route)
                    })
                } else {
                    PrimaryButton(title = "Submit", onClick = {
@@ -264,13 +264,13 @@ fun QuestionResultCardItem(
                         modifier = Modifier
                             .padding(12.dp)
                     )
-                    Spacer(modifier = Modifier.padding(end = 4.dp))
+                    Spacer(modifier = Modifier.padding(start = 2.dp))
                     Text(
                         text = result,
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
-                            .padding(12.dp),
+                            .padding(vertical = 12.dp),
                         color = MaterialTheme.colorScheme.primary,
                     )
                 }

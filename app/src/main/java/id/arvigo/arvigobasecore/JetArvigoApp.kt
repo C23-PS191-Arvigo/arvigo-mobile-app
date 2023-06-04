@@ -28,6 +28,7 @@ import id.arvigo.arvigobasecore.ui.feature.onboarding.OnboardingScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
+import id.arvigo.arvigobasecore.ui.feature.personality.recommendation.PersonalRecomenScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
@@ -66,6 +67,7 @@ fun JetArvigoApp(
                 Screen.Onboarding.route,
                 Screen.Store.route,
                 Screen.Makeup.route,
+                Screen.PersonalRecomendation.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -129,6 +131,11 @@ fun JetArvigoApp(
             }
             composable(Screen.PersonalityResult.route) {
                 PersonalityResultScreen(
+                    navController = navController,
+                )
+            }
+            composable(Screen.PersonalRecomendation.route) {
+                PersonalRecomenScreen(
                     navController = navController,
                 )
             }

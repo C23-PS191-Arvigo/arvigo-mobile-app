@@ -11,5 +11,7 @@ data class Recommendation(
     @SerializedName("image")
     val image: String,
     @SerializedName("name")
-    val name: String
+    val name: String,
+    @SerializedName("tags")
+    val tags: List<String>
 )
