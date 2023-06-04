@@ -2,10 +2,16 @@ package id.arvigo.arvigobasecore.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import id.arvigo.arvigobasecore.data.repository.*
+import id.arvigo.arvigobasecore.data.repository.BrandRepository
+import id.arvigo.arvigobasecore.data.repository.CategoryRepository
+import id.arvigo.arvigobasecore.data.repository.DefaultAuthRepository
+import id.arvigo.arvigobasecore.data.repository.HomeProductRepository
+import id.arvigo.arvigobasecore.data.repository.PersonalityRepository
+import id.arvigo.arvigobasecore.data.repository.SearchProductRepository
+import id.arvigo.arvigobasecore.data.repository.StoreRepository
+import id.arvigo.arvigobasecore.data.repository.WishListsRepository
 import id.arvigo.arvigobasecore.data.source.local.AuthPreferences
 import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.domain.repository.AuthRepository
@@ -18,6 +24,7 @@ import id.arvigo.arvigobasecore.ui.feature.makeup.MakeupViewModel
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileRepository
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileViewModel
+import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditViewModel
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.ui.feature.search.SearchViewModel
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashViewModel
@@ -67,6 +74,7 @@ val viewModelModules = module {
     viewModel { StoreViewModel(get()) }
     viewModel { MakeupViewModel(get()) }
     viewModel { WishListViewModel(get()) }
+    viewModel { ProfileEditViewModel(get(),get()) }
 }
 
 val useCaseModule = module {

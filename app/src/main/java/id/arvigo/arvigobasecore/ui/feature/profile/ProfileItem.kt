@@ -9,4 +9,6 @@ data class ProfileItem(
     val email: String,
     @SerializedName("full_name")
     val fullName: String,
+    @SerializedName("avatar")
+    val avatar: String
 )

@@ -71,4 +71,11 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("userId") userId: String
     ): ProfileResponse
+
+    @POST("/v1/auth/update-user/{userId}")
+    suspend fun editProfile(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String,
+        @Body request: RegisterRequest
+    ): RegisterResponse
 }

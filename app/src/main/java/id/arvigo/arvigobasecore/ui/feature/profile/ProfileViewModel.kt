@@ -20,6 +20,8 @@ class ProfileViewModel(
         get() = (response.value as? ProfileUiState.Success)?.data?.email
     val fullName: String?
         get() = (response.value as? ProfileUiState.Success)?.data?.fullName
+    val avatar: String?
+        get() = (response.value as? ProfileUiState.Success)?.data?.avatar
 
     init {
         profileDetails()
