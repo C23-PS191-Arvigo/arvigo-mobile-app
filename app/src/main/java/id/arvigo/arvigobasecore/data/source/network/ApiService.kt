@@ -1,11 +1,13 @@
 package id.arvigo.arvigobasecore.data.source.network
 
 import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
+import id.arvigo.arvigobasecore.data.source.network.request.QuestionnaireRequestX
 import id.arvigo.arvigobasecore.data.source.network.response.LoginResponse
 import id.arvigo.arvigobasecore.data.source.network.response.brands.BrandResponse
 import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryResponse
 import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
+import id.arvigo.arvigobasecore.data.source.network.response.personality.QuestionnaireResponse
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreResponse
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
@@ -61,6 +63,16 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): CategoryResponse
 
+    @POST("/v1/questionnaires")
+    suspend fun postQuestionnaire(
+        @Header("Authorization") token: String,
+        @Body request: QuestionnaireRequestX
+    ): QuestionnaireResponse
+
+/*    @POST("/v1/auth/login")
+    suspend fun loginNew(
+        @Body request: LoginRequest
+    ):*/
     @GET("/v1/wishlists")
     suspend fun getWishLists(
         @Header("Authorization") token: String,

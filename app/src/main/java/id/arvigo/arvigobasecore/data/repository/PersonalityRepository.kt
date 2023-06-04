@@ -3,6 +3,7 @@ package id.arvigo.arvigobasecore.data.repository
 import android.util.Log
 import id.arvigo.arvigobasecore.data.source.local.AuthPreferences
 import id.arvigo.arvigobasecore.data.source.network.ApiService
+import id.arvigo.arvigobasecore.data.source.network.request.QuestionnaireRequestX
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
 import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityData
 import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityDataItem
@@ -27,5 +28,15 @@ class PersonalityRepository(
             token = "Bearer $token"
         ).data)
     }.flowOn(Dispatchers.IO)
+
+
+    fun submitQuestionnaire(request: QuestionnaireRequestX) = flow {
+        val token = authPreferences.getAuthToken()
+        Log.d("Hit API Question", "submit Questionnaire")
+        emit(apiService.postQuestionnaire(
+            token = "Bearer $token",
+            request = request
+        ).data)
+    }
 
 }

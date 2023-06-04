@@ -22,13 +22,15 @@ fun NavGraphBuilder.personalityNavGraph(
                 navController = navController,
             )
         }
-        composable(Screen.PersonalityMainTest.route) {
-            PersonalityMainTestScreen(
+//        navControllercomposable(Screen.PersonalityMainTest.route) {
+//            PersonalityMainTestScreen(
+//                navController = navController,
+//            )
+//        }
+        composable(Screen.PersonalityResult.route) {
+            PersonalityResultScreen(
                 navController = navController,
             )
-        }
-        composable(Screen.PersonalityResult.route) {
-            PersonalityResultScreen()
         }
     }
 }

@@ -26,6 +26,7 @@ import id.arvigo.arvigobasecore.ui.feature.onboarding.OnboardingScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
+import id.arvigo.arvigobasecore.ui.feature.personality.recommendation.PersonalRecomenScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
@@ -35,6 +36,7 @@ import id.arvigo.arvigobasecore.ui.feature.splash.SplashScreen
 import id.arvigo.arvigobasecore.ui.feature.stores.StoreScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.*
+import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,6 +53,7 @@ fun JetArvigoApp(
             val excludedRoutes = listOf(
                 Screen.Personality.route,
                 Screen.PersonalityMainTest.route,
+                Screen.PersonalityResult.route,
                 Screen.Login.route,
                 Screen.Register.route,
                 Screen.Brand.route,
@@ -62,6 +65,7 @@ fun JetArvigoApp(
                 Screen.Onboarding.route,
                 Screen.Store.route,
                 Screen.Makeup.route,
+                Screen.PersonalRecomendation.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -120,11 +124,18 @@ fun JetArvigoApp(
             }
             composable(Screen.PersonalityMainTest.route) {
                 PersonalityMainTestScreen(
-                    navController = navController,
+                   navController = navController,
                 )
             }
             composable(Screen.PersonalityResult.route) {
-                PersonalityResultScreen()
+                PersonalityResultScreen(
+                    navController = navController,
+                )
+            }
+            composable(Screen.PersonalRecomendation.route) {
+                PersonalRecomenScreen(
+                    navController = navController,
+                )
             }
             //Profile
             composable(Screen.ProfileEdit.route){

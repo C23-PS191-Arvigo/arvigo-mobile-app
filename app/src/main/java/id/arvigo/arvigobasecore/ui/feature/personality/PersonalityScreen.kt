@@ -2,9 +2,11 @@ package id.arvigo.arvigobasecore.ui.feature.personality
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -58,13 +60,18 @@ fun PersonalityContent(
                 .padding(it)
                 .padding(horizontal = 16.dp, vertical = 16.dp)
         ) {
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .weight(3.8f)
             ) {
-                GuideCard(no = "1", content = "Terdapat 33 jenis pertanyaan yang harus dijawab dengan data yang benar guna mendapatkan hasil yang akurat")
-                GuideCard(no = "2", content = "Terdapat 33 jenis pertanyaan yang harus dijawab dengan data yang benar guna mendapatkan hasil yang akurat")
-                GuideCard(no = "3", content = "Terdapat 33 jenis pertanyaan yang harus dijawab dengan data yang benar guna mendapatkan hasil yang akurat")
+                item {
+                    GuideCard( content = "Bacalah setiap pernyataan dengan cermat sebelum memberikan penilaian.")
+                    GuideCard(content = "Pertimbangkan pernyataan tersebut dengan jujur dan objektif, sesuai dengan pendapat dan sikap pribadi Anda.")
+                    GuideCard( content = "Jangan terlalu lama mempertimbangkan satu pernyataan. Percaya pada insting Anda dan pilih penilaian yang paling sesuai dengan pandangan Anda secara keseluruhan.")
+                    GuideCard( content = "Ingatlah bahwa tidak ada jawaban yang benar atau salah dalam tes ini. Semua jawaban Anda akan membantu dalam membentuk gambaran yang lebih lengkap tentang kepribadian Anda.")
+                    GuideCard( content = "Jangan merasa terburu-buru, tetapi jangan pula membiarkan diri Anda terlalu lama terjebak dalam satu pernyataan. Cukup pilih jawaban yang paling sesuai dengan intuisi Anda.")
+                    GuideCard( content = "Nikmati proses pengisian tes ini dan gunakan kesempatan ini untuk lebih memahami dan mengeksplorasi aspek-aspek kepribadian Anda sendiri.")
+                }
             }
             Surface(
                 modifier = Modifier
@@ -83,7 +90,6 @@ fun PersonalityContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuideCard(
-    no: String,
     content: String,
 ) {
     Row(
@@ -97,11 +103,10 @@ fun GuideCard(
                 .background(Color.Green),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = no,
-                style = MaterialTheme.typography.headlineSmall.copy(color = Color.White, fontWeight = FontWeight.Bold),
-                modifier = Modifier
-                    .padding(12.dp)
+            Icon(
+                imageVector = Icons.Default.CheckCircle,
+                contentDescription = "",
+                tint = Color.White,
             )
         }
         Spacer(modifier = Modifier.padding(end = 16.dp))
@@ -111,7 +116,7 @@ fun GuideCard(
         ) {
             Text(
                 text = content,
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier
                     .padding(12.dp)
             )
@@ -122,6 +127,6 @@ fun GuideCard(
 @Preview
 @Composable
 fun CardPrev() {
-    GuideCard(no = "1", content = "dfas")
+
 }
 

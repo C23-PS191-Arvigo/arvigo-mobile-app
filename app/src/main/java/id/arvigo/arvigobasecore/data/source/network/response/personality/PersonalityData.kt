@@ -9,5 +9,6 @@ data class PersonalityData(
     @SerializedName("question")
     val question: String,
     @SerializedName("type")
-    val type: String
+    val type: String,
+    var selectedOption: Int = 3
 )
