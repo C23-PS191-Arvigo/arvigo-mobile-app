@@ -9,8 +9,10 @@ import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomePr
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
 import id.arvigo.arvigobasecore.data.source.network.response.personality.QuestionnaireResponse
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreResponse
+import id.arvigo.arvigobasecore.ui.feature.profile.ProfileResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
+import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListsResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -71,4 +73,21 @@ interface ApiService {
     suspend fun loginNew(
         @Body request: LoginRequest
     ):*/
+    @GET("/v1/wishlists")
+    suspend fun getWishLists(
+        @Header("Authorization") token: String,
+    ): WishListsResponse
+
+    @GET("/v1/users/{userId}")
+    suspend fun getProfile(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): ProfileResponse
+
+    @POST("/v1/auth/update-user/{userId}")
+    suspend fun editProfile(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String,
+        @Body request: RegisterRequest
+    ): RegisterResponse
 }

@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.feature.profile
+package id.arvigo.arvigobasecore.ui.feature.profile.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

@@ -33,7 +33,9 @@ fun MenuRowItem(
             Text(
                 text = name,
                 style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(horizontal = 10.dp).weight(1f)
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .weight(1f)
             )
             IconButton(
                 onClick = onMenuClick
