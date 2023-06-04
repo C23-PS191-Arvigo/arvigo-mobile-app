@@ -54,6 +54,7 @@ fun JetArvigoApp(
             val excludedRoutes = listOf(
                 Screen.Personality.route,
                 Screen.PersonalityMainTest.route,
+                Screen.PersonalityResult.route,
                 Screen.Login.route,
                 Screen.Register.route,
                 Screen.Brand.route,
