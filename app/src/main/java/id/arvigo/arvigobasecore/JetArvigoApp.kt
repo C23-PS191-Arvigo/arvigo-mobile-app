@@ -124,11 +124,13 @@ fun JetArvigoApp(
             }
             composable(Screen.PersonalityMainTest.route) {
                 PersonalityMainTestScreen(
-                    navController = navController,
+                   navController = navController,
                 )
             }
             composable(Screen.PersonalityResult.route) {
-                PersonalityResultScreen()
+                PersonalityResultScreen(
+                    navController = navController,
+                )
             }
             //Profile
             composable(Screen.ProfileEdit.route){
