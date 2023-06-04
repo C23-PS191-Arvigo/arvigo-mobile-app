@@ -27,8 +27,6 @@ import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.recommendation.PersonalRecomenScreen
-import id.arvigo.arvigobasecore.ui.feature.profile.PricingScreen
-import id.arvigo.arvigobasecore.ui.feature.profile.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
