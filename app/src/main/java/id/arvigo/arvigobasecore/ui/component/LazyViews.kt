@@ -1,17 +1,13 @@
 package id.arvigo.arvigobasecore.ui.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -37,13 +33,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.ui.feature.wishlist.model.Product
-import id.arvigo.arvigobasecore.ui.feature.wishlist.screen.ProductWishlistScreen
+import id.arvigo.arvigobasecore.data.source.network.response.wishlist.Product
+import id.arvigo.arvigobasecore.data.source.network.response.wishlist.WishListsProductsItem
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
 @Composable
 fun ProductLazyGrid(
-    itemList: List<Product>
+    itemList: List<WishListsProductsItem>
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(160.dp),
@@ -53,7 +49,7 @@ fun ProductLazyGrid(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ){
         items(itemList){
-            ItemProduct(image = it.image, name = it.title, store = it.store)
+            ItemProduct(image = it.image, name = it.name, store = it.brand)
         }
     }
 }

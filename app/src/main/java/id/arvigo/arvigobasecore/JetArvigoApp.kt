@@ -7,7 +7,6 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -16,7 +15,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearScreen
 import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapeIntroScreen
@@ -28,8 +26,8 @@ import id.arvigo.arvigobasecore.ui.feature.onboarding.OnboardingScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
-import id.arvigo.arvigobasecore.ui.feature.profile.PricingScreen
-import id.arvigo.arvigobasecore.ui.feature.profile.ProfileEditScreen
+import id.arvigo.arvigobasecore.ui.feature.profile.screen.PricingScreen
+import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.search.SearchScreen
@@ -37,7 +35,6 @@ import id.arvigo.arvigobasecore.ui.feature.splash.SplashScreen
 import id.arvigo.arvigobasecore.ui.feature.stores.StoreScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.*
-import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
