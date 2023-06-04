@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.feature.eyewear
+package id.arvigo.arvigobasecore.ui.feature.makeup
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -14,34 +14,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.ui.component.ProductItemCard
-import id.arvigo.arvigobasecore.ui.feature.brand.BrandCard
-import id.arvigo.arvigobasecore.ui.feature.brand.uistate.BrandUiState
-import id.arvigo.arvigobasecore.ui.feature.eyewear.uistate.EyewearUiState
+import id.arvigo.arvigobasecore.ui.feature.makeup.uistate.MakeupUiState
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun EyewearScreen(
+fun MakeupScreen(
     navController: NavController,
 ) {
-    EyewearScreenContent(
+    MakeupScreenContent(
         navController = navController,
     )
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EyewearScreenContent(
+fun MakeupScreenContent(
     navController: NavController,
 ) {
 
-    val viewModel: EyewearViewModel = getViewModel()
+    val viewModel : MakeupViewModel = getViewModel()
 
     Scaffold(
         modifier = Modifier,
         topBar = {
             SmallTopAppBar(
                 title = {
-                    Text(text = "Kacamata")
+                    Text(text = "Makeup")
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -59,7 +58,7 @@ fun EyewearScreenContent(
         val response = viewModel.response.value
 
         when(response) {
-            is EyewearUiState.Success -> {
+            is MakeupUiState.Success -> {
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(180.dp),
                     state = LazyGridState(),
@@ -70,22 +69,22 @@ fun EyewearScreenContent(
                         .padding(it)
                 ){
                     items(response.data){ data ->
-                       ProductItemCard( name = data.name , image = data.image, brand = data.brand ) {
-                       }
+                        ProductItemCard( name = data.name , image = data.image, brand = data.brand ) {
+                        }
                     }
                 }
             }
-            is EyewearUiState.Failure -> {
+            is MakeupUiState.Failure -> {
                 Text(text = response.error.message ?: "Unknown Error")
             }
-            EyewearUiState.Loading -> {
+            MakeupUiState.Loading -> {
                 CircularProgressIndicator(
                     modifier = Modifier
                         .fillMaxSize()
                         .wrapContentSize(align = Alignment.Center)
                 )
             }
-            EyewearUiState.Empty -> {
+            MakeupUiState.Empty -> {
                 Text(text = "Empty Data")
             }
         }

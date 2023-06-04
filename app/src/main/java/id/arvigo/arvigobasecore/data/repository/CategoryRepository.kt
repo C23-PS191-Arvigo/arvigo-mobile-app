@@ -14,8 +14,16 @@ class CategoryRepository(
 
     fun getEyewearCategory() = flow {
         val token = authPreferences.getAuthToken()
-        Log.d("Hit API Brand", "get Brand")
+        Log.d("Hit API Category", "Get Eyewear Category")
         emit(apiService.getEyewearCategory(
+            token = "Bearer $token"
+        ).data)
+    }.flowOn(Dispatchers.IO)
+
+    fun getMakeupCategory() = flow {
+        val token = authPreferences.getAuthToken()
+        Log.d("Hit API Category", "Get Makeup Category")
+        emit(apiService.getMakeupCategory(
             token = "Bearer $token"
         ).data)
     }.flowOn(Dispatchers.IO)

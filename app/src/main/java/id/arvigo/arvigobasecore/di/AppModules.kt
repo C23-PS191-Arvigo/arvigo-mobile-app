@@ -14,6 +14,7 @@ import id.arvigo.arvigobasecore.ui.feature.brand.BrandViewModel
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearViewModel
 import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
+import id.arvigo.arvigobasecore.ui.feature.makeup.MakeupViewModel
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileRepository
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileViewModel
@@ -64,6 +65,7 @@ val viewModelModules = module {
     viewModel { ProfileViewModel(get(),get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { StoreViewModel(get()) }
+    viewModel { MakeupViewModel(get()) }
     viewModel { WishListViewModel(get()) }
 }
 

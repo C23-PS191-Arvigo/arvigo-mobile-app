@@ -56,7 +56,7 @@ fun BrandScreenContent(
         topBar = {
             SmallTopAppBar(
                 title = {
-                    Text(text = "Brand")
+                    Text(text = "Merek")
                 },
                 navigationIcon = {
                     IconButton(onClick = {

@@ -38,6 +38,7 @@ import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.CarouselCard
+import id.arvigo.arvigobasecore.ui.component.PrimaryAlert
 import id.arvigo.arvigobasecore.ui.component.PrimarySearch
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeUiState
 import id.arvigo.arvigobasecore.ui.feature.personality.uistate.PersonalityUiState
@@ -61,6 +62,9 @@ fun HomeContent(
 ) {
     val viewModel: HomeViewModel = getViewModel()
     var text by remember { mutableStateOf("") }
+    var openDialog = remember { mutableStateOf(false) }
+    var url by remember { mutableStateOf("") }
+    val ctx = LocalContext.current
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -84,7 +88,7 @@ fun HomeContent(
                                 .padding(horizontal = 12.dp)
                         ) {
                             Icon(imageVector = Icons.Default.Search, contentDescription = "" )
-                            Text(text = "Search", modifier = Modifier.padding(start = 8.dp))
+                            Text(text = "Cari", modifier = Modifier.padding(start = 8.dp))
                         }
                     }
                 },
@@ -112,16 +116,18 @@ fun HomeContent(
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    MainMenu(title = "Stores", icon = R.drawable.ic_stores, onClick = {
+                    MainMenu(title = "Toko", icon = R.drawable.ic_stores, onClick = {
                         navController.navigate(Screen.Store.route)
                     })
-                    MainMenu(title = "Brands", icon = R.drawable.ic_brand, onClick = {
+                    MainMenu(title = "Merek", icon = R.drawable.ic_brand, onClick = {
                         navController.navigate(Screen.Brand.route)
                     })
-                    MainMenu(title = "Eyewear", icon = R.drawable.ic_eyewear, onClick = {
+                    MainMenu(title = "Kacamata", icon = R.drawable.ic_eyewear, onClick = {
                         navController.navigate(Screen.Eyewear.route)
                     })
-                    MainMenu(title = "Makeup", icon = R.drawable.ic_makeup, onClick = {})
+                    MainMenu(title = "Makeup", icon = R.drawable.ic_makeup, onClick = {
+                        navController.navigate(Screen.Makeup.route)
+                    })
                 }
                 Spacer(modifier = Modifier.padding(top = 16.dp))
                 Row(
@@ -129,14 +135,29 @@ fun HomeContent(
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    MainMenu(title = "Headwear", icon = R.drawable.ic_headwear, onClick = {})
-                    MainMenu(title = "Watch", icon = R.drawable.ic_watch, onClick = {})
-                    MainMenu(title = "Shoes", icon = R.drawable.ic_shoes, onClick = {})
-                    MainMenu(title = "Bags", icon = R.drawable.ic_bags, onClick = {})
+                    MainMenu(title = "Topi", icon = R.drawable.ic_headwear, onClick = {
+                        openDialog.value = true
+                        url = "https://www.google.com"
+                    })
+                    MainMenu(title = "Arloji", icon = R.drawable.ic_watch, onClick = {
+                        openDialog.value = true
+                        url = "https://www.twitter.com"
+                    })
+                    MainMenu(title = "Sepatu", icon = R.drawable.ic_shoes, onClick = {
+                        openDialog.value = true
+                        url = "https://www.google.com"
+                    })
+                    MainMenu(title = "Ransel", icon = R.drawable.ic_bags, onClick = {
+                        openDialog.value = true
+                        url = "https://www.google.com"
+                    })
+                }
+                if(openDialog.value) {
+                    PrimaryAlert(openDialog = openDialog, ctx = ctx, url = url)
                 }
                 Spacer(modifier = Modifier.padding(top = 26.dp))
                 Text(
-                    text = "Recommendation for you",
+                    text = "Rekomendasi untuk kamu",
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
@@ -157,11 +178,11 @@ fun HomeContent(
                                 .fillMaxWidth()
                                 .padding(horizontal = 10.dp, vertical = 8.dp)
                         ) {
-                            Text(text = "Personality", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
+                            Text(text = "Personalitas", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
                             Button(onClick = {
                                 navController.navigate(Screen.Personality.route)
                             }) {
-                                Text(text = "Test", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
+                                Text(text = "Ambil", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
                         }
                     }
@@ -183,18 +204,18 @@ fun HomeContent(
                                 .fillMaxWidth()
                                 .padding(horizontal = 10.dp, vertical = 8.dp)
                         ) {
-                            Text(text = "Face shape", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
+                            Text(text = "Bentuk wajah", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
                             Button(onClick = {
                                 navController.navigate(Screen.FaceShapeIntro.route)
                             }) {
-                                Text(text = "Test", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
+                                Text(text = "Ambil", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
                         }
                     }
                 }
                 Spacer(modifier = Modifier.padding(top = 26.dp))
                 Text(
-                    text = "Other Recommendation",
+                    text = "Rekomendasi lainnya",
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
