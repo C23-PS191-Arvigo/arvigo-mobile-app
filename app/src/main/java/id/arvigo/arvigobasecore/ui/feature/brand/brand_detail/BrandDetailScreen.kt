@@ -102,47 +102,61 @@ fun BrandDetailContent(
 
         when(response) {
             is BrandDetailUiState.Success -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(180.dp),
-                    state = LazyGridState(),
-                    contentPadding = PaddingValues(12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier
-                        .padding(it)
-                ){
-                    item {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(45.dp)
-                        ) {
-                            AsyncImage(
-                                model = ImageRequest.Builder(LocalContext.current)
-                                    .data(brandLogo)
-                                    .crossfade(true)
-                                    .build(),
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                placeholder = painterResource(id = R.drawable.img_placeholder),
-                                modifier = Modifier
-                                    .size(45.dp)
-                                    .clip(CircleShape)
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(text = name.value, style = MaterialTheme.typography.titleLarge)
-                        }
-                    }
-                    items(response.data){ data ->
-                        ProductItemCard(
-                            name = data.name ,
-                            image = data.image,
-                            brand = data.brand,
-                            onClick = {
-                                navController.navigate(Screen.ProductDetail.createRoute(data.id))
-                            } )
-                    }
-                }
+               Column(
+                   modifier = Modifier
+                       .fillMaxSize()
+                       .padding(it)
+               ) {
+                   Surface(
+                       modifier = Modifier
+                           .fillMaxWidth()
+                           .padding(horizontal = 16.dp)
+                           .weight(0.3f)
+                   ) {
+                       Row(
+                           modifier = Modifier
+                               .fillMaxWidth()
+                               .height(45.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                       ) {
+                           AsyncImage(
+                               model = ImageRequest.Builder(LocalContext.current)
+                                   .data(brandLogo)
+                                   .crossfade(true)
+                                   .build(),
+                               contentDescription = null,
+                               contentScale = ContentScale.Crop,
+                               placeholder = painterResource(id = R.drawable.img_placeholder),
+                               modifier = Modifier
+                                   .size(45.dp)
+                                   .clip(CircleShape)
+                           )
+                           Spacer(modifier = Modifier.padding(end = 10.dp))
+                           Text(text = name.value, style = MaterialTheme.typography.titleLarge)
+                       }
+                   }
+                   LazyVerticalGrid(
+                       columns = GridCells.Adaptive(180.dp),
+                       state = LazyGridState(),
+                       contentPadding = PaddingValues(12.dp),
+                       horizontalArrangement = Arrangement.spacedBy(12.dp),
+                       verticalArrangement = Arrangement.spacedBy(12.dp),
+                       modifier = Modifier
+                           .fillMaxWidth()
+                           .weight(3.8f)
+                   ){
+                       items(response.data){ data ->
+                           ProductItemCard(
+                               name = data.name ,
+                               image = data.image,
+                               brand = data.brand,
+                               onClick = {
+                                   navController.navigate(Screen.ProductDetail.createRoute(data.id))
+                               } )
+                       }
+                   }
+
+               }
             }
             is BrandDetailUiState.Failure -> {
                 Text(text = response.error.message ?: "Unknown Error")

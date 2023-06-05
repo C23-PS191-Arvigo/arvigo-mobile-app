@@ -34,6 +34,8 @@ import id.arvigo.arvigobasecore.ui.feature.brand.uistate.BrandUiState
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import org.koin.androidx.compose.getViewModel
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun BrandScreen(
@@ -89,10 +91,10 @@ fun BrandScreenContent(
                         BrandCard(
                             brand = data,
                             onClick = {
-                                val img = "https://picsum.photos/200/300/?blur=2"
+                                val encodedUrl = URLEncoder.encode("https://picsum.photos/200/300/?blur=2", StandardCharsets.UTF_8.toString())
                                 navController.navigate( route = Screen.BrandDetail.passData(
                                     data.id,
-                                    img,
+                                    encodedUrl,
                                     data.name,
                                 ))
                             }
