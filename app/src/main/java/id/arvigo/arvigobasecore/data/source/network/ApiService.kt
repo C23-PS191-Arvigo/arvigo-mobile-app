@@ -8,6 +8,7 @@ import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryRe
 import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
 import id.arvigo.arvigobasecore.data.source.network.response.personality.QuestionnaireResponse
+import id.arvigo.arvigobasecore.data.source.network.response.product_detail.ProductDetailResponse
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreResponse
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
@@ -90,4 +91,10 @@ interface ApiService {
         @Path("userId") userId: String,
         @Body request: RegisterRequest
     ): RegisterResponse
+
+    @GET("/v1/products/initials/{id}")
+    suspend fun getProductDetail(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): ProductDetailResponse
 }

@@ -4,14 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import id.arvigo.arvigobasecore.data.repository.BrandRepository
-import id.arvigo.arvigobasecore.data.repository.CategoryRepository
-import id.arvigo.arvigobasecore.data.repository.DefaultAuthRepository
-import id.arvigo.arvigobasecore.data.repository.HomeProductRepository
-import id.arvigo.arvigobasecore.data.repository.PersonalityRepository
-import id.arvigo.arvigobasecore.data.repository.SearchProductRepository
-import id.arvigo.arvigobasecore.data.repository.StoreRepository
-import id.arvigo.arvigobasecore.data.repository.WishListsRepository
+import id.arvigo.arvigobasecore.data.repository.*
 import id.arvigo.arvigobasecore.data.source.local.AuthPreferences
 import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.domain.repository.AuthRepository
@@ -22,6 +15,7 @@ import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
 import id.arvigo.arvigobasecore.ui.feature.makeup.MakeupViewModel
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
+import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileRepository
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditViewModel
@@ -75,6 +69,7 @@ val viewModelModules = module {
     viewModel { MakeupViewModel(get()) }
     viewModel { WishListViewModel(get()) }
     viewModel { ProfileEditViewModel(get(),get()) }
+    viewModel { ProductDetailViewModel(get()) }
 }
 
 val useCaseModule = module {
@@ -100,6 +95,7 @@ val useCaseModule = module {
     }
     single { WishListsRepository(get(),get()) }
     single { ProfileRepository(get(),get()) }
+    single { ProductDetailRepository(get(),get()) }
 }
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth_key")

@@ -243,7 +243,9 @@ fun HomeContent(
                                             .padding(horizontal = 8.dp, vertical = 10.dp)
                                             .height(300.dp)
                                             .fillMaxSize()
-                                            .clickable { }
+                                            .clickable {
+                                                navController.navigate(Screen.ProductDetail.createRoute(recommendation.id))
+                                            }
                                     ) {
                                         Column() {
                                             Card(
