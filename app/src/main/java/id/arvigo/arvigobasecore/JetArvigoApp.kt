@@ -34,6 +34,7 @@ import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
+import id.arvigo.arvigobasecore.ui.feature.recommendation_store.RecommenStoreScreen
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.search.SearchScreen
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashScreen
@@ -71,6 +72,7 @@ fun JetArvigoApp(
                 Screen.Makeup.route,
                 Screen.PersonalRecomendation.route,
                 Screen.ProductDetail.route,
+                Screen.RecommendationStore.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -193,6 +195,20 @@ fun JetArvigoApp(
                 Log.d("Args", it.arguments?.getInt(PRODUCT_ID).toString())
                 val productId = it.arguments?.getInt(PRODUCT_ID).toString()
                 ProductDetailScreen(
+                    navController = navController,
+                    productId = productId,
+                )
+            }
+            composable(
+                route = Screen.RecommendationStore.route,
+                arguments = listOf(
+                    navArgument(PRODUCT_ID) {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                val productId = it.arguments?.getString(PRODUCT_ID)!!
+                RecommenStoreScreen(
                     navController = navController,
                     productId = productId,
                 )

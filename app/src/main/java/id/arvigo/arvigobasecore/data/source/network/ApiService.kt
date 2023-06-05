@@ -97,4 +97,10 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: String
     ): ProductDetailResponse
+
+    @GET("/v1/products/initials/{id}")
+    suspend fun getProductStore(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): ProductDetailResponse
 }

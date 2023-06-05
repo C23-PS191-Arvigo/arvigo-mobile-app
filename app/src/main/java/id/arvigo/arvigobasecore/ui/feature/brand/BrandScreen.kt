@@ -131,6 +131,7 @@ fun BrandCard(
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data("https://picsum.photos/id/237/200/300")
+                        .placeholder(R.drawable.img_placeholder)
                         .crossfade(true)
                         .build(),
                     contentDescription = null,

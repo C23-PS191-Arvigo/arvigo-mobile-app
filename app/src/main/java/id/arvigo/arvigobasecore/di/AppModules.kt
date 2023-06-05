@@ -19,6 +19,7 @@ import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileRepository
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditViewModel
+import id.arvigo.arvigobasecore.ui.feature.recommendation_store.RecommenStoreViewModel
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.ui.feature.search.SearchViewModel
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashViewModel
@@ -70,6 +71,7 @@ val viewModelModules = module {
     viewModel { WishListViewModel(get()) }
     viewModel { ProfileEditViewModel(get(),get()) }
     viewModel { ProductDetailViewModel(get()) }
+    viewModel { RecommenStoreViewModel(get()) }
 }
 
 val useCaseModule = module {

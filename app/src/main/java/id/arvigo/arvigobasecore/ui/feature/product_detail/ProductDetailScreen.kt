@@ -12,6 +12,8 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,13 +51,14 @@ fun ProductDetailContent(
 ) {
 
     val viewModel: ProductDetailViewModel = getViewModel()
-    val idState = viewModel.idState.value
+    val idState = remember { mutableStateOf("") }
 
     val lifecycle : Lifecycle = LocalLifecycleOwner.current.lifecycle
 
     LaunchedEffect(key1 = Unit) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             launch {
+                idState.value = productId
                 viewModel.getProductDetail(productId = productId)
             }
         }
@@ -172,7 +175,9 @@ fun ProductDetailContent(
                     OutlinedButton(
                         modifier = Modifier
                             .width(itemSize),
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                                  navController.navigate(Screen.RecommendationStore.createRoute(idState.value))
+                        },
                         shape = MaterialTheme.shapes.small,
                         border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary),
                     )
