@@ -19,6 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
+import id.arvigo.arvigobasecore.ui.feature.brand.brand_detail.BrandDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearScreen
 import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapeIntroScreen
 import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapePhotoScreen
@@ -73,6 +74,7 @@ fun JetArvigoApp(
                 Screen.PersonalRecomendation.route,
                 Screen.ProductDetail.route,
                 Screen.RecommendationStore.route,
+                Screen.BrandDetail.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -211,6 +213,20 @@ fun JetArvigoApp(
                 RecommenStoreScreen(
                     navController = navController,
                     productId = productId,
+                )
+            }
+            composable(
+                route = Screen.BrandDetail.route,
+                arguments = listOf(
+                    navArgument(BRAND_ID) {
+                        type = NavType.IntType
+                    }
+                )
+            ) {
+                val brandId = it.arguments?.getInt(BRAND_ID).toString()
+                BrandDetailScreen(
+                    navController = navController,
+                    brandId = brandId,
                 )
             }
         }

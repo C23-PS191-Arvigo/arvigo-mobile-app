@@ -6,6 +6,7 @@ const val AUTH_GRAPH_ROUTE = "auth"
 const val HOME_GRAPH_ROUTE = "home"
 const val PERSONALITY_GRAPH_ROUTE = "personality"
 const val PRODUCT_ID = "productId"
+const val BRAND_ID = "brandId"
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -40,5 +41,8 @@ sealed class Screen(val route: String) {
     }
     object RecommendationStore : Screen("recommendation_store/{$PRODUCT_ID}") {
         fun createRoute(productId: String) = "recommendation_store/$productId"
+    }
+    object BrandDetail : Screen("brand_detail/{$BRAND_ID}") {
+        fun createRoute(brandId: Int) = "brand_detail/$brandId"
     }
 }
