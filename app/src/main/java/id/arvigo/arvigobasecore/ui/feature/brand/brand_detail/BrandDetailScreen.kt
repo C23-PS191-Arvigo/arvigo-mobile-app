@@ -5,18 +5,28 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.ProductItemCard
 import id.arvigo.arvigobasecore.ui.feature.brand.brand_detail.uistate.BrandDetailUiState
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearViewModel
@@ -29,10 +39,14 @@ import org.koin.androidx.compose.getViewModel
 fun BrandDetailScreen(
     navController: NavController,
     brandId: String,
+    brandLogo: String,
+    brandName: String,
 ) {
     BrandDetailContent(
         navController = navController,
         brandId = brandId,
+        brandLogo = brandLogo,
+        brandName = brandName,
     )
 }
 
@@ -41,14 +55,24 @@ fun BrandDetailScreen(
 fun BrandDetailContent(
     navController: NavController,
     brandId: String,
+    brandLogo: String,
+    brandName: String,
 ) {
     val viewModel: BrandDetailViewModel = getViewModel()
 
     val lifecycle : Lifecycle = LocalLifecycleOwner.current.lifecycle
+    val logo = remember {
+        mutableStateOf("")
+    }
+    val name = remember {
+        mutableStateOf("")
+    }
 
     LaunchedEffect(key1 = Unit) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             launch {
+                logo.value = brandLogo
+                name.value = brandName
                 viewModel.getBrandDetail(brandId = brandId)
             }
         }
@@ -87,6 +111,28 @@ fun BrandDetailContent(
                     modifier = Modifier
                         .padding(it)
                 ){
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(45.dp)
+                        ) {
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(brandLogo)
+                                    .crossfade(true)
+                                    .build(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                placeholder = painterResource(id = R.drawable.img_placeholder),
+                                modifier = Modifier
+                                    .size(45.dp)
+                                    .clip(CircleShape)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(text = name.value, style = MaterialTheme.typography.titleLarge)
+                        }
+                    }
                     items(response.data){ data ->
                         ProductItemCard(
                             name = data.name ,

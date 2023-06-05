@@ -7,6 +7,8 @@ const val HOME_GRAPH_ROUTE = "home"
 const val PERSONALITY_GRAPH_ROUTE = "personality"
 const val PRODUCT_ID = "productId"
 const val BRAND_ID = "brandId"
+const val BRAND_LOGO = "brandLogo"
+const val BRAND_NAME = "brandName"
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -42,7 +44,8 @@ sealed class Screen(val route: String) {
     object RecommendationStore : Screen("recommendation_store/{$PRODUCT_ID}") {
         fun createRoute(productId: String) = "recommendation_store/$productId"
     }
-    object BrandDetail : Screen("brand_detail/{$BRAND_ID}") {
-        fun createRoute(brandId: Int) = "brand_detail/$brandId"
+    object BrandDetail : Screen("brand_detail/{$BRAND_ID}/{$BRAND_LOGO}/{$BRAND_NAME}") {
+        //fun createRoute(brandId: Int) = "brand_detail/$brandId"
+        fun passData(brandId: Int, brandLogo: String, brandName: String) = "brand_detail/$brandId/$brandLogo/$brandName"
     }
 }

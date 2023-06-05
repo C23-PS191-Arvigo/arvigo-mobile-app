@@ -220,13 +220,23 @@ fun JetArvigoApp(
                 arguments = listOf(
                     navArgument(BRAND_ID) {
                         type = NavType.IntType
+                    },
+                    navArgument(BRAND_LOGO) {
+                        type = NavType.StringType
+                    },
+                    navArgument(BRAND_NAME) {
+                        type = NavType.StringType
                     }
                 )
             ) {
                 val brandId = it.arguments?.getInt(BRAND_ID).toString()
+                val brandLogo = it.arguments?.getString(BRAND_LOGO).toString()
+                val brandName = it.arguments?.getString(BRAND_NAME).toString()
                 BrandDetailScreen(
                     navController = navController,
                     brandId = brandId,
+                    brandLogo = brandLogo,
+                    brandName = brandName,
                 )
             }
         }

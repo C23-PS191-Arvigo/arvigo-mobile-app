@@ -89,7 +89,12 @@ fun BrandScreenContent(
                         BrandCard(
                             brand = data,
                             onClick = {
-                                navController.navigate(Screen.BrandDetail.createRoute(data.id))
+                                val img = "https://picsum.photos/200/300/?blur=2"
+                                navController.navigate( route = Screen.BrandDetail.passData(
+                                    data.id,
+                                    img,
+                                    data.name,
+                                ))
                             }
                         )
                     }
