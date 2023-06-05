@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.data.source.network.response.wishlist.Product
 import id.arvigo.arvigobasecore.data.source.network.response.wishlist.WishListsProductsItem
+import id.arvigo.arvigobasecore.data.source.network.response.wishlist.WishListsStoreItem
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
 @Composable
@@ -56,7 +56,7 @@ fun ProductLazyGrid(
 
 @Composable
 fun StoreLazyGrid(
-    itemList: List<Product>
+    itemList: List<WishListsStoreItem>
 ) {
     LazyColumn(
         state = LazyListState(),
@@ -64,7 +64,7 @@ fun StoreLazyGrid(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ){
         items(itemList){
-            ItemBrand(image = it.image, name = it.title, store = it.store)
+            ItemBrand(image = it.image, name = it.name, store = it.merchant)
         }
     }
 }
