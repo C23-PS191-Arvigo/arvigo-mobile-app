@@ -138,7 +138,7 @@ fun FaceShapePhotoScreen() {
                     launcher.launch()
                 }
             }) {
-                Text(text = "Pick Image Camera")
+                Text(text = "Dari Kamera")
             }
             Button(onClick = {
                 if (!cameraPermissionGranted) {
@@ -147,7 +147,7 @@ fun FaceShapePhotoScreen() {
                     launcherGallery.launch("image/*")
                 }
             }) {
-                Text(text = "Pick Image Gallery")
+                Text(text = "Dari Galeri")
             }
         }
 

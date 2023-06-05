@@ -40,7 +40,7 @@ fun PersonalityContent(
         topBar = {
             SmallTopAppBar(
                 title = {
-                    Text(text = "Personalities Guide")
+                    Text(text = "Petunjuk Tes Kepribadian")
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -78,7 +78,7 @@ fun PersonalityContent(
                     .fillMaxWidth()
                     .weight(0.3f)
             ) {
-                PrimaryButton(title = "Start Test", onClick = {
+                PrimaryButton(title = "Mulai Tes", onClick = {
                     navController.navigate(Screen.PersonalityMainTest.route)
                 } )
             }
@@ -116,7 +116,7 @@ fun GuideCard(
         ) {
             Text(
                 text = content,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .padding(12.dp)
             )

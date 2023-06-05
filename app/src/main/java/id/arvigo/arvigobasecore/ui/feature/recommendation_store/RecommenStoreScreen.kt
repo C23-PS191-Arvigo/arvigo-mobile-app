@@ -1,5 +1,6 @@
 package id.arvigo.arvigobasecore.ui.feature.recommendation_store
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -55,7 +56,8 @@ fun RecommenStoreContent(
     LaunchedEffect(key1 = Unit) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             launch {
-                viewModel.getProductStore(productId = "4")
+                Log.d("RecommenStoreContent", "productId: $productId")
+                viewModel.getProductStore(productId = productId)
             }
         }
     }

@@ -155,10 +155,10 @@ fun HomeContent(
                 if(openDialog.value) {
                     PrimaryAlert(openDialog = openDialog, ctx = ctx, url = url)
                 }
-                Spacer(modifier = Modifier.padding(top = 26.dp))
+                Spacer(modifier = Modifier.padding(top = 30.dp))
                 Text(
                     text = "Rekomendasi untuk kamu",
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold), textAlign = TextAlign.Start,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
                 Spacer(modifier = Modifier.padding(top = 12.dp))
@@ -213,10 +213,10 @@ fun HomeContent(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.padding(top = 26.dp))
+                Spacer(modifier = Modifier.padding(top = 30.dp))
                 Text(
                     text = "Rekomendasi lainnya",
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold), textAlign = TextAlign.Start,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
@@ -235,13 +235,13 @@ fun HomeContent(
                                 Box(
                                     modifier = Modifier
                                         .width(itemSize)
-                                        .height(300.dp),
+                                        .height(280.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Card(
                                         modifier = Modifier
                                             .padding(horizontal = 8.dp, vertical = 10.dp)
-                                            .height(300.dp)
+                                            .height(280.dp)
                                             .fillMaxSize()
                                             .clickable {
                                                 navController.navigate(Screen.ProductDetail.createRoute(recommendation.id))
@@ -251,7 +251,7 @@ fun HomeContent(
                                             Card(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .height(160.dp)
+                                                    .height(150.dp)
                                                     .padding(horizontal = 10.dp, vertical = 10.dp),
                                             ) {
                                                 AsyncImage(
@@ -268,13 +268,13 @@ fun HomeContent(
                                             }
                                             Text(
                                                 text = recommendation.name,
-                                                style = MaterialTheme.typography.headlineSmall,
+                                                style = MaterialTheme.typography.titleLarge,
                                                 maxLines = 2,
                                                 overflow = TextOverflow.Ellipsis,
                                                 modifier = Modifier.padding(horizontal = 10.dp)
                                             )
                                             Spacer(modifier = Modifier.padding(top = 10.dp))
-                                            Text(text = recommendation.brand, style = MaterialTheme.typography.titleLarge.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                                            Text(text = recommendation.brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
                                         }
                                     }
                                 }

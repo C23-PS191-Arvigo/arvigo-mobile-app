@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.ui.component.ProductItemCard
 import id.arvigo.arvigobasecore.ui.feature.makeup.uistate.MakeupUiState
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -69,8 +70,13 @@ fun MakeupScreenContent(
                         .padding(it)
                 ){
                     items(response.data){ data ->
-                        ProductItemCard( name = data.name , image = data.image, brand = data.brand ) {
-                        }
+                        ProductItemCard(
+                            name = data.name ,
+                            image = data.image,
+                            brand = data.brand,
+                            onClick = {
+                                navController.navigate(Screen.ProductDetail.createRoute(data.id))
+                            } )
                     }
                 }
             }
