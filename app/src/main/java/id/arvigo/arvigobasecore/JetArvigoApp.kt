@@ -19,6 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
+import id.arvigo.arvigobasecore.ui.feature.brand.brand_detail.BrandDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearScreen
 import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapeIntroScreen
 import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapePhotoScreen
@@ -34,6 +35,7 @@ import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
+import id.arvigo.arvigobasecore.ui.feature.recommendation_store.RecommenStoreScreen
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.search.SearchScreen
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashScreen
@@ -71,6 +73,8 @@ fun JetArvigoApp(
                 Screen.Makeup.route,
                 Screen.PersonalRecomendation.route,
                 Screen.ProductDetail.route,
+                Screen.RecommendationStore.route,
+                Screen.BrandDetail.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -195,6 +199,44 @@ fun JetArvigoApp(
                 ProductDetailScreen(
                     navController = navController,
                     productId = productId,
+                )
+            }
+            composable(
+                route = Screen.RecommendationStore.route,
+                arguments = listOf(
+                    navArgument(PRODUCT_ID) {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                val productId = it.arguments?.getString(PRODUCT_ID)!!
+                RecommenStoreScreen(
+                    navController = navController,
+                    productId = productId,
+                )
+            }
+            composable(
+                route = Screen.BrandDetail.route,
+                arguments = listOf(
+                    navArgument(BRAND_ID) {
+                        type = NavType.IntType
+                    },
+                    navArgument(BRAND_LOGO) {
+                        type = NavType.StringType
+                    },
+                    navArgument(BRAND_NAME) {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                val brandId = it.arguments?.getInt(BRAND_ID).toString()
+                val brandLogo = it.arguments?.getString(BRAND_LOGO).toString()
+                val brandName = it.arguments?.getString(BRAND_NAME).toString()
+                BrandDetailScreen(
+                    navController = navController,
+                    brandId = brandId,
+                    brandLogo = brandLogo,
+                    brandName = brandName,
                 )
             }
         }

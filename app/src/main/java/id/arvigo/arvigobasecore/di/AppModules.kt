@@ -10,6 +10,7 @@ import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.domain.repository.AuthRepository
 import id.arvigo.arvigobasecore.domain.usecase.LoginUseCase
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandViewModel
+import id.arvigo.arvigobasecore.ui.feature.brand.brand_detail.BrandDetailViewModel
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearViewModel
 import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
@@ -19,6 +20,7 @@ import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileRepository
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditViewModel
+import id.arvigo.arvigobasecore.ui.feature.recommendation_store.RecommenStoreViewModel
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.ui.feature.search.SearchViewModel
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashViewModel
@@ -70,6 +72,8 @@ val viewModelModules = module {
     viewModel { WishListViewModel(get()) }
     viewModel { ProfileEditViewModel(get(),get()) }
     viewModel { ProductDetailViewModel(get()) }
+    viewModel { RecommenStoreViewModel(get()) }
+    viewModel { BrandDetailViewModel(get()) }
 }
 
 val useCaseModule = module {

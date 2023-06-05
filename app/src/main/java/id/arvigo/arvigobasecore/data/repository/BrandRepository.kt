@@ -20,4 +20,13 @@ class BrandRepository(
         ).data)
     }.flowOn(Dispatchers.IO)
 
+    fun getBrandDetail(brandId: String) = flow {
+        val token = authPreferences.getAuthToken()
+        Log.d("Hit API Brand Detail", "get Brand detail with id $brandId")
+        emit(apiService.getBrandDetail(
+            token = "Bearer $token",
+            id = brandId
+        ).data)
+    }.flowOn(Dispatchers.IO)
+
 }

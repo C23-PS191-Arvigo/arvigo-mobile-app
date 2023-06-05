@@ -32,7 +32,10 @@ import id.arvigo.arvigobasecore.ui.component.ItemProduct
 import id.arvigo.arvigobasecore.ui.component.PrimarySearch
 import id.arvigo.arvigobasecore.ui.feature.brand.uistate.BrandUiState
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeUiState
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import org.koin.androidx.compose.getViewModel
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun BrandScreen(
@@ -85,7 +88,17 @@ fun BrandScreenContent(
                     modifier = Modifier.padding(it)
                 ){
                     items(response.data){ data ->
-                        BrandCard(brand = data)
+                        BrandCard(
+                            brand = data,
+                            onClick = {
+                                val encodedUrl = URLEncoder.encode("https://picsum.photos/200/300/?blur=2", StandardCharsets.UTF_8.toString())
+                                navController.navigate( route = Screen.BrandDetail.passData(
+                                    data.id,
+                                    encodedUrl,
+                                    data.name,
+                                ))
+                            }
+                        )
                     }
                 }
             }
@@ -112,6 +125,7 @@ fun BrandScreenContent(
 @Composable
 fun BrandCard(
     brand: Brand,
+    onClick: () -> Unit,
 ) {
     val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
     Box(
@@ -125,12 +139,15 @@ fun BrandCard(
                 .padding(horizontal = 8.dp, vertical = 10.dp)
                 .height(300.dp)
                 .fillMaxSize()
-                .clickable { }
+                .clickable {
+                    onClick()
+                }
         ) {
             Column() {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("https://picsum.photos/id/237/200/300")
+                        .data(brand.image)
+                        .placeholder(R.drawable.img_placeholder)
                         .crossfade(true)
                         .build(),
                     contentDescription = null,

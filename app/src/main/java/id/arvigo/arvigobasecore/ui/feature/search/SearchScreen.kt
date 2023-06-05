@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Notifications
@@ -29,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.ui.component.ProductItemCard
 import id.arvigo.arvigobasecore.ui.feature.search.uistate.SearchUiState
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -92,6 +95,14 @@ fun SearchScreenContent(
                                 }
                             )
                         },
+                        keyboardOptions = KeyboardOptions(
+                            imeAction = androidx.compose.ui.text.input.ImeAction.Search,
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onSearch = {
+                                viewModel.searchProduct()
+                            }
+                        ),
                         colors = TextFieldDefaults.textFieldColors(
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
@@ -126,8 +137,9 @@ fun SearchScreenContent(
                         .padding(it)
                 ){
                     items(response.data){ data ->
-                        ProductItemCard( name = data.name , image = data.image, brand = data.brand ) {
-                        }
+                        ProductItemCard( name = data.name , image = data.image, brand = data.brand, onClick = {
+                            navController.navigate(Screen.ProductDetail.createRoute(data.id))
+                        } )
                     }
                 }
                 Log.d("SearchScreenContent", "SearchScreenContent: ${response.data}")

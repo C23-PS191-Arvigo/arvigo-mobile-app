@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -39,7 +40,7 @@ fun FaceShapeIntroContent(
         topBar = {
             SmallTopAppBar(
                 title = {
-                    Text(text = "Face Shape Guide")
+                    Text(text = "Petunjuk Pengambilan Gambar")
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -74,7 +75,7 @@ fun FaceShapeIntroContent(
                     .fillMaxWidth()
                     .weight(0.3f)
             ) {
-                PrimaryButton(title = "Scan Your Face", onClick = {
+                PrimaryButton(title = "Scan Wajahmu Sekarang", onClick = {
                     navController.navigate(Screen.FaceShapePhoto.route)
                 } )
             }
@@ -101,11 +102,10 @@ fun GuideCard(
                 .background(Color.Green),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = no,
-                style = MaterialTheme.typography.headlineSmall.copy(color = Color.White, fontWeight = FontWeight.Bold),
-                modifier = Modifier
-                    .padding(12.dp)
+            Icon(
+                imageVector = Icons.Default.CheckCircle,
+                contentDescription = "",
+                tint = Color.White,
             )
         }
         Spacer(modifier = Modifier.padding(end = 16.dp))
@@ -127,7 +127,7 @@ fun GuideCard(
                 }
                 Text(
                     text = content,
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier
                         .padding(12.dp)
                 )
