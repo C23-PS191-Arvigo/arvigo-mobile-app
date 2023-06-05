@@ -1,5 +1,6 @@
 package id.arvigo.arvigobasecore
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -11,10 +12,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearScreen
 import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapeIntroScreen
@@ -27,6 +30,7 @@ import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.recommendation.PersonalRecomenScreen
+import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
@@ -66,6 +70,7 @@ fun JetArvigoApp(
                 Screen.Store.route,
                 Screen.Makeup.route,
                 Screen.PersonalRecomendation.route,
+                Screen.ProductDetail.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -174,6 +179,22 @@ fun JetArvigoApp(
             composable(Screen.Store.route){
                 StoreScreen(
                     navController = navController,
+                )
+            }
+            //product detail
+            composable(
+                route = Screen.ProductDetail.route,
+                arguments = listOf(
+                    navArgument(PRODUCT_ID) {
+                        type = NavType.IntType
+                    }
+                )
+            ) {
+                Log.d("Args", it.arguments?.getInt(PRODUCT_ID).toString())
+                val productId = it.arguments?.getInt(PRODUCT_ID).toString()
+                ProductDetailScreen(
+                    navController = navController,
+                    productId = productId,
                 )
             }
         }

@@ -18,19 +18,15 @@ class ProductDetailViewModel(private val productDetailRepository: ProductDetailR
 
     val response: MutableState<ProductDetailUiState> = mutableStateOf(ProductDetailUiState.Empty)
 
-    private val _idState = mutableStateOf(TextFieldState())
-    val idState: State<TextFieldState> = _idState
+    private val _idState = mutableStateOf("")
+    val idState: State<String> = _idState
 
     fun setId(value:String){
-        _idState.value = idState.value.copy(text = value)
+        _idState.value = idState.value
     }
 
-    init {
-        getProductDetail()
-    }
-
-    fun getProductDetail() = viewModelScope.launch {
-        productDetailRepository.getProductDetail(id = idState.value.text)
+    fun getProductDetail(productId: String) = viewModelScope.launch {
+        productDetailRepository.getProductDetail(id = productId)
             .onStart {
                 response.value = ProductDetailUiState.Loading
             }.catch {
