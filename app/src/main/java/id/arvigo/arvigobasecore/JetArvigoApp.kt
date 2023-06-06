@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreDataItem
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandScreen
 import id.arvigo.arvigobasecore.ui.feature.brand.brand_detail.BrandDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearScreen
@@ -40,6 +41,7 @@ import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.search.SearchScreen
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashScreen
 import id.arvigo.arvigobasecore.ui.feature.stores.StoreScreen
+import id.arvigo.arvigobasecore.ui.feature.stores.store_detail.StoreDetail
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.*
 import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
@@ -75,6 +77,7 @@ fun JetArvigoApp(
                 Screen.ProductDetail.route,
                 Screen.RecommendationStore.route,
                 Screen.BrandDetail.route,
+                Screen.StoreDetail.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -183,6 +186,14 @@ fun JetArvigoApp(
             composable(Screen.Store.route){
                 StoreScreen(
                     navController = navController,
+                )
+            }
+            composable(route = Screen.StoreDetail.route){
+                val result = navController.previousBackStackEntry?.savedStateHandle?.get<List<StoreDataItem>>("stores")
+                Log.d("Args", result.toString())
+                StoreDetail(
+                    navController = navController,
+                    storeDataItem = result!!
                 )
             }
             //product detail

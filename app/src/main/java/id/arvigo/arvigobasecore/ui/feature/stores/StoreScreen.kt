@@ -37,6 +37,7 @@ import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreData
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreDataItem
 import id.arvigo.arvigobasecore.ui.feature.stores.uistate.StoreUiState
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -95,7 +96,8 @@ fun StoreScreenContent(
                 ) {
                     items(response.data) { item ->
                         StoreCard(
-                            data = item
+                            data = item,
+                            navController = navController,
                         )
                     }
                 }
@@ -113,7 +115,8 @@ fun StoreScreenContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoreCard(
-    data: StoreData
+    data: StoreData,
+    navController: NavController,
 ) {
     androidx.compose.material3.Card(
         modifier = Modifier
@@ -156,7 +159,14 @@ fun StoreCard(
                         )
                     }
                 }
-                androidx.compose.material3.Button(onClick = { }) {
+                androidx.compose.material3.Button(onClick = {
+                    val stores = data.storeDataItems
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        key = "stores",
+                        value = stores
+                    )
+                    navController.navigate(Screen.StoreDetail.route)
+                }) {
                     Text(text = "Lihat", style = TextStyle(color = Color.White, fontWeight = FontWeight.SemiBold))
                 }
             }
