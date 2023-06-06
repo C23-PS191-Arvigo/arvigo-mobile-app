@@ -2,6 +2,7 @@ package id.arvigo.arvigobasecore.data.source.network
 
 import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.data.source.network.request.QuestionnaireRequestX
+import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
 import id.arvigo.arvigobasecore.data.source.network.response.LoginResponse
 import id.arvigo.arvigobasecore.data.source.network.response.brands.BrandResponse
 import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryResponse
@@ -10,6 +11,7 @@ import id.arvigo.arvigobasecore.data.source.network.response.personality.Persona
 import id.arvigo.arvigobasecore.data.source.network.response.personality.QuestionnaireResponse
 import id.arvigo.arvigobasecore.data.source.network.response.product_detail.ProductDetailResponse
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreResponse
+import id.arvigo.arvigobasecore.data.source.network.response.wishlist.AddWishlistResponse
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
@@ -109,4 +111,10 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: String
     ): CategoryResponse
+
+    @POST("/v1//wishlists")
+    suspend fun addToWishlist(
+        @Header("Authorization") token: String,
+        @Body request: WishlisthProductRequest
+    ): AddWishlistResponse
 }
