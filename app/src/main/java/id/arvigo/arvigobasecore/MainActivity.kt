@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import id.arvigo.arvigobasecore.ui.feature.deepAR.DeepARActivity
+import id.arvigo.arvigobasecore.ui.feature.deepAR.DeepArActivity
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         startDeepARActivity()
     }
     private fun startDeepARActivity() {
-        val intent = Intent(this, DeepARActivity::class.java)
+        val intent = Intent(this, DeepArActivity::class.java)
         startActivity(intent)
     }
 }

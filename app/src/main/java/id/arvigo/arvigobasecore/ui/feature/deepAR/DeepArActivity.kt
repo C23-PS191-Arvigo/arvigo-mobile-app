@@ -68,7 +68,7 @@ class MySurfaceView(context: Context) : ConstraintLayout(context) {
     }
 }
 
-class DeepARActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListener {
+class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListener {
     // Default camera lens value, change to CameraSelector.LENS_FACING_BACK to initialize with back camera
     private val defaultLensFacing = CameraSelector.LENS_FACING_FRONT
     private var surfaceProvider: ARSurfaceProvider? = null
@@ -175,7 +175,7 @@ class DeepARActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     private fun initialize() {
         initializeDeepAR()
         initializeFilters()
-        initializeViews()
+        initializeViews1()
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -228,15 +228,15 @@ class DeepARActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         val previousMask = findViewById<ImageButton>(R.id.previousMask)
         val nextMask = findViewById<ImageButton>(R.id.nextMask)
         val arView = findViewById<SurfaceView>(R.id.surface)
-        arView.holder.addCallback(this)
+        arView?.holder?.addCallback(this)
 
         // Surface might already be initialized, so we force the call to onSurfaceChanged
-        arView.visibility = View.GONE
-        arView.visibility = View.VISIBLE
+        arView?.visibility = View.GONE
+        arView?.visibility = View.VISIBLE
         val screenshotBtn = findViewById<ImageButton>(R.id.recordButton)
-        screenshotBtn.setOnClickListener { deepAR!!.takeScreenshot() }
+        screenshotBtn?.setOnClickListener { deepAR!!.takeScreenshot() }
         val switchCamera = findViewById<ImageButton>(R.id.switchCamera)
-        switchCamera.setOnClickListener {
+        switchCamera?.setOnClickListener {
             lensFacing =
                 if (lensFacing == CameraSelector.LENS_FACING_FRONT) CameraSelector.LENS_FACING_BACK else CameraSelector.LENS_FACING_FRONT
             //unbind immediately to avoid mirrored frame.
@@ -258,9 +258,9 @@ class DeepARActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         }*/
         val screenShotModeButton = findViewById<TextView>(R.id.screenshotModeButton)
         val recordModeBtn = findViewById<TextView>(R.id.recordModeButton)
-        recordModeBtn.background.alpha = 0x00
-        screenShotModeButton.background.alpha = 0xA0
-        screenShotModeButton.setOnClickListener(View.OnClickListener {
+        recordModeBtn?.background?.alpha = 0x00
+        screenShotModeButton?.background?.alpha = 0xA0
+        screenShotModeButton?.setOnClickListener(View.OnClickListener {
             if (currentSwitchRecording) {
                 if (recording) {
                     Toast.makeText(
@@ -276,7 +276,7 @@ class DeepARActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
                 currentSwitchRecording = !currentSwitchRecording
             }
         })
-        recordModeBtn.setOnClickListener {
+        recordModeBtn?.setOnClickListener {
             if (!currentSwitchRecording) {
                 recordModeBtn.background.alpha = 0xA0
                 screenShotModeButton.background.alpha = 0x00
@@ -306,8 +306,8 @@ class DeepARActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
                 currentSwitchRecording = !currentSwitchRecording
             }
         }
-        previousMask.setOnClickListener { gotoPrevious() }
-        nextMask.setOnClickListener { gotoNext() }
+        previousMask?.setOnClickListener { gotoPrevious() }
+        nextMask?.setOnClickListener { gotoNext() }
     }
 
     private fun initializeViews1() {
@@ -315,9 +315,9 @@ class DeepARActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         val nextMask = findViewById<ImageButton>(R.id.nextMask)
         //  val arView = findViewById<SurfaceView>(R.id.surface)
         val arView: SurfaceView by lazy {
-            findViewById<SurfaceView>(R.id.surface).apply {
+            findViewById<SurfaceView>(R.id.surface_deepar).apply {
                 // Set up any required configurations for the arView
-            }
+            } ?: throw IllegalStateException("Unable to find SurfaceView with ID R.id.surface")
         }
         if (arView.isActivated) {
             arView.holder?.addCallback(this)
@@ -421,6 +421,7 @@ class DeepARActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     }
 
     private fun setupCamera() {
+        Log.d("neo-kaca", "setupCamera: kameraaa JALAN")
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture!!.addListener({
             try {
