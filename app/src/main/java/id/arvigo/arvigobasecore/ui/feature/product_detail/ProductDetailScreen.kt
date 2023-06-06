@@ -25,11 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
+import com.airbnb.lottie.parser.IntegerParser
+import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
 import id.arvigo.arvigobasecore.ui.component.ProductImageSlider
 import id.arvigo.arvigobasecore.ui.feature.product_detail.uistate.ProductDetailUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import kotlinx.coroutines.launch
+import org.jetbrains.annotations.Nullable
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -52,6 +55,11 @@ fun ProductDetailContent(
 
     val viewModel: ProductDetailViewModel = getViewModel()
     val idState = remember { mutableStateOf("") }
+    val isFavorite = remember {
+        mutableStateOf(false)
+    }
+
+    val isWishList = viewModel.isFavorite.value
 
     val lifecycle : Lifecycle = LocalLifecycleOwner.current.lifecycle
 
@@ -83,7 +91,8 @@ fun ProductDetailContent(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                    }) {
                         Icon(imageVector = Icons.Default.Share, contentDescription = "")
                     }
                 }
@@ -132,8 +141,21 @@ fun ProductDetailContent(
                                     Text(text = response.data.name, style = MaterialTheme.typography.headlineSmall.copy(
                                         fontWeight = FontWeight.SemiBold,
                                     ))
-                                    IconButton(onClick = { /*TODO*/ }) {
-                                        Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = "")
+                                    IconButton(onClick = {
+                                        val requestResult = WishlisthProductRequest(
+                                        productId = response.data.id,
+                                        detailProductMarketplaceId = Any(),
+                                    )
+                                        Log.d("ParsData", "${response.data.id}")
+                                        viewModel.addWishlistProduct(request = requestResult )
+                                        viewModel.checkFavoriteStatus(response.data.id.toString())
+                                        isFavorite.value = true
+                                    }) {
+                                        if (isWishList) {
+                                            Icon(imageVector = Icons.Default.Favorite, contentDescription = "", tint = Color.Red)
+                                        } else {
+                                            Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = "")
+                                        }
                                     }
                                 }
                                 Text(text = response.data.brandName, style = MaterialTheme.typography.titleMedium)

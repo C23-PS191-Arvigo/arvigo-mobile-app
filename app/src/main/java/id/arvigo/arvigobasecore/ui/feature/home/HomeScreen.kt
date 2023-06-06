@@ -88,7 +88,7 @@ fun HomeContent(
                                 .padding(horizontal = 12.dp)
                         ) {
                             Icon(imageVector = Icons.Default.Search, contentDescription = "" )
-                            Text(text = "Cari", modifier = Modifier.padding(start = 8.dp))
+                            Text(text = "Cari", modifier = Modifier.padding(start = 8.dp), fontSize = 16.sp)
                         }
                     }
                 },
@@ -179,9 +179,12 @@ fun HomeContent(
                                 .padding(horizontal = 10.dp, vertical = 8.dp)
                         ) {
                             Text(text = "Personalitas", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
-                            Button(onClick = {
-                                navController.navigate(Screen.Personality.route)
-                            }) {
+                            Button(
+                                onClick = {
+                                    navController.navigate(Screen.Personality.route)
+                                },
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
                                 Text(text = "Ambil", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
                         }
@@ -205,9 +208,12 @@ fun HomeContent(
                                 .padding(horizontal = 10.dp, vertical = 8.dp)
                         ) {
                             Text(text = "Bentuk wajah", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
-                            Button(onClick = {
-                                navController.navigate(Screen.FaceShapeIntro.route)
-                            }) {
+                            Button(
+                                onClick = {
+                                    navController.navigate(Screen.FaceShapeIntro.route)
+                                },
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
                                 Text(text = "Ambil", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
                         }

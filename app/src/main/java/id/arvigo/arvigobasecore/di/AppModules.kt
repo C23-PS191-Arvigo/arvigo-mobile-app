@@ -71,7 +71,7 @@ val viewModelModules = module {
     viewModel { MakeupViewModel(get()) }
     viewModel { WishListViewModel(get()) }
     viewModel { ProfileEditViewModel(get(),get()) }
-    viewModel { ProductDetailViewModel(get()) }
+    viewModel { ProductDetailViewModel(get(),get()) }
     viewModel { RecommenStoreViewModel(get()) }
     viewModel { BrandDetailViewModel(get()) }
 }

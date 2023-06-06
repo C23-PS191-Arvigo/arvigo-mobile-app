@@ -1,8 +1,11 @@
 package id.arvigo.arvigobasecore.data.source.network.response.stores
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class StoreDataItem(
     @SerializedName("address")
     val address: String,
@@ -24,4 +27,4 @@ data class StoreDataItem(
     val price: Int,
     @SerializedName("store_type")
     val storeType: String
-)
+) : Parcelable

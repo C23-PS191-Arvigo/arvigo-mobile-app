@@ -36,6 +36,8 @@ sealed class Screen(val route: String) {
     object FaceShapePhoto : Screen("faceshape_photo")
     object Search : Screen("search")
     object Store : Screen("store")
+    object StoreDetail : Screen("store_detail")
+
     object Makeup : Screen("makeup")
     object PersonalRecomendation : Screen("personal_recomendation")
     object ProductDetail : Screen("product_detail/{$PRODUCT_ID}") {
