@@ -21,6 +21,13 @@ class ARSurfaceProvider internal constructor(
     private val context: Context,
     private val deepAR: DeepAR
 ) : SurfaceProvider {
+    private var isNotifyDeepar = true
+    private var stop = false
+    private var mirror = true
+    private var orientation = 0
+    private var surfaceTexture: SurfaceTexture? = null
+    private var surface: Surface? = null
+    private var nativeGLTextureHandle = 0
     private fun printEglState() {
         Log.d(
             tag,
@@ -145,14 +152,6 @@ class ARSurfaceProvider internal constructor(
     fun stop() {
         stop = true
     }
-
-    private var isNotifyDeepar = true
-    private var stop = false
-    private var mirror = true
-    private var orientation = 0
-    private var surfaceTexture: SurfaceTexture? = null
-    private var surface: Surface? = null
-    private var nativeGLTextureHandle = 0
 
     companion object {
         private val tag = ARSurfaceProvider::class.java.simpleName

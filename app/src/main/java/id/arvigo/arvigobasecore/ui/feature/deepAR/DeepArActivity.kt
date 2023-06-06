@@ -58,6 +58,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.ResourceBundle.clearCache
 import java.util.concurrent.ExecutionException
 
 
@@ -156,6 +157,14 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         super.onStart()
     }
 
+    override fun onBackPressed() {
+        // Clear cache
+        clearCache()
+
+        // Finish the activity
+        finish()
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -224,92 +233,6 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
 
     }
 
-    private fun initializeViews() {
-        val previousMask = findViewById<ImageButton>(R.id.previousMask)
-        val nextMask = findViewById<ImageButton>(R.id.nextMask)
-        val arView = findViewById<SurfaceView>(R.id.surface)
-        arView?.holder?.addCallback(this)
-
-        // Surface might already be initialized, so we force the call to onSurfaceChanged
-        arView?.visibility = View.GONE
-        arView?.visibility = View.VISIBLE
-        val screenshotBtn = findViewById<ImageButton>(R.id.recordButton)
-        screenshotBtn?.setOnClickListener { deepAR!!.takeScreenshot() }
-        val switchCamera = findViewById<ImageButton>(R.id.switchCamera)
-        switchCamera?.setOnClickListener {
-            lensFacing =
-                if (lensFacing == CameraSelector.LENS_FACING_FRONT) CameraSelector.LENS_FACING_BACK else CameraSelector.LENS_FACING_FRONT
-            //unbind immediately to avoid mirrored frame.
-            val cameraProvider: ProcessCameraProvider?
-            try {
-                cameraProvider = cameraProviderFuture!!.get()
-                cameraProvider.unbindAll()
-            } catch (e: ExecutionException) {
-                e.printStackTrace()
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-            setupCamera()
-        }
-        /*val openActivity = findViewById<ImageButton>(R.id.openActivity)
-        openActivity.setOnClickListener {
-            val myIntent = Intent(this@MainActivity1, BasicActivity::class.java)
-            this@MainActivity1.startActivity(myIntent)
-        }*/
-        val screenShotModeButton = findViewById<TextView>(R.id.screenshotModeButton)
-        val recordModeBtn = findViewById<TextView>(R.id.recordModeButton)
-        recordModeBtn?.background?.alpha = 0x00
-        screenShotModeButton?.background?.alpha = 0xA0
-        screenShotModeButton?.setOnClickListener(View.OnClickListener {
-            if (currentSwitchRecording) {
-                if (recording) {
-                    Toast.makeText(
-                        applicationContext,
-                        "Cannot switch to screenshots while recording!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@OnClickListener
-                }
-                recordModeBtn.background.alpha = 0x00
-                screenShotModeButton.background.alpha = 0xA0
-                screenshotBtn.setOnClickListener { deepAR!!.takeScreenshot() }
-                currentSwitchRecording = !currentSwitchRecording
-            }
-        })
-        recordModeBtn?.setOnClickListener {
-            if (!currentSwitchRecording) {
-                recordModeBtn.background.alpha = 0xA0
-                screenShotModeButton.background.alpha = 0x00
-                screenshotBtn.setOnClickListener {
-                    if (recording) {
-                        deepAR!!.stopVideoRecording()
-                        Toast.makeText(
-                            applicationContext,
-                            "Recording " + videoFileName!!.name + " saved.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    } else {
-                        videoFileName = File(
-                            getExternalFilesDir(Environment.DIRECTORY_MOVIES),
-                            "video_" + SimpleDateFormat.getDateTimeInstance() + ".mp4"
-                        )
-                        deepAR!!.startVideoRecording(
-                            videoFileName.toString(),
-                            width / 2,
-                            height / 2
-                        )
-                        Toast.makeText(applicationContext, "Recording started.", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    recording = !recording
-                }
-                currentSwitchRecording = !currentSwitchRecording
-            }
-        }
-        previousMask?.setOnClickListener { gotoPrevious() }
-        nextMask?.setOnClickListener { gotoNext() }
-    }
-
     private fun initializeViews1() {
         val previousMask = findViewById<ImageButton>(R.id.previousMask)
         val nextMask = findViewById<ImageButton>(R.id.nextMask)
@@ -317,7 +240,7 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         val arView: SurfaceView by lazy {
             findViewById<SurfaceView>(R.id.surface_deepar).apply {
                 // Set up any required configurations for the arView
-            } ?: throw IllegalStateException("Unable to find SurfaceView with ID R.id.surface")
+            } //?: throw IllegalStateException("Unable to find SurfaceView with ID R.id.surface_deepar")
         }
         if (arView.isActivated) {
             arView.holder?.addCallback(this)
@@ -354,61 +277,7 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
             }
             setupCamera()
         }
-        /*        val openActivity = findViewById<ImageButton>(R.id.openActivity)
-                openActivity.setOnClickListener {
-                    val myIntent = Intent(this@MainActivity1, BasicActivity::class.java)
-                    this@MainActivity1.startActivity(myIntent)
-                }*/
-        /*val screenShotModeButton = findViewById<TextView>(R.id.screenshotModeButton)
-        val recordModeBtn = findViewById<TextView>(R.id.recordModeButton)
-        recordModeBtn.background.alpha = 0x00
-        screenShotModeButton.background.alpha = 0xA0
-        screenShotModeButton.setOnClickListener(View.OnClickListener {
-            if (currentSwitchRecording) {
-                if (recording) {
-                    Toast.makeText(
-                        applicationContext,
-                        "Cannot switch to screenshots while recording!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@OnClickListener
-                }
-                recordModeBtn.background.alpha = 0x00
-                screenShotModeButton.background.alpha = 0xA0
-                screenshotBtn.setOnClickListener { deepAR!!.takeScreenshot() }
-                currentSwitchRecording = !currentSwitchRecording
-            }
-        })
-        recordModeBtn.setOnClickListener {
-            if (!currentSwitchRecording) {
-                recordModeBtn.background.alpha = 0xA0
-                screenShotModeButton.background.alpha = 0x00
-                screenshotBtn.setOnClickListener {
-                    if (recording) {
-                        deepAR!!.stopVideoRecording()
-                        Toast.makeText(
-                            applicationContext,
-                            "Recording " + videoFileName!!.name + " saved.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    } else {
-                        videoFileName = File(
-                            getExternalFilesDir(Environment.DIRECTORY_MOVIES),
-                            "video_" + SimpleDateFormat.getDateTimeInstance() + ".mp4"
-                        )
-                        deepAR!!.startVideoRecording(
-                            videoFileName.toString(),
-                            width / 2,
-                            height / 2
-                        )
-                        Toast.makeText(applicationContext, "Recording started.", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    recording = !recording
-                }
-                currentSwitchRecording = !currentSwitchRecording
-            }
-        }*/
+
         previousMask.setOnClickListener { gotoPrevious() }
         nextMask.setOnClickListener { gotoNext() }
     }
@@ -630,17 +499,6 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
             outputStream.flush()
             outputStream.close()
-            /*MediaScannerConnection.scanFile(
-                this@MainActivity1,
-                arrayOf(imageFile.toString()),
-                null,
-                null
-            )
-            Toast.makeText(
-                this@MainActivity1,
-                "Screenshot " + imageFile.name + " saved.",
-                Toast.LENGTH_SHORT
-            ).show()*/
         } catch (e: Throwable) {
             e.printStackTrace()
         }

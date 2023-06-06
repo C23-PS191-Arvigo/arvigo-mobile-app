@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        startDeepARActivity()
+      //  startDeepARActivity()
     }
     private fun startDeepARActivity() {
         val intent = Intent(this, DeepArActivity::class.java)
