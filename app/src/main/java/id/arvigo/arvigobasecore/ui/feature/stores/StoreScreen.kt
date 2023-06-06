@@ -95,9 +95,16 @@ fun StoreScreenContent(
                         .padding(it)
                 ) {
                     items(response.data) { item ->
+                        val data = item.storeDataItems
                         StoreCard(
                             data = item,
-                            navController = navController,
+                            onClick = {
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    key = "stores",
+                                    value = data
+                                )
+                                navController.navigate(Screen.StoreDetail.route)
+                            }
                         )
                     }
                 }
@@ -116,7 +123,7 @@ fun StoreScreenContent(
 @Composable
 fun StoreCard(
     data: StoreData,
-    navController: NavController,
+    onClick: () -> Unit,
 ) {
     androidx.compose.material3.Card(
         modifier = Modifier
@@ -160,12 +167,7 @@ fun StoreCard(
                     }
                 }
                 androidx.compose.material3.Button(onClick = {
-                    val stores = data.storeDataItems
-                    navController.currentBackStackEntry?.savedStateHandle?.set(
-                        key = "stores",
-                        value = stores
-                    )
-                    navController.navigate(Screen.StoreDetail.route)
+                    onClick()
                 }) {
                     Text(text = "Lihat", style = TextStyle(color = Color.White, fontWeight = FontWeight.SemiBold))
                 }

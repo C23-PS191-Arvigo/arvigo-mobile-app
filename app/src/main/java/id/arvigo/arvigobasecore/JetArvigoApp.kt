@@ -193,7 +193,7 @@ fun JetArvigoApp(
                 Log.d("Args", result.toString())
                 StoreDetail(
                     navController = navController,
-                    storeDataItem = result!!
+                    storeDataItem = result ?: emptyList()
                 )
             }
             //product detail
