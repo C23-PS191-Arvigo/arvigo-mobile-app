@@ -28,9 +28,15 @@ fun PrimaryAlert(
                    tint = MaterialTheme.colorScheme.primary
                )
         },
+        title = {
+            Text(text = "Fitur dalam pengembangan",
+                style = MaterialTheme.typography.headlineSmall,
+                textAlign = TextAlign.Center,
+            )
+        },
         text = {
             Text(text = "Mohon maaf untuk saat ini fitur yang anda pilih masih dalam tahap pengembangan. Namun anda dapat mencoba fitur ini dengan dengan browser anda.",
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
             )
         },

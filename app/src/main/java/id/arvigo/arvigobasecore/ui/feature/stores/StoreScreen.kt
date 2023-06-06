@@ -62,7 +62,9 @@ fun StoreScreenContent(
         topBar = {
             SmallTopAppBar(
                 title = {
-                    Text(text = "Toko", style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold))
+                    Text(text = "Toko", style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ))
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -155,15 +157,8 @@ fun StoreCard(
                         modifier = Modifier
                             .padding(start = 8.dp)
                     ) {
-                        Text(text = data.merchantName, style = TextStyle(
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 16.sp
-                        ))
-                        Text(text = data.location, style = TextStyle(
-                            color = Color.Gray,
-                            fontSize = 12.sp,
-                        )
-                        )
+                        Text(text = data.merchantName, style = MaterialTheme.typography.titleMedium)
+                        Text(text = data.location, style = MaterialTheme.typography.bodySmall)
                     }
                 }
                 androidx.compose.material3.Button(onClick = {
