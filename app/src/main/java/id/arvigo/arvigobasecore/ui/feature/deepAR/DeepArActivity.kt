@@ -6,12 +6,14 @@ import ai.deepar.ar.CameraResolutionPreset
 import ai.deepar.ar.DeepAR
 import ai.deepar.ar.DeepARImageFormat
 import android.Manifest
+import android.app.role.RoleManager
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.Image
 import android.media.MediaScannerConnection
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.text.format.DateFormat
@@ -26,6 +28,8 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -129,27 +133,43 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         setContentView(composeView)
     }
 
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                // Permission has been granted
+                initialize()
+            } else {
+                // Permission has been denied
+                // Handle the denial case
+                // You can show an explanation to the user or take alternative actions
+            }
+        }
+
     override fun onStart() {
-        if (ContextCompat.checkSelfPermission(
+        val cameraPermission = Manifest.permission.CAMERA
+        val recordAudioPermission = Manifest.permission.RECORD_AUDIO
+        val writeExternalStoragePermission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+        val cameraPermissionGranted =
+            ContextCompat.checkSelfPermission(this, cameraPermission) == PackageManager.PERMISSION_GRANTED
+        val recordAudioPermissionGranted =
+            ContextCompat.checkSelfPermission(this, recordAudioPermission) == PackageManager.PERMISSION_GRANTED
+        val writeExternalStoragePermissionGranted =
+            ContextCompat.checkSelfPermission(
                 this,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.RECORD_AUDIO
-                ),
-                1
-            )
+                writeExternalStoragePermission
+            ) == PackageManager.PERMISSION_GRANTED
+
+        if (!cameraPermissionGranted || !recordAudioPermissionGranted || !writeExternalStoragePermissionGranted) {
+            if (!cameraPermissionGranted) {
+                requestPermissionLauncher.launch(cameraPermission)
+            }
+            if (!recordAudioPermissionGranted) {
+                requestPermissionLauncher.launch(recordAudioPermission)
+            }
+            if (!writeExternalStoragePermissionGranted) {
+                requestPermissionLauncher.launch(writeExternalStoragePermission)
+            }
         } else {
             // Permission has already been granted
             initialize()
@@ -157,13 +177,13 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         super.onStart()
     }
 
-    override fun onBackPressed() {
+/*    override fun onBackPressed() {
         // Clear cache
         clearCache()
 
         // Finish the activity
         finish()
-    }
+    }*/
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
