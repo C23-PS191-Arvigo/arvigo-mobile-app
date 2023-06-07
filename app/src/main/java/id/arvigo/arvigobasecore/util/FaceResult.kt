@@ -1,0 +1,9 @@
+package id.arvigo.arvigobasecore.util
+
+object FaceResult {
+    const val OVAL = "Orang berwajah oval sangat sistematis dan mau bekerja keras. Ia juga sering dipercaya orang-orang di sekitarnya sebagai penasehat karena mampu menemukan solusi atau pandai memecahkan masalah sehingga membantu meringankan beban bagi banyak orang. Orang wajah oval sering fokus pada semangat hidup, moralitas, dan keindahan."
+    const val CIRCLE = "Orang dengan wajah bulat biasanya lebih santai dan sering mementingkan orang lain. Hal ini terlihat dari pandainya orang berwajah bulat menjalin hubungan yang cukup dekat dengan orang di sekitarnya. Terlebih lagi, kepribadian wajah bulat cenderung penyayang, murah hati, toleran, dan jujur. Di samping itu, mereka juga sangat optimis dalam menjalani sesuatu."
+    const val HEART = "Wajah bentuk hati membuat seseorang tampil menarik. Hal ini disebabkan oleh rahang yang tidak terlalu menonjol dan dagu meruncing. Mereka dengan bentuk wajah hati memiliki hubungan batin yang sangat dalam. Di samping itu, mereka pun sangat kreatif dan memiliki intuisi tajam. Sayangnya, mereka sering memaksakan kehendaknya."
+    const val SQUARE = "Orang dengan wajah persegi biasanya memiliki kepribadian yang kuat dan tegas. Mereka juga memiliki kemampuan untuk mengambil keputusan dengan cepat. Selain itu, mereka juga memiliki kemampuan untuk mengambil keputusan dengan cepat. "
+    const val TRIANGLE = "Orang dengan wajah segitiga memiliki kepribadian yang ceria, penuh semangat, dan tampak ramah, atau justru sebaliknya, memiliki kesan jutek dan serius dengan nada suara datar dan serius. Pemilik wajah seperti ini bersifat karismatik di saat tertentu tapi sebenarnya sangat suka bercanda dan tipe pencair suasana ketika berada di lingkungannya. Orang seperti ini mampu mempengaruhi orang lain karena pandai bicara dan menyenangkan untuk dimintai saran atau pendapat."
+}

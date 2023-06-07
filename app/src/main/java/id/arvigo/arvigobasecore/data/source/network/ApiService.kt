@@ -6,6 +6,7 @@ import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequ
 import id.arvigo.arvigobasecore.data.source.network.response.LoginResponse
 import id.arvigo.arvigobasecore.data.source.network.response.brands.BrandResponse
 import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryResponse
+import id.arvigo.arvigobasecore.data.source.network.response.faceshape.FaceshapeResponse
 import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
 import id.arvigo.arvigobasecore.data.source.network.response.personality.QuestionnaireResponse
@@ -16,8 +17,10 @@ import id.arvigo.arvigobasecore.ui.feature.profile.ProfileResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
 import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListsResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
+import java.io.File
 
 interface ApiService {
     @POST("/v1/auth/register-user")
@@ -112,9 +115,16 @@ interface ApiService {
         @Path("id") id: String
     ): CategoryResponse
 
-    @POST("/v1//wishlists")
+    @POST("/v1/wishlists")
     suspend fun addToWishlist(
         @Header("Authorization") token: String,
         @Body request: WishlisthProductRequest
     ): AddWishlistResponse
+
+    @Multipart
+    @POST("/v1/face-shape/check")
+    suspend fun submitFaceShape(
+        @Header("Authorization") token: String,
+        @Part image: MultipartBody.Part,
+    ): FaceshapeResponse
 }

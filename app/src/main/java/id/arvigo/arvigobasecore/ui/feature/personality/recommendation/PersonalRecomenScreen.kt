@@ -107,7 +107,12 @@ fun PersonalRecomenContent(
                     when (response) {
                         is HomeUiState.Success -> {
                             response.data.forEachIndexed { index, recommendation ->
-                                ProductRecommendationCard(data = recommendation)
+                                ProductRecommendationCard(
+                                    data = recommendation,
+                                    onClick = {
+                                        navController.navigate(Screen.ProductDetail.createRoute(recommendation.id))
+                                    }
+                                )
                             }
                         }
                         is HomeUiState.Failure -> {
