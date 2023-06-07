@@ -34,6 +34,7 @@ import id.arvigo.arvigobasecore.ui.component.ProductRecommendationCard
 import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
+import id.arvigo.arvigobasecore.util.FaceResult
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -127,8 +128,43 @@ fun PersonalRecomenContent(
                         textAlign = TextAlign.Center,
                     ))
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Kepribadian kamu menunjukkan bahwa kamu senang berinteraksi dengan orang lain dan penuh energi. Orang dengan tipe kepribadian ekstraversi cenderung antusias, berorientasi pada tindakan, dan sangat sosial. Kamu adalah individu yang ramah dan suka berbicara dan terhubung dengan orang lain.",
-                        style = MaterialTheme.typography.bodyLarge)
+                    when (result) {
+                        "square" -> {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = FaceResult.SQUARE,
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
+                        "circle" -> {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = FaceResult.CIRCLE,
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
+                        "oval" -> {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = FaceResult.OVAL,
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
+                        "heart" -> {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = FaceResult.HEART,
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
+                        "triangle" -> {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = FaceResult.TRIANGLE,
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
                     if (isSurvei.value) {
                         Card(
@@ -141,8 +177,10 @@ fun PersonalRecomenContent(
                                     .padding(16.dp)
                             ) {
                                 Text(text = "Menurut kamu, apakah bentuk wajah ini sesuai dengan bentuk wajah kamu?",
-                                    style = MaterialTheme.typography.titleLarge)
-                                Spacer(modifier = Modifier.height(10.dp))
+                                    style = MaterialTheme.typography.titleLarge,
+                                    textAlign = TextAlign.Center,
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -163,6 +201,7 @@ fun PersonalRecomenContent(
                                     Button(
                                         onClick = {
                                             isSurvei.value = false
+                                            navController.navigate(Screen.FaceGuide.route)
                                         },
                                         shape = RoundedCornerShape(10),
                                         modifier = Modifier
@@ -196,7 +235,12 @@ fun PersonalRecomenContent(
                     when (response) {
                         is HomeUiState.Success -> {
                             response.data.forEachIndexed { index, recommendation ->
-                                ProductRecommendationCard(data = recommendation)
+                                ProductRecommendationCard(
+                                    data = recommendation,
+                                    onClick = {
+                                        navController.navigate(Screen.ProductDetail.createRoute(recommendation.id))
+                                    }
+                                )
                             }
                         }
                         is HomeUiState.Failure -> {

@@ -254,6 +254,7 @@ fun FaceShapePhotoScreen(
             }
         }
         if(response is FaceshapeUiState.Failure) {
+            imgFile?.delete()
             Snackbar(
                 modifier = Modifier.padding(8.dp),
                 contentColor = Color.White,

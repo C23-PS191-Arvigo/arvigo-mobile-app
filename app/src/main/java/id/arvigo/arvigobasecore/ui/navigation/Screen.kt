@@ -55,4 +55,5 @@ sealed class Screen(val route: String) {
     object FaceshapeRecommendation : Screen("faceshape_recommendation/{$FACESHAPE_RESULT}/{$FACESHAPE_RESULT_IMAGE}") {
         fun passData(result: String, resultImage: String) = "faceshape_recommendation/$result/$resultImage"
     }
+    object FaceGuide : Screen("face_guide")
 }

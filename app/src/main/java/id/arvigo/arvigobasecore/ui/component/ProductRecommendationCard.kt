@@ -31,6 +31,7 @@ import id.arvigo.arvigobasecore.data.source.network.response.home_product.Recomm
 @Composable
 fun ProductRecommendationCard(
     data: Recommendation,
+    onClick: () -> Unit,
 ) {
     val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
     Box(
@@ -44,7 +45,9 @@ fun ProductRecommendationCard(
                 .padding(horizontal = 8.dp, vertical = 10.dp)
                 .fillMaxSize()
                 .height(300.dp)
-                .clickable { }
+                .clickable {
+                    onClick()
+                }
         ) {
             Column() {
                 AsyncImage(
@@ -100,11 +103,4 @@ fun ProductRecommendationCard(
 @Preview
 @Composable
 fun ProductPrev() {
-    ProductRecommendationCard(data = Recommendation(
-        brand = "brand",
-        id = 1,
-        image = "https://picsum.photos/id/237/200/300",
-        name = "name",
-        tags = listOf("tags")
-    ))
 }
