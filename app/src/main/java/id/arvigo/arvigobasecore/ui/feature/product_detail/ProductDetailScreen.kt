@@ -196,7 +196,8 @@ fun ProductDetailContent(
                 ) {
                     OutlinedButton(
                         modifier = Modifier
-                            .width(itemSize),
+                            .width(itemSize)
+                            .height(48.dp),
                         onClick = {
                                   navController.navigate(Screen.RecommendationStore.createRoute(idState.value))
                         },
@@ -211,7 +212,8 @@ fun ProductDetailContent(
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .height(48.dp),
                         onClick = { /*TODO*/ },
                         shape = MaterialTheme.shapes.small,
                     )
