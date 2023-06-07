@@ -24,6 +24,7 @@ import id.arvigo.arvigobasecore.ui.feature.brand.brand_detail.BrandDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearScreen
 import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapeIntroScreen
 import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapePhotoScreen
+import id.arvigo.arvigobasecore.ui.feature.faceshape.recommendation.FaceshapeRecommendation
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.makeup.MakeupScreen
@@ -78,6 +79,7 @@ fun JetArvigoApp(
                 Screen.RecommendationStore.route,
                 Screen.BrandDetail.route,
                 Screen.StoreDetail.route,
+                Screen.FaceshapeRecommendation.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -173,8 +175,31 @@ fun JetArvigoApp(
                     navController = navController,
                 )
             }
-            composable(Screen.FaceShapePhoto.route) {
-                FaceShapePhotoScreen()
+            composable(
+                route = Screen.FaceShapePhoto.route
+            ) {
+                FaceShapePhotoScreen(
+                    navController = navController,
+                )
+            }
+            composable(
+                route = Screen.FaceshapeRecommendation.route,
+                arguments = listOf(
+                    navArgument(FACESHAPE_RESULT) {
+                        type = NavType.StringType
+                    },
+                    navArgument(FACESHAPE_RESULT_IMAGE) {
+                        type = NavType.StringType
+                    }
+                )
+            ){
+                val result = it.arguments?.getString(FACESHAPE_RESULT)
+                val resultImage = it.arguments?.getString(FACESHAPE_RESULT_IMAGE)
+                FaceshapeRecommendation(
+                    navController = navController,
+                    result = result ?: "",
+                    resultImage = resultImage ?: ""
+                )
             }
             //search
             composable(Screen.Search.route){

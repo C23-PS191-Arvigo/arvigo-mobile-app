@@ -29,9 +29,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
 import id.arvigo.arvigobasecore.ui.feature.faceshape.uistate.FaceshapeUiState
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.util.reduceFileImage
 import id.arvigo.arvigobasecore.util.saveBitmapToFile
 import id.arvigo.arvigobasecore.util.saveUriToFile
@@ -42,14 +44,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.androidx.compose.getViewModel
 import java.io.File
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FaceShapePhotoScreen() {
+fun FaceShapePhotoScreen(
+    navController: NavController,
+) {
 
     val viewModel: FaceShapeViewModel = getViewModel()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    val (snackbarVisibleState, setSnackBarState) = remember { mutableStateOf(false) }
     var visible by remember {
         mutableStateOf(false)
     }
@@ -162,28 +169,53 @@ fun FaceShapePhotoScreen() {
             }
         }
 
-        Spacer(modifier = Modifier.padding(top = 48.dp))
+        Spacer(modifier = Modifier.padding(top = 54.dp))
         val response = viewModel.response.value
         if (visible) {
-            Button(
-                onClick = {
-                    coroutineScope.launch {
-                        val file = reduceFileImage(imgFile as File)
-                        Log.d("TAG", "File : $file")
-                        viewModel.submitFaceShape(file)
+            if (response is FaceshapeUiState.Success){
+                Button(
+                    onClick = {
+                        val encodedUrl = URLEncoder.encode(response.data.imageUrl, StandardCharsets.UTF_8.toString())
+                        navController.navigate(Screen.FaceshapeRecommendation.passData(
+                            response.data.result,
+                            encodedUrl,
+                        ))
+                    },
+                    shape = RoundedCornerShape(10),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(57.dp)
+                ) {
+                    if (response is FaceshapeUiState.Loading) {
+                        CircularProgressIndicator(
+                            color = Color.White,
+                        )
+                    } else {
+                        Text(text = "Lihat Rekomendasi", style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold))
                     }
-                },
-                shape = RoundedCornerShape(10),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(57.dp)
-            ) {
-                if (response is FaceshapeUiState.Loading) {
-                    CircularProgressIndicator(
-                        color = Color.White,
-                    )
-                } else {
-                    Text(text = "Submit", style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold))
+                }
+                setSnackBarState(!snackbarVisibleState)
+            } else {
+                Button(
+                    onClick = {
+                        coroutineScope.launch {
+                            val file = reduceFileImage(imgFile as File)
+                            Log.d("TAG", "File : $file")
+                            viewModel.submitFaceShape(file)
+                        }
+                    },
+                    shape = RoundedCornerShape(10),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(57.dp)
+                ) {
+                    if (response is FaceshapeUiState.Loading) {
+                        CircularProgressIndicator(
+                            color = Color.White,
+                        )
+                    } else {
+                        Text(text = "Submit", style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold))
+                    }
                 }
             }
         } else {
@@ -205,11 +237,35 @@ fun FaceShapePhotoScreen() {
                 }
             }
         }
+        Spacer(modifier = Modifier.padding(top = 48.dp))
+
         if(response is FaceshapeUiState.Success) {
-            Text(text = response.data.result)
+            Snackbar(
+                modifier = Modifier.padding(8.dp),
+                contentColor = Color.White,
+                containerColor = Color.Green,
+            ) {
+                androidx.compose.material.Text(
+                    text = "Bentuk Wajah Anda Adalah ${response.data.result}",
+                    style = TextStyle(
+                        color = Color.White,
+                    )
+                )
+            }
         }
         if(response is FaceshapeUiState.Failure) {
-            Text(text = response.error.message.toString())
+            Snackbar(
+                modifier = Modifier.padding(8.dp),
+                contentColor = Color.White,
+                containerColor = Color.Red,
+            ) {
+                androidx.compose.material.Text(
+                    text = "Terjadi Kesalahan ${response.error.message}",
+                    style = TextStyle(
+                        color = Color.White,
+                    )
+                )
+            }
         }
 
 

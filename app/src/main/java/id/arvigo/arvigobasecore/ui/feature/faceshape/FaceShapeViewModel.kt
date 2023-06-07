@@ -23,11 +23,8 @@ class FaceShapeViewModel(
     val response: MutableState<FaceshapeUiState> = mutableStateOf(FaceshapeUiState.Empty)
 
     fun submitFaceShape(image: File) = viewModelScope.launch {
-        val imageSized = withContext(Dispatchers.IO) {
-            reduceFileImage(image)
-        }
         faceshapeRepository.submitFaceShape(
-            image = imageSized
+            image = image
         )
             .onStart {
                 response.value = FaceshapeUiState.Loading
