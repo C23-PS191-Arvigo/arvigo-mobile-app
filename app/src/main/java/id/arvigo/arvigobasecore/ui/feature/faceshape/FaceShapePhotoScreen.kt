@@ -16,10 +16,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,16 +31,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
+import id.arvigo.arvigobasecore.ui.feature.faceshape.uistate.FaceshapeUiState
+import id.arvigo.arvigobasecore.util.reduceFileImage
+import id.arvigo.arvigobasecore.util.saveBitmapToFile
+import id.arvigo.arvigobasecore.util.saveUriToFile
+import id.arvigo.arvigobasecore.util.uriToFileConverter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.koin.androidx.compose.getViewModel
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FaceShapePhotoScreen() {
 
+    val viewModel: FaceShapeViewModel = getViewModel()
     val scaffoldState = rememberScaffoldState()
-
     val scope = rememberCoroutineScope()
-
     var visible by remember {
         mutableStateOf(false)
     }
@@ -62,15 +68,25 @@ fun FaceShapePhotoScreen() {
     val context = LocalContext.current
     var imageUri by remember { mutableStateOf<Uri?>(null)}
     var bitmap  by remember{ mutableStateOf<Bitmap?>(null)}
+    var imgFile  by remember{ mutableStateOf<File?>(null)}
+    val coroutineScope = rememberCoroutineScope()
 
     val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicturePreview()){
-        bitmap = it
+        contract = ActivityResultContracts.TakePicturePreview()){ result ->
+        if (result != null) {
+            bitmap = result
+            // Convert Bitmap to File
+            imgFile = saveBitmapToFile(context, bitmap as Bitmap)
+        }
     }
 
     val launcherGallery = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()){
-        imageUri = it
+        contract = ActivityResultContracts.GetContent()){ result ->
+        if (result != null) {
+            imageUri = result
+            // Convert Uri to File
+            imgFile = saveUriToFile(context, imageUri as Uri)
+        }
     }
 
     Column(
@@ -80,11 +96,6 @@ fun FaceShapePhotoScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-
-//        bitmap?.let {
-//
-//        }
-
 
 
         if (bitmap != null || imageUri != null) {
@@ -152,9 +163,29 @@ fun FaceShapePhotoScreen() {
         }
 
         Spacer(modifier = Modifier.padding(top = 48.dp))
-
+        val response = viewModel.response.value
         if (visible) {
-            PrimaryButton(title = "Submit Data", onClick = {})
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        val file = reduceFileImage(imgFile as File)
+                        Log.d("TAG", "File : $file")
+                        viewModel.submitFaceShape(file)
+                    }
+                },
+                shape = RoundedCornerShape(10),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(57.dp)
+            ) {
+                if (response is FaceshapeUiState.Loading) {
+                    CircularProgressIndicator(
+                        color = Color.White,
+                    )
+                } else {
+                    Text(text = "Submit", style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold))
+                }
+            }
         } else {
             Card(
                 modifier = Modifier
@@ -174,7 +205,12 @@ fun FaceShapePhotoScreen() {
                 }
             }
         }
-
+        if(response is FaceshapeUiState.Success) {
+            Text(text = response.data.result)
+        }
+        if(response is FaceshapeUiState.Failure) {
+            Text(text = response.error.message.toString())
+        }
 
 
     }
