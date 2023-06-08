@@ -29,6 +29,7 @@ import id.arvigo.arvigobasecore.ui.feature.faceshape.recommendation.FaceshapeRec
 import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.makeup.MakeupScreen
+import id.arvigo.arvigobasecore.ui.feature.notification.NotificationScreen
 import id.arvigo.arvigobasecore.ui.feature.onboarding.OnboardingScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
@@ -82,6 +83,7 @@ fun JetArvigoApp(
                 Screen.StoreDetail.route,
                 Screen.FaceshapeRecommendation.route,
                 Screen.FaceGuide.route,
+                Screen.Notification.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -280,6 +282,12 @@ fun JetArvigoApp(
                     brandId = brandId,
                     brandLogo = brandLogo,
                     brandName = brandName,
+                )
+            }
+            //notification
+            composable(Screen.Notification.route){
+                NotificationScreen(
+                    navController = navController,
                 )
             }
         }
