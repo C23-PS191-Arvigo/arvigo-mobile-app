@@ -91,6 +91,8 @@ class LoginViewModel(
                                _navigateToHome.value = true
                            } else {
                                _loginResult.value = LoginApiResults.Error("Invalid response")
+                               clearEmail()
+                               clearPassword()
                            }
                        } else {
                            _loginResult.value = LoginApiResults.Error(response.message())
@@ -99,6 +101,8 @@ class LoginViewModel(
                                       UiEvents.SnackbarEvent(response.message())
                                  )
                            }
+                           clearEmail()
+                           clearPassword()
                        }
                     }
 
@@ -123,6 +127,15 @@ class LoginViewModel(
             }
         }
     }
+
+    fun clearEmail() {
+        setEmail("")
+    }
+
+    fun clearPassword() {
+        setPassword("")
+    }
+
 
 //    private fun checkLogin() {
 //        viewModelScope.launch {
@@ -168,6 +181,8 @@ class LoginViewModel(
 //        }
 //    }
 }
+
+
 
 sealed class LoginApiResults {
     data class Success(val userId: Int, val token: String) : LoginApiResults()
