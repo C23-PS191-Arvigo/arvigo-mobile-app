@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.ui.component.CustomCardTwo
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,7 +37,7 @@ fun PricingScreen(
             horizontalAlignment = Alignment.Start
         ) {
             item {
-                CardPricePremium()
+                CardPricePremium(navController)
                 Spacer(modifier = Modifier.padding(5.dp))
                 CardPriceFree()
             }
@@ -45,7 +46,9 @@ fun PricingScreen(
 }
 
 @Composable
-fun CardPricePremium() {
+fun CardPricePremium(
+    navController: NavController
+) {
     CustomCardTwo(
         columnOne = {
             Text(text = "Premium")
@@ -59,7 +62,7 @@ fun CardPricePremium() {
             Text(text = "✅ Dapatkan benefit 3")
         },
         button = {
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { navController.navigate(Screen.Payment.route) }) {
                 Text(text = "Beli Sekarang")
             }
         }

@@ -37,6 +37,7 @@ import id.arvigo.arvigobasecore.ui.component.MenuRowItem
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
+import id.arvigo.arvigobasecore.util.Constant.IMAGE_MATRIX
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,6 +93,19 @@ fun DefTopBar(onMenuClick: () -> Unit) {
 @Composable
 fun ProfileCard() {
     val viewModel: ProfileViewModel = getViewModel()
+    CustomRowTwo(
+        image = IMAGE_MATRIX,
+        textOne = viewModel.fullName.toString(),
+        textTwo = viewModel.email.toString()
+    )
+}
+
+@Composable
+fun CustomRowTwo(
+    image: String,
+    textOne: String,
+    textTwo: String
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -107,7 +121,7 @@ fun ProfileCard() {
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://media.wired.com/photos/5ca648a330f00e47fd82ae77/master/w_2560%2Cc_limit/Culture_Matrix_Code_corridor.jpg")
+                    .data(image)
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
@@ -123,7 +137,7 @@ fun ProfileCard() {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = viewModel.fullName.toString(),
+                text = textOne,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -131,7 +145,7 @@ fun ProfileCard() {
             )
             Spacer(modifier = Modifier.padding(top = 5.dp))
             Text(
-                text = viewModel.email.toString(),
+                text = textTwo,
                 style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                 modifier = Modifier.padding(horizontal = 10.dp)
             )

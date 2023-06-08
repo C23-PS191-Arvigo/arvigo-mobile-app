@@ -37,6 +37,7 @@ import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.recommendation.PersonalRecomenScreen
 import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
+import id.arvigo.arvigobasecore.ui.feature.profile.screen.PaymentScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.recommendation_store.RecommenStoreScreen
@@ -160,6 +161,9 @@ fun JetArvigoApp(
             }
             composable(Screen.Pricing.route){
                 PricingScreen(navController = navController)
+            }
+            composable(Screen.Payment.route){
+                PaymentScreen(navController = navController)
             }
             //category
             composable(Screen.Eyewear.route){
