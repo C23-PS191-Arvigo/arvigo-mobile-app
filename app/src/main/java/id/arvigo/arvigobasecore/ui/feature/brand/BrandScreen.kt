@@ -91,12 +91,17 @@ fun BrandScreenContent(
                         BrandCard(
                             brand = data,
                             onClick = {
-                                val encodedUrl = URLEncoder.encode("https://picsum.photos/200/300/?blur=2", StandardCharsets.UTF_8.toString())
+                                val encodedUrl = if (data.image == "") {
+                                    URLEncoder.encode("https://picsum.photos/200/300/?blur=2", StandardCharsets.UTF_8.toString())
+                                } else {
+                                    URLEncoder.encode(data.image, StandardCharsets.UTF_8.toString())
+                                }
                                 navController.navigate( route = Screen.BrandDetail.passData(
                                     data.id,
                                     encodedUrl,
                                     data.name,
                                 ))
+
                             }
                         )
                     }
