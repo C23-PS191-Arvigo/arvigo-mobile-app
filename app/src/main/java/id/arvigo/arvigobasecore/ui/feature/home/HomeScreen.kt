@@ -12,7 +12,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -93,9 +95,11 @@ fun HomeContent(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = {
+                        navController.navigate(Screen.Notification.route)
+                    }) {
                         Icon(
-                            imageVector = Icons.Filled.Notifications,
+                            imageVector = Icons.Outlined.Notifications,
                             contentDescription = null
                         )
                     }
@@ -183,7 +187,7 @@ fun HomeContent(
                                 onClick = {
                                     navController.navigate(Screen.Personality.route)
                                 },
-                                shape = RoundedCornerShape(12.dp)
+                                shape = RoundedCornerShape(10.dp)
                             ) {
                                 Text(text = "Ambil", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
@@ -212,7 +216,7 @@ fun HomeContent(
                                 onClick = {
                                     navController.navigate(Screen.FaceShapeIntro.route)
                                 },
-                                shape = RoundedCornerShape(12.dp)
+                                shape = RoundedCornerShape(10.dp)
                             ) {
                                 Text(text = "Ambil", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
@@ -240,18 +244,19 @@ fun HomeContent(
                             response.data.forEachIndexed { index, recommendation ->
                                 Box(
                                     modifier = Modifier
-                                        .width(itemSize)
-                                        .height(280.dp),
+                                        .width(itemSize),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Card(
                                         modifier = Modifier
                                             .padding(horizontal = 8.dp, vertical = 10.dp)
-                                            .height(280.dp)
                                             .fillMaxSize()
                                             .clickable {
                                                 navController.navigate(Screen.ProductDetail.createRoute(recommendation.id))
-                                            }
+                                            },
+                                        elevation = CardDefaults.cardElevation(
+                                            defaultElevation = 2.dp
+                                        )
                                     ) {
                                         Column() {
                                             Card(
@@ -279,8 +284,9 @@ fun HomeContent(
                                                 overflow = TextOverflow.Ellipsis,
                                                 modifier = Modifier.padding(horizontal = 10.dp)
                                             )
-                                            Spacer(modifier = Modifier.padding(top = 10.dp))
+                                            Spacer(modifier = Modifier.padding(top = 8.dp))
                                             Text(text = recommendation.brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                                            Spacer(modifier = Modifier.padding(top = 12.dp))
                                         }
                                     }
                                 }
