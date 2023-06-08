@@ -36,9 +36,9 @@ import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.recommendation.PersonalRecomenScreen
 import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailScreen
+import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditScreen
-import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
 import id.arvigo.arvigobasecore.ui.feature.recommendation_store.RecommenStoreScreen
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterScreen
 import id.arvigo.arvigobasecore.ui.feature.search.SearchScreen
@@ -47,7 +47,6 @@ import id.arvigo.arvigobasecore.ui.feature.stores.StoreScreen
 import id.arvigo.arvigobasecore.ui.feature.stores.store_detail.StoreDetail
 import id.arvigo.arvigobasecore.ui.feature.wishlist.WishListScreen
 import id.arvigo.arvigobasecore.ui.navigation.*
-import id.arvigo.arvigobasecore.ui.navigation.nav_graph.authNavGraph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -160,7 +159,7 @@ fun JetArvigoApp(
                 ProfileEditScreen(navController)
             }
             composable(Screen.Pricing.route){
-                PricingScreen()
+                PricingScreen(navController = navController)
             }
             //category
             composable(Screen.Eyewear.route){

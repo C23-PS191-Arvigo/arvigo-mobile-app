@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -47,9 +46,11 @@ fun ProfileScreen(
 ) {
     val viewModel: ProfileViewModel = getViewModel()
     Scaffold(
-        topBar = { DefTopBar(onMenuClick = {
-            navController.navigate(Screen.ProfileEdit.route)
-        }) }
+        topBar = {
+            DefTopBar(onMenuClick = {
+                navController.navigate(Screen.ProfileEdit.route)
+            })
+        }
     ) {
         LazyColumn(
             modifier = Modifier.padding(it)
@@ -58,9 +59,11 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.padding(10.dp))
                 ProfileCard()
                 Spacer(modifier = Modifier.padding(20.dp))
-                SubscriptionCard()
-                PersonalityCard()
-                FaceTypeCard()
+                SubscriptionCard(
+                    navController = navController
+                )
+                PersonalityCard(navController)
+                FaceTypeCard(navController)
                 ProfileRowItems(
                     navController = navController,
                     viewModel = viewModel,
@@ -76,11 +79,11 @@ fun DefTopBar(onMenuClick: () -> Unit) {
         navigationIcon = {},
         title = "Profile",
         actionIcon = {
-            IconButton(onClick = onMenuClick ) {
-            Icon(
-                imageVector = Icons.Default.Settings,
-                contentDescription = "Profile",
-            )
+            IconButton(onClick = onMenuClick) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Profile",
+                )
             }
         }
     )
@@ -88,7 +91,7 @@ fun DefTopBar(onMenuClick: () -> Unit) {
 
 @Composable
 fun ProfileCard() {
-    val viewModel : ProfileViewModel = getViewModel()
+    val viewModel: ProfileViewModel = getViewModel()
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -137,96 +140,40 @@ fun ProfileCard() {
 }
 
 @Composable
-fun SubscriptionCard() {
-    CustomCard(title = "Langganan", desc = "Anda belum berlangganan.", button = "Lihat Harga")
+fun SubscriptionCard(
+    navController: NavController
+) {
+    CustomCard(
+        title = "Langganan", desc = "Anda belum berlangganan.",
+        button = "Lihat Harga",
+        onClick = {
+            navController.navigate(Screen.Pricing.route)
+        }
+    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PersonalityCard() {
-    Card(
-        modifier = Modifier
-            .height(100.dp)
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp, vertical = 10.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-
-            ) {
-            Column(
-                 modifier = Modifier
-                     .weight(1f),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Langganan",
-                    style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
-                Spacer(modifier = Modifier.padding(top = 5.dp))
-                Text(
-                    text = "Personality",
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                )
-            }
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .padding(16.dp)
-                 //   .align(Alignment.End)
-            ) {
-                Text(text = "See")
-            }
-        }
-    }
+fun PersonalityCard(
+    navController: NavController
+) {
+    CustomCard(
+        title = "Langganan",
+        desc = "Personality",
+        button = "Lihat",
+        onClick = {}
+    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FaceTypeCard() {
-    Card(
-        modifier = Modifier
-            .height(100.dp)
-            .fillMaxSize()
-            .padding(horizontal = 10.dp, vertical = 10.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-
-            ) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Tipe Muka",
-                    style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
-                Spacer(modifier = Modifier.padding(top = 5.dp))
-                Text(
-                    text = "Bulat",
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                )
-            }
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-                Text(text = "Ubah")
-            }
-        }
-    }
+fun FaceTypeCard(
+    navController: NavController
+) {
+    CustomCard(
+        title = "Tipe Muka",
+        desc = "Bulat",
+        button = "Ubah",
+        onClick = {}
+    )
 }
 
 @Composable
@@ -278,8 +225,6 @@ fun ProfileRowItems(
         )
     }
 }
-
-
 
 
 @Preview(showBackground = true)
