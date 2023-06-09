@@ -38,10 +38,10 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.ui.component.EmailTextField
-import id.arvigo.arvigobasecore.ui.component.NameTextField
-import id.arvigo.arvigobasecore.ui.component.PasswordTextField
-import id.arvigo.arvigobasecore.ui.component.RePasswordTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.EmailTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.NameTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.PasswordTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.RePasswordTextField
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme

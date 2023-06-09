@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import id.arvigo.arvigobasecore.ui.component.CustomCardTwo
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
+import id.arvigo.arvigobasecore.ui.component.cards.CustomCardTwo
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
