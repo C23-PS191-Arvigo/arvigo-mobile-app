@@ -2,17 +2,16 @@ package id.arvigo.arvigobasecore.ui.component.textfield
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
@@ -21,20 +20,18 @@ fun NameTextField(
     value: String,
     onValueChange: (String) -> Unit
 ) {
-    TextField(
+    OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        colors = TextFieldDefaults.textFieldColors(
-            disabledIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = Color.LightGray
         ),
         placeholder = { Text("Nama") },
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 48.dp)
-            .padding(horizontal = 16.dp)
-            .clip(RoundedCornerShape(16.dp))
+            .heightIn(min = 48.dp),
+        shape = RoundedCornerShape(10.dp),
     )
 }
 
@@ -43,7 +40,7 @@ fun EmailTextField(
     value: String,
     onValueChange: (String) -> Unit
 ) {
-    TextField(
+    OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         leadingIcon = {
@@ -52,16 +49,14 @@ fun EmailTextField(
                 contentDescription = null,
             )
         },
-        colors = TextFieldDefaults.textFieldColors(
-            disabledIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = Color.LightGray
         ),
         placeholder = { Text("Email") },
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 48.dp)
-            .padding(horizontal = 16.dp)
-            .clip(RoundedCornerShape(16.dp))
+            .heightIn(min = 48.dp),
+        shape = RoundedCornerShape(10.dp),
     )
 }

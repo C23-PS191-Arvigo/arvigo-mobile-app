@@ -2,6 +2,7 @@ package id.arvigo.arvigobasecore.ui.feature.profile.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -87,22 +88,25 @@ fun ProfileEditScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                Spacer(modifier = Modifier.padding(8.dp))
-                ProfilePictureEdit()
-                Spacer(modifier = Modifier.padding(8.dp))
-                NameTextField(value = fullNameState, onValueChange = { fullNameState = it })
-                Spacer(modifier = Modifier.padding(8.dp))
-                EmailTextField(value = emailState, onValueChange = { emailState = it })
-                Spacer(modifier = Modifier.padding(8.dp))
-                PasswordTextField(
-                    value = passwordState,
-                    onValueChange = { passwordState = it },
-                    placeHolder = "Password"
-                )
-                Spacer(modifier = Modifier.padding(8.dp))
-                RePasswordTextField(
-                    value = confirmPasswordState,
-                    onValueChange = { confirmPasswordState = it })
+                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    ProfilePictureEdit()
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    NameTextField(value = fullNameState, onValueChange = { fullNameState = it })
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    EmailTextField(value = emailState, onValueChange = { emailState = it })
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    PasswordTextField(
+                        value = passwordState,
+                        onValueChange = { passwordState = it },
+                        placeHolder = "Password"
+                    )
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    RePasswordTextField(
+                        value = confirmPasswordState,
+                        onValueChange = { confirmPasswordState = it })
+                    Spacer(modifier = Modifier.padding(8.dp))
+                }
             }
         }
 
