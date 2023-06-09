@@ -52,7 +52,9 @@ fun RegisterScreenContent(
     val responseMessage by viewModel.responseMessage.collectAsState()
     val context = LocalContext.current // Get the current context for showing toast
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
     ) {
         var emailState by remember { mutableStateOf("") }
         var passwordState by remember { mutableStateOf("") }
