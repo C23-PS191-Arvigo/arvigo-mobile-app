@@ -137,9 +137,15 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         val recordAudioPermission = Manifest.permission.RECORD_AUDIO
 
         val cameraPermissionGranted =
-            ContextCompat.checkSelfPermission(this, cameraPermission) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(
+                this,
+                cameraPermission
+            ) == PackageManager.PERMISSION_GRANTED
         val recordAudioPermissionGranted =
-            ContextCompat.checkSelfPermission(this, recordAudioPermission) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(
+                this,
+                recordAudioPermission
+            ) == PackageManager.PERMISSION_GRANTED
 
         if (!cameraPermissionGranted || !recordAudioPermissionGranted) {
             if (!cameraPermissionGranted) {
@@ -158,7 +164,7 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1 && grantResults.isNotEmpty()) {
@@ -181,18 +187,21 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun initializeFilters() {
-        effects = ArrayList()
-        effects!!.add("kacamataa.deepar")
+        // Get the bundle extras from the intent
+        val extras = intent.extras
+        val link = extras?.getString("linkAr")
+        val linkName = link?.substringAfterLast("/")?.substringBeforeLast(".") + ".deepar"
+        Log.d("neo-tag", "initializeFilters: $link")
 
+        effects = ArrayList()
+        effects!!.add(linkName)
         // Download and save the effect file from the URL
         GlobalScope.launch(Dispatchers.IO) {
-            val effectUrl = "https://storage.googleapis.com/arvigo-bucket/object/sample.deepar"
-            val effectFileName = "kacamataa.deepar"
 
-            val effectFile = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), effectFileName)
+            val effectFile = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), linkName)
 
             if (!effectFile.exists()) { // Check if the file already exists
-                val url = URL(effectUrl)
+                val url = URL(link)
                 val connection = url.openConnection() as HttpURLConnection
                 connection.requestMethod = "GET"
                 connection.connectTimeout = 10000
@@ -214,7 +223,9 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
                     Log.d("neo-kaca", "Success saved.")
                     Log.d("neo-kaca", effectFile.absolutePath.toString())
                     val fileUri = FileProvider.getUriForFile(
-                        applicationContext, applicationContext.packageName.toString(), File(effectFile.absolutePath)
+                        applicationContext,
+                        applicationContext.packageName.toString(),
+                        File(effectFile.absolutePath)
                     )
                     fileUri.path?.let {
                         effects!!.add(it)
@@ -230,8 +241,8 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     }
 
     private fun initializeViews1() {
-        val previousMask = findViewById<ImageButton>(R.id.previousMask)
-        val nextMask = findViewById<ImageButton>(R.id.nextMask)
+        /*val previousMask = findViewById<ImageButton>(R.id.previousMask)
+        val nextMask = findViewById<ImageButton>(R.id.nextMask)*/
         val arView: SurfaceView by lazy { findViewById(R.id.surface_deepar) }
         if (arView.isActivated) {
             arView.holder?.addCallback(this)
@@ -244,7 +255,7 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         arView.visibility = View.GONE
         arView.visibility = View.VISIBLE
         //val screenshotBtn = findViewById<ImageButton>(R.id.recordButton)
-        val screenshotBtn: ImageButton by lazy {
+        /*val screenshotBtn: ImageButton by lazy {
             findViewById<ImageButton>(R.id.recordButton).apply {
                 setOnClickListener {
                     deepAR!!.takeScreenshot()
@@ -270,7 +281,7 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         }
 
         previousMask.setOnClickListener { gotoPrevious() }
-        nextMask.setOnClickListener { gotoNext() }
+        nextMask.setOnClickListener { gotoNext() }*/
     }
 
     private fun initializeDeepAR() {
@@ -286,7 +297,7 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         cameraProviderFuture?.addListener({
             try {
                 val cameraProvider = cameraProviderFuture?.get()
-                if (cameraProvider !=null) {
+                if (cameraProvider != null) {
                     bindImageAnalysis(cameraProvider)
                 }
             } catch (e: ExecutionException) {
@@ -414,13 +425,12 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     }
 
     private fun getFilterPath(filterName: String): String? {
-        val file = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filterName).absolutePath
+        val file =
+            File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filterName).absolutePath
         return if (filterName == "none") {
             null
         } else
             file
-        //"$effectFile/$filterName"
-        //"file:///android_asset/$filterName"
     }
 
     private fun gotoNext() {
@@ -522,7 +532,8 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
 @Composable
 fun CameraContent() {
     Box(modifier = Modifier.fillMaxSize()) {
-        AndroidView(modifier = Modifier.fillMaxSize(),
+        AndroidView(
+            modifier = Modifier.fillMaxSize(),
             factory = { context ->
                 MySurfaceView(context)
             },

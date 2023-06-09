@@ -95,7 +95,7 @@ fun ProductDetailContent(
 
     ) {
         Column(
-            modifier = androidx.compose.ui.Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
         ) {
@@ -133,6 +133,7 @@ fun ProductDetailContent(
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
+
                                     Text(
                                         text = response.data.name,
                                         style = MaterialTheme.typography.headlineSmall.copy(
@@ -163,6 +164,63 @@ fun ProductDetailContent(
                             }
                         }
                     }
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(0.3f)
+                            .padding(horizontal = 15.dp, vertical = 4.dp)
+                    ) {
+                        val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
+                        val context = LocalContext.current
+                        val openDeepAR = rememberLauncherForActivityResult(
+                            contract = ActivityResultContracts.StartActivityForResult()
+                        ) {
+                        }
+                        Row(
+                            modifier = Modifier
+                                .width(itemSize),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            OutlinedButton(
+                                modifier = Modifier
+                                    .width(itemSize),
+                                onClick = { /*TODO*/ },
+                                shape = MaterialTheme.shapes.small,
+                                border = BorderStroke(
+                                    width = 2.dp,
+                                    color = MaterialTheme.colorScheme.primary
+                                ),
+                            )
+                            {
+                                Text(
+                                    text = "Toko", style = MaterialTheme.typography.titleMedium.copy(
+                                        color = MaterialTheme.colorScheme.primary,
+                                    )
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Button(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                onClick = {
+                                    val link = response.data.variants[0].linkAr
+                                    val intent = Intent(context, DeepArActivity::class.java).apply {
+                                        putExtra("linkAr", link)}
+                                    openDeepAR.launch(intent)
+                                },
+                                shape = MaterialTheme.shapes.small,
+                            )
+                            {
+                                Text(
+                                    text = "Coba dengan AR",
+                                    style = MaterialTheme.typography.titleMedium.copy(
+                                        color = Color.White,
+                                    )
+                                )
+                            }
+                        }
+                    }
                 }
 
                 is ProductDetailUiState.Failure -> {
@@ -176,62 +234,6 @@ fun ProductDetailContent(
                             .weight(3.8f)
                     ) {
                         Text(text = "Empty", modifier = Modifier.align(Alignment.Center))
-                    }
-                }
-            }
-
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.3f)
-                    .padding(horizontal = 15.dp, vertical = 4.dp)
-            ) {
-                val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
-                val context = LocalContext.current
-                val openDeepAR = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.StartActivityForResult()
-                ) {
-                }
-                Row(
-                    modifier = Modifier
-                        .width(itemSize),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    OutlinedButton(
-                        modifier = Modifier
-                            .width(itemSize),
-                        onClick = { /*TODO*/ },
-                        shape = MaterialTheme.shapes.small,
-                        border = BorderStroke(
-                            width = 2.dp,
-                            color = MaterialTheme.colorScheme.primary
-                        ),
-                    )
-                    {
-                        Text(
-                            text = "Toko", style = MaterialTheme.typography.titleMedium.copy(
-                                color = MaterialTheme.colorScheme.primary,
-                            )
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Button(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        onClick = {
-                            val intent = Intent(context, DeepArActivity::class.java)
-                            openDeepAR.launch(intent)
-                        },
-                        shape = MaterialTheme.shapes.small,
-                    )
-                    {
-                        Text(
-                            text = "Coba dengan AR",
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                color = Color.White,
-                            )
-                        )
                     }
                 }
             }
