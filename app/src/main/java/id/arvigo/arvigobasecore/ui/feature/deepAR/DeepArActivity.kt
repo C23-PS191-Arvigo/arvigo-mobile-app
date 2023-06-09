@@ -53,6 +53,7 @@ import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
@@ -202,9 +203,11 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     }
 
     private fun initialize() {
-        initializeDeepAR()
-        initializeFilters()
-        initializeViews1()
+        MainScope().launch {
+            initializeDeepAR()
+            initializeFilters()
+            initializeViews1()
+        }
     }
 
     @OptIn(DelicateCoroutinesApi::class)
