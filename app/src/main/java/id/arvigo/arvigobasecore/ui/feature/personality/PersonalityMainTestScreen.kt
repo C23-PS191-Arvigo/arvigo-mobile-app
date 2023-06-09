@@ -54,6 +54,7 @@ fun PersonalityMainTestContent(
     val state by viewModel.state.collectAsState()
     val questionnaireRequest = remember { QuestionnaireRequestX() }
     val switchButton = remember { mutableStateOf(false) }
+    val personalResult = remember { mutableStateOf("") }
 
     var checkValueOption = remember {
         mutableStateOf(questionnaireRequest.oPN10)
@@ -115,6 +116,24 @@ fun PersonalityMainTestContent(
                             QuestionResultCardItem(title = "Opennes to Experience", result = result.data.percentageOfOpeness.toString(), content = "Keterbukaan terhadap Pengalaman mewakili pemikiran imajinatif dan kreatif yang tetap ingin tahu tentang dunia di sekitar mereka. Pencetak skor rendah lebih konvensional dalam pandangan mereka terhadap hal-hal baru dan lebih menyukai rutinitas yang akrab.")
                         }
                     }
+
+                    val properties = mapOf(
+                        "Extraversion" to result.data.percentageOfExtraversion,
+                        "Neurotic" to result.data.percentageOfNeurotic,
+                        "Agreeable" to result.data.percentageOfAgreeable,
+                        "Conscientious" to result.data.percentageOfConscientious,
+                        "Openness" to result.data.percentageOfOpeness
+                    )
+
+                    val highestPercentage = properties.maxByOrNull { it.value }
+
+                    val highestPropertyName = highestPercentage?.key
+                    val highestPercentageValue = highestPercentage?.value
+
+                    Log.d("Higest Value of Personaltiy", "PersonalityMainTestScreen: $highestPropertyName")
+                    Log.d("Higest Value of Personaltiy", "PersonalityMainTestScreen: $highestPercentageValue")
+
+                    personalResult.value = highestPropertyName.toString()
                     switchButton.value = true
                 }
                 PersonalityUiState.Loading -> {
@@ -142,7 +161,7 @@ fun PersonalityMainTestContent(
             ) {
                if (switchButton.value) {
                    PrimaryButton(title = "Lihat Rekomendasi", onClick = {
-                        navController.navigate(Screen.PersonalRecomendation.route)
+                        navController.navigate(Screen.PersonalRecomendation.passData(personalResult.value))
                    })
                } else {
                    PrimaryButton(title = "Submit", onClick = {

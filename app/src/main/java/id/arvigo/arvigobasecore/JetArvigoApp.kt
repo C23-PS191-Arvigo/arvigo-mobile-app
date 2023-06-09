@@ -150,9 +150,18 @@ fun JetArvigoApp(
                     navController = navController,
                 )
             }
-            composable(Screen.PersonalRecomendation.route) {
+            composable(
+                route = Screen.PersonalRecomendation.route,
+                arguments = listOf(
+                    navArgument(PERSONALITY_RESULT) {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                val result = it.arguments?.getString(PERSONALITY_RESULT)
                 PersonalRecomenScreen(
                     navController = navController,
+                    personalResult = result ?: "",
                 )
             }
             //Profile

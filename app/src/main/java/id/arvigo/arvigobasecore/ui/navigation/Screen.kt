@@ -11,6 +11,7 @@ const val BRAND_LOGO = "brandLogo"
 const val BRAND_NAME = "brandName"
 const val FACESHAPE_RESULT_IMAGE = "faceshapeResultImage"
 const val FACESHAPE_RESULT = "faceshapeResult"
+const val PERSONALITY_RESULT = "personalityResult"
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -42,7 +43,10 @@ sealed class Screen(val route: String) {
     object StoreDetail : Screen("store_detail")
 
     object Makeup : Screen("makeup")
-    object PersonalRecomendation : Screen("personal_recomendation")
+    object PersonalRecomendation : Screen("personal_recomendation/{$PERSONALITY_RESULT}") {
+        fun passData(result: String) = "personal_recomendation/$result"
+    }
+
     object ProductDetail : Screen("product_detail/{$PRODUCT_ID}") {
         fun createRoute(productId: Int) = "product_detail/$productId"
     }
