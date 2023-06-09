@@ -10,6 +10,9 @@ object Constant {
     val AUTH_KEY = stringSetPreferencesKey("auth_key")
     val AUTH_ID = stringSetPreferencesKey("auth_id")
 
+    //Alert
+    const val ALERT_HOMESCREEN = "Mohon maaf untuk saat ini fitur yang anda pilih masih dalam tahap pengembangan. Namun anda dapat mencoba fitur ini dengan dengan browser anda."
+
     //Pictures
     const val IMAGE_BCA = "https://marcopolis.net/images/stories/indonesia-report/2016/companies/Bank_Central_Asia.jpg"
     const val IMAGE_MATRIX = "https://media.wired.com/photos/5ca648a330f00e47fd82ae77/master/w_2560%2Cc_limit/Culture_Matrix_Code_corridor.jpg"

@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -82,6 +83,14 @@ fun PaymentScreen(
                     arrangement = Arrangement.Top
                 )
                 CustomLineTwo(textOne = "Total Price", textTwo = "Rp. 212.000", arrangement = Arrangement.Bottom)
+                Button(
+                    onClick = {},
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .width(150.dp)
+                ) {
+                    Text(text = "Bayar Sekarang")
+                }
             }
         }
     }

@@ -2,19 +2,16 @@ package id.arvigo.arvigobasecore.ui.feature.brand
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -28,10 +25,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.data.source.network.response.brands.Brand
-import id.arvigo.arvigobasecore.ui.component.ItemProduct
-import id.arvigo.arvigobasecore.ui.component.PrimarySearch
 import id.arvigo.arvigobasecore.ui.feature.brand.uistate.BrandUiState
-import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import org.koin.androidx.compose.getViewModel
 import java.net.URLEncoder
