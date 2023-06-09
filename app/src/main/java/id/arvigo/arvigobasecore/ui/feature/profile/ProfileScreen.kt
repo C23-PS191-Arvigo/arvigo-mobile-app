@@ -1,55 +1,42 @@
 package id.arvigo.arvigobasecore.ui.feature.profile
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.ui.component.CustomCard
-import id.arvigo.arvigobasecore.ui.component.MenuRowItem
+import id.arvigo.arvigobasecore.ui.component.cards.CustomCard
+import id.arvigo.arvigobasecore.ui.component.rows.CustomRowTwo
+import id.arvigo.arvigobasecore.ui.component.rows.MenuRowItem
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
+import id.arvigo.arvigobasecore.ui.component.alert.AlertFeatureUnavailable
+import id.arvigo.arvigobasecore.ui.component.alert.AlertLogout
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
+import id.arvigo.arvigobasecore.util.Constant.IMAGE_MATRIX
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    navController: NavController
+    navController: NavController,
 ) {
     val viewModel: ProfileViewModel = getViewModel()
+    val openDialog = remember { mutableStateOf(false) }
     Scaffold(
-        topBar = { DefTopBar(onMenuClick = {
-            navController.navigate(Screen.ProfileEdit.route)
-        }) }
+        topBar = {
+            DefTopBar(onMenuClick = {
+                navController.navigate(Screen.ProfileEdit.route)
+            })
+        }
     ) {
         LazyColumn(
             modifier = Modifier.padding(it)
@@ -58,9 +45,11 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.padding(10.dp))
                 ProfileCard()
                 Spacer(modifier = Modifier.padding(20.dp))
-                SubscriptionCard()
-                PersonalityCard()
-                FaceTypeCard()
+                SubscriptionCard(
+                    navController = navController
+                )
+                PersonalityCard(navController)
+                FaceTypeCard(navController)
                 ProfileRowItems(
                     navController = navController,
                     viewModel = viewModel,
@@ -76,11 +65,11 @@ fun DefTopBar(onMenuClick: () -> Unit) {
         navigationIcon = {},
         title = "Profile",
         actionIcon = {
-            IconButton(onClick = onMenuClick ) {
-            Icon(
-                imageVector = Icons.Default.Settings,
-                contentDescription = "Profile",
-            )
+            IconButton(onClick = onMenuClick) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Profile",
+                )
             }
         }
     )
@@ -88,144 +77,56 @@ fun DefTopBar(onMenuClick: () -> Unit) {
 
 @Composable
 fun ProfileCard() {
-    val viewModel : ProfileViewModel = getViewModel()
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .height(100.dp)
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 10.dp)
-            .wrapContentWidth(Alignment.Start),
-    ) {
-        Box(
-            modifier = Modifier
-                .width(80.dp)
-                .padding(horizontal = 4.dp, vertical = 4.dp),
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("https://media.wired.com/photos/5ca648a330f00e47fd82ae77/master/w_2560%2Cc_limit/Culture_Matrix_Code_corridor.jpg")
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                placeholder = painterResource(id = R.drawable.img_placeholder),
-                alignment = Alignment.Center,
-                modifier = Modifier.clip(CircleShape)
-            )
+    val viewModel: ProfileViewModel = getViewModel()
+    CustomRowTwo(
+        image = IMAGE_MATRIX,
+        textOne = viewModel.fullName.toString(),
+        textTwo = viewModel.email.toString()
+    )
+}
+
+@Composable
+fun SubscriptionCard(
+    navController: NavController
+) {
+    CustomCard(
+        title = "Langganan", desc = "Anda belum berlangganan.",
+        button = "Lihat Harga",
+        onClick = {
+            navController.navigate(Screen.Pricing.route)
         }
-        Spacer(modifier = Modifier.padding(4.dp))
-        Column(
-            modifier = Modifier.fillMaxWidth(1f),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = viewModel.fullName.toString(),
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(horizontal = 10.dp),
-            )
-            Spacer(modifier = Modifier.padding(top = 5.dp))
-            Text(
-                text = viewModel.email.toString(),
-                style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
-                modifier = Modifier.padding(horizontal = 10.dp)
-            )
-        }
+    )
+}
+
+@Composable
+fun PersonalityCard(
+    navController: NavController
+) {
+    val openDialog = remember { mutableStateOf(false) }
+    CustomCard(
+        title = "Langganan",
+        desc = "Personality",
+        button = "Lihat",
+        onClick = { openDialog.value = true }
+    )
+    if(openDialog.value) {
+        AlertFeatureUnavailable(openDialog = openDialog)
     }
 }
 
 @Composable
-fun SubscriptionCard() {
-    CustomCard(title = "Langganan", desc = "Anda belum berlangganan.", button = "Lihat Harga")
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PersonalityCard() {
-    Card(
-        modifier = Modifier
-            .height(100.dp)
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp, vertical = 10.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-
-            ) {
-            Column(
-                 modifier = Modifier
-                     .weight(1f),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Langganan",
-                    style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
-                Spacer(modifier = Modifier.padding(top = 5.dp))
-                Text(
-                    text = "Personality",
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                )
-            }
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .padding(16.dp)
-                 //   .align(Alignment.End)
-            ) {
-                Text(text = "See")
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun FaceTypeCard() {
-    Card(
-        modifier = Modifier
-            .height(100.dp)
-            .fillMaxSize()
-            .padding(horizontal = 10.dp, vertical = 10.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-
-            ) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Tipe Muka",
-                    style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
-                Spacer(modifier = Modifier.padding(top = 5.dp))
-                Text(
-                    text = "Bulat",
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                )
-            }
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-                Text(text = "Ubah")
-            }
-        }
+fun FaceTypeCard(
+    navController: NavController
+) {
+    val openDialog = remember { mutableStateOf(false) }
+    CustomCard(
+        title = "Tipe Muka",
+        desc = "Bulat",
+        button = "Ubah",
+        onClick = { openDialog.value = true }
+    )
+    if(openDialog.value) {
+        AlertFeatureUnavailable(openDialog = openDialog)
     }
 }
 
@@ -235,51 +136,29 @@ fun ProfileRowItems(
     viewModel: ProfileViewModel,
 ) {
     val openDialog = remember { mutableStateOf(false) }
-    MenuRowItem(name = "Tentang Aplikasi") {}
+    val unavailableDialog = remember { mutableStateOf(false) }
+    MenuRowItem(name = "Tentang Aplikasi") {
+        unavailableDialog.value = true
+    }
     MenuRowItem(name = "Logout", onMenuClick = { openDialog.value = true })
     if (openDialog.value) {
-        AlertDialog(
-            onDismissRequest = {
-                openDialog.value = false
-            },
-            title = {
-                Text(text = "Logout")
-            },
-            text = {
-                Text(text = "Apakah kamu yakin bahwa kamu ingin logout?")
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        openDialog.value = false
-                        viewModel.logout()
-                        navController.navigate(Screen.Login.route) {
-                            popUpTo(Screen.Profile.route) {
-                                inclusive = true
-                            }
-                            popUpTo(Screen.Home.route) {
-                                inclusive = true
-                            }
-                        }
-                    }
-                ) {
-                    Text("Logout")
+        AlertLogout(openDialog = openDialog) {
+            openDialog.value = false
+            viewModel.logout()
+            navController.navigate(Screen.Login.route) {
+                popUpTo(Screen.Profile.route) {
+                    inclusive = true
                 }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = {
-                        openDialog.value = false
-                    }
-                ) {
-                    Text("Tidak")
+                popUpTo(Screen.Home.route) {
+                    inclusive = true
                 }
             }
-        )
+        }
+    }
+    if(unavailableDialog.value) {
+        AlertFeatureUnavailable(openDialog = unavailableDialog)
     }
 }
-
-
 
 
 @Preview(showBackground = true)

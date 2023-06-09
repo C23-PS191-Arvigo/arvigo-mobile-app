@@ -2,20 +2,25 @@ package id.arvigo.arvigobasecore.data.source.network
 
 import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.data.source.network.request.QuestionnaireRequestX
+import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
 import id.arvigo.arvigobasecore.data.source.network.response.LoginResponse
 import id.arvigo.arvigobasecore.data.source.network.response.brands.BrandResponse
 import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryResponse
+import id.arvigo.arvigobasecore.data.source.network.response.faceshape.FaceshapeResponse
 import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
 import id.arvigo.arvigobasecore.data.source.network.response.personality.QuestionnaireResponse
 import id.arvigo.arvigobasecore.data.source.network.response.product_detail.ProductDetailResponse
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreResponse
+import id.arvigo.arvigobasecore.data.source.network.response.wishlist.AddWishlistResponse
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
 import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListsResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
+import java.io.File
 
 interface ApiService {
     @POST("/v1/auth/register-user")
@@ -97,4 +102,29 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: String
     ): ProductDetailResponse
+
+    @GET("/v1/products/initials/{id}")
+    suspend fun getProductStore(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): ProductDetailResponse
+
+    @GET("/v1/brands/{id}/list-product")
+    suspend fun getBrandDetail(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): CategoryResponse
+
+    @POST("/v1/wishlists")
+    suspend fun addToWishlist(
+        @Header("Authorization") token: String,
+        @Body request: WishlisthProductRequest
+    ): AddWishlistResponse
+
+    @Multipart
+    @POST("/v1/face-shape/check")
+    suspend fun submitFaceShape(
+        @Header("Authorization") token: String,
+        @Part image: MultipartBody.Part,
+    ): FaceshapeResponse
 }

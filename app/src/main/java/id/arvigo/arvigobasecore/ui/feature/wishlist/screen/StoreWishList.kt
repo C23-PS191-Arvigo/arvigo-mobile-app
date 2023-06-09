@@ -3,7 +3,7 @@ package id.arvigo.arvigobasecore.ui.feature.wishlist.screen
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import id.arvigo.arvigobasecore.ui.component.StoreLazyGrid
+import id.arvigo.arvigobasecore.ui.component.lazy.StoreLazyGrid
 import id.arvigo.arvigobasecore.ui.feature.wishlist.StoresUiState
 import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListViewModel
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme

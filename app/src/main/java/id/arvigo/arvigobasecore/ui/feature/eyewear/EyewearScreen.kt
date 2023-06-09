@@ -17,6 +17,7 @@ import id.arvigo.arvigobasecore.ui.component.ProductItemCard
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandCard
 import id.arvigo.arvigobasecore.ui.feature.brand.uistate.BrandUiState
 import id.arvigo.arvigobasecore.ui.feature.eyewear.uistate.EyewearUiState
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -70,8 +71,13 @@ fun EyewearScreenContent(
                         .padding(it)
                 ){
                     items(response.data){ data ->
-                       ProductItemCard( name = data.name , image = data.image, brand = data.brand ) {
-                       }
+                       ProductItemCard(
+                           name = data.name ,
+                           image = data.image,
+                           brand = data.brand,
+                           onClick = {
+                               navController.navigate(Screen.ProductDetail.createRoute(data.id))
+                       } )
                     }
                 }
             }

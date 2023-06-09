@@ -2,6 +2,7 @@ package id.arvigo.arvigobasecore.ui.feature.profile.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -38,10 +39,10 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.ui.component.EmailTextField
-import id.arvigo.arvigobasecore.ui.component.NameTextField
-import id.arvigo.arvigobasecore.ui.component.PasswordTextField
-import id.arvigo.arvigobasecore.ui.component.RePasswordTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.EmailTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.NameTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.PasswordTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.RePasswordTextField
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
@@ -87,22 +88,25 @@ fun ProfileEditScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                Spacer(modifier = Modifier.padding(8.dp))
-                ProfilePictureEdit()
-                Spacer(modifier = Modifier.padding(8.dp))
-                NameTextField(value = fullNameState, onValueChange = { fullNameState = it })
-                Spacer(modifier = Modifier.padding(8.dp))
-                EmailTextField(value = emailState, onValueChange = { emailState = it })
-                Spacer(modifier = Modifier.padding(8.dp))
-                PasswordTextField(
-                    value = passwordState,
-                    onValueChange = { passwordState = it },
-                    placeHolder = "Password"
-                )
-                Spacer(modifier = Modifier.padding(8.dp))
-                RePasswordTextField(
-                    value = confirmPasswordState,
-                    onValueChange = { confirmPasswordState = it })
+                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    ProfilePictureEdit()
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    NameTextField(value = fullNameState, onValueChange = { fullNameState = it })
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    EmailTextField(value = emailState, onValueChange = { emailState = it })
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    PasswordTextField(
+                        value = passwordState,
+                        onValueChange = { passwordState = it },
+                        placeHolder = "Password"
+                    )
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    RePasswordTextField(
+                        value = confirmPasswordState,
+                        onValueChange = { confirmPasswordState = it })
+                    Spacer(modifier = Modifier.padding(8.dp))
+                }
             }
         }
 

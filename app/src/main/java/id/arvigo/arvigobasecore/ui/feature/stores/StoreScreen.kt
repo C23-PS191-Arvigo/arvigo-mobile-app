@@ -37,6 +37,7 @@ import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreData
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreDataItem
 import id.arvigo.arvigobasecore.ui.feature.stores.uistate.StoreUiState
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -61,7 +62,9 @@ fun StoreScreenContent(
         topBar = {
             SmallTopAppBar(
                 title = {
-                    Text(text = "Toko", style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold))
+                    Text(text = "Toko", style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ))
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -94,8 +97,16 @@ fun StoreScreenContent(
                         .padding(it)
                 ) {
                     items(response.data) { item ->
+                        val data = item.storeDataItems
                         StoreCard(
-                            data = item
+                            data = item,
+                            onClick = {
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    key = "stores",
+                                    value = data
+                                )
+                                navController.navigate(Screen.StoreDetail.route)
+                            }
                         )
                     }
                 }
@@ -113,7 +124,8 @@ fun StoreScreenContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoreCard(
-    data: StoreData
+    data: StoreData,
+    onClick: () -> Unit,
 ) {
     androidx.compose.material3.Card(
         modifier = Modifier
@@ -145,18 +157,13 @@ fun StoreCard(
                         modifier = Modifier
                             .padding(start = 8.dp)
                     ) {
-                        Text(text = data.merchantName, style = TextStyle(
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 16.sp
-                        ))
-                        Text(text = data.location, style = TextStyle(
-                            color = Color.Gray,
-                            fontSize = 12.sp,
-                        )
-                        )
+                        Text(text = data.merchantName, style = MaterialTheme.typography.titleMedium)
+                        Text(text = data.location, style = MaterialTheme.typography.bodySmall)
                     }
                 }
-                androidx.compose.material3.Button(onClick = { }) {
+                androidx.compose.material3.Button(onClick = {
+                    onClick()
+                }) {
                     Text(text = "Lihat", style = TextStyle(color = Color.White, fontWeight = FontWeight.SemiBold))
                 }
             }

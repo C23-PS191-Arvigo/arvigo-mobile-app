@@ -2,19 +2,16 @@ package id.arvigo.arvigobasecore.ui.feature.brand
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -28,11 +25,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.data.source.network.response.brands.Brand
-import id.arvigo.arvigobasecore.ui.component.ItemProduct
-import id.arvigo.arvigobasecore.ui.component.PrimarySearch
 import id.arvigo.arvigobasecore.ui.feature.brand.uistate.BrandUiState
-import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeUiState
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import org.koin.androidx.compose.getViewModel
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun BrandScreen(
@@ -85,7 +82,22 @@ fun BrandScreenContent(
                     modifier = Modifier.padding(it)
                 ){
                     items(response.data){ data ->
-                        BrandCard(brand = data)
+                        BrandCard(
+                            brand = data,
+                            onClick = {
+                                val encodedUrl = if (data.image == "") {
+                                    URLEncoder.encode("https://picsum.photos/200/300/?blur=2", StandardCharsets.UTF_8.toString())
+                                } else {
+                                    URLEncoder.encode(data.image, StandardCharsets.UTF_8.toString())
+                                }
+                                navController.navigate( route = Screen.BrandDetail.passData(
+                                    data.id,
+                                    encodedUrl,
+                                    data.name,
+                                ))
+
+                            }
+                        )
                     }
                 }
             }
@@ -112,6 +124,7 @@ fun BrandScreenContent(
 @Composable
 fun BrandCard(
     brand: Brand,
+    onClick: () -> Unit,
 ) {
     val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
     Box(
@@ -125,12 +138,15 @@ fun BrandCard(
                 .padding(horizontal = 8.dp, vertical = 10.dp)
                 .height(300.dp)
                 .fillMaxSize()
-                .clickable { }
+                .clickable {
+                    onClick()
+                }
         ) {
             Column() {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("https://picsum.photos/id/237/200/300")
+                        .data(brand.image)
+                        .placeholder(R.drawable.img_placeholder)
                         .crossfade(true)
                         .build(),
                     contentDescription = null,

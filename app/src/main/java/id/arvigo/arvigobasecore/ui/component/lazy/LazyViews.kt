@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.component
+package id.arvigo.arvigobasecore.ui.component.lazy
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

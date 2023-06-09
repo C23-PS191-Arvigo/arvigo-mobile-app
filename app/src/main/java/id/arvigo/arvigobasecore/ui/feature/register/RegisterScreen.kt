@@ -30,10 +30,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.ui.component.EmailTextField
-import id.arvigo.arvigobasecore.ui.component.NameTextField
-import id.arvigo.arvigobasecore.ui.component.PasswordTextField
-import id.arvigo.arvigobasecore.ui.component.RePasswordTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.EmailTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.NameTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.PasswordTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.RePasswordTextField
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 import org.koin.androidx.compose.getViewModel
@@ -52,7 +52,9 @@ fun RegisterScreenContent(
     val responseMessage by viewModel.responseMessage.collectAsState()
     val context = LocalContext.current // Get the current context for showing toast
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
     ) {
         var emailState by remember { mutableStateOf("") }
         var passwordState by remember { mutableStateOf("") }

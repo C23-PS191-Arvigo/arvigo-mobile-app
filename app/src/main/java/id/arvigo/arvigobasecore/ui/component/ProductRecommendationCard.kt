@@ -2,6 +2,7 @@ package id.arvigo.arvigobasecore.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
@@ -12,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -31,6 +33,7 @@ import id.arvigo.arvigobasecore.data.source.network.response.home_product.Recomm
 @Composable
 fun ProductRecommendationCard(
     data: Recommendation,
+    onClick: () -> Unit,
 ) {
     val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
     Box(
@@ -44,7 +47,9 @@ fun ProductRecommendationCard(
                 .padding(horizontal = 8.dp, vertical = 10.dp)
                 .fillMaxSize()
                 .height(300.dp)
-                .clickable { }
+                .clickable {
+                    onClick()
+                }
         ) {
             Column() {
                 AsyncImage(
@@ -67,7 +72,8 @@ fun ProductRecommendationCard(
                 ) {
                     Chip(
                         onClick = { /*TODO*/ },
-                        modifier = Modifier.padding(horizontal = 4.dp),
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                            .clip(RoundedCornerShape(12.dp)),
                         colors = ChipDefaults.chipColors(
                         backgroundColor = MaterialTheme.colorScheme.primary,
                     )) {
@@ -100,11 +106,4 @@ fun ProductRecommendationCard(
 @Preview
 @Composable
 fun ProductPrev() {
-    ProductRecommendationCard(data = Recommendation(
-        brand = "brand",
-        id = 1,
-        image = "https://picsum.photos/id/237/200/300",
-        name = "name",
-        tags = listOf("tags")
-    ))
 }

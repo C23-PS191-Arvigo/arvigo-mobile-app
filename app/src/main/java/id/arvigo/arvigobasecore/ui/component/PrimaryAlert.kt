@@ -3,13 +3,12 @@ package id.arvigo.arvigobasecore.ui.component
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.*
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.text.style.TextAlign
-import id.arvigo.arvigobasecore.ui.navigation.Screen
+import id.arvigo.arvigobasecore.ui.component.alert.AlertStateless
+import id.arvigo.arvigobasecore.util.Constant.ALERT_HOMESCREEN
 
 @Composable
 fun PrimaryAlert(
@@ -17,23 +16,8 @@ fun PrimaryAlert(
     ctx: Context,
     url: String,
 ) {
-    AlertDialog(
-        onDismissRequest = {
-            openDialog.value = false
-        },
-        icon = {
-               Icon(
-                   imageVector = Icons.Filled.Info,
-                   contentDescription = "Info",
-                   tint = MaterialTheme.colorScheme.primary
-               )
-        },
-        text = {
-            Text(text = "Mohon maaf untuk saat ini fitur yang anda pilih masih dalam tahap pengembangan. Namun anda dapat mencoba fitur ini dengan dengan browser anda.",
-                style = MaterialTheme.typography.headlineSmall,
-                textAlign = TextAlign.Center,
-            )
-        },
+    AlertStateless(
+        openDialog = openDialog,
         confirmButton = {
             TextButton(
                 onClick = {
@@ -46,15 +30,8 @@ fun PrimaryAlert(
             ) {
                 Text("Coba")
             }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    openDialog.value = false
-                }
-            ) {
-                Text("Kembali")
-            }
-        }
+                        },
+        title = "Fitur dalam pengembangan",
+        desc = ALERT_HOMESCREEN
     )
 }

@@ -32,16 +32,16 @@ fun ProductItemCard(
     val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
     Box(
         modifier = androidx.compose.ui.Modifier
-            .width(itemSize)
-            .height(300.dp),
+            .width(itemSize),
         contentAlignment = Alignment.Center
     ) {
         Card(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 10.dp)
-                .height(300.dp)
                 .fillMaxSize()
-                .clickable { }
+                .clickable {
+                    onClick()
+                }
         ) {
             Column() {
                 Card(
@@ -64,13 +64,14 @@ fun ProductItemCard(
                 }
                 Text(
                     text = name,
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = MaterialTheme.typography.titleLarge,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(horizontal = 10.dp)
                 )
-                Spacer(modifier = Modifier.padding(top = 10.dp))
-                Text(text = brand, style = MaterialTheme.typography.titleLarge.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                Spacer(modifier = Modifier.padding(top = 8.dp))
+                Text(text = brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                Spacer(modifier = Modifier.padding(top = 12.dp))
             }
         }
     }

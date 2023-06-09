@@ -12,7 +12,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -88,14 +90,16 @@ fun HomeContent(
                                 .padding(horizontal = 12.dp)
                         ) {
                             Icon(imageVector = Icons.Default.Search, contentDescription = "" )
-                            Text(text = "Cari", modifier = Modifier.padding(start = 8.dp))
+                            Text(text = "Cari", modifier = Modifier.padding(start = 8.dp), fontSize = 16.sp)
                         }
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = {
+                        navController.navigate(Screen.Notification.route)
+                    }) {
                         Icon(
-                            imageVector = Icons.Filled.Notifications,
+                            imageVector = Icons.Outlined.Notifications,
                             contentDescription = null
                         )
                     }
@@ -155,10 +159,10 @@ fun HomeContent(
                 if(openDialog.value) {
                     PrimaryAlert(openDialog = openDialog, ctx = ctx, url = url)
                 }
-                Spacer(modifier = Modifier.padding(top = 26.dp))
+                Spacer(modifier = Modifier.padding(top = 30.dp))
                 Text(
                     text = "Rekomendasi untuk kamu",
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold), textAlign = TextAlign.Start,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
                 Spacer(modifier = Modifier.padding(top = 12.dp))
@@ -179,9 +183,12 @@ fun HomeContent(
                                 .padding(horizontal = 10.dp, vertical = 8.dp)
                         ) {
                             Text(text = "Personalitas", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
-                            Button(onClick = {
-                                navController.navigate(Screen.Personality.route)
-                            }) {
+                            Button(
+                                onClick = {
+                                    navController.navigate(Screen.Personality.route)
+                                },
+                                shape = RoundedCornerShape(10.dp)
+                            ) {
                                 Text(text = "Ambil", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
                         }
@@ -205,18 +212,21 @@ fun HomeContent(
                                 .padding(horizontal = 10.dp, vertical = 8.dp)
                         ) {
                             Text(text = "Bentuk wajah", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
-                            Button(onClick = {
-                                navController.navigate(Screen.FaceShapeIntro.route)
-                            }) {
+                            Button(
+                                onClick = {
+                                    navController.navigate(Screen.FaceShapeIntro.route)
+                                },
+                                shape = RoundedCornerShape(10.dp)
+                            ) {
                                 Text(text = "Ambil", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
                             }
                         }
                     }
                 }
-                Spacer(modifier = Modifier.padding(top = 26.dp))
+                Spacer(modifier = Modifier.padding(top = 30.dp))
                 Text(
                     text = "Rekomendasi lainnya",
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold), textAlign = TextAlign.Start,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
@@ -234,24 +244,25 @@ fun HomeContent(
                             response.data.forEachIndexed { index, recommendation ->
                                 Box(
                                     modifier = Modifier
-                                        .width(itemSize)
-                                        .height(300.dp),
+                                        .width(itemSize),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Card(
                                         modifier = Modifier
                                             .padding(horizontal = 8.dp, vertical = 10.dp)
-                                            .height(300.dp)
                                             .fillMaxSize()
                                             .clickable {
                                                 navController.navigate(Screen.ProductDetail.createRoute(recommendation.id))
-                                            }
+                                            },
+                                        elevation = CardDefaults.cardElevation(
+                                            defaultElevation = 2.dp
+                                        )
                                     ) {
                                         Column() {
                                             Card(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .height(160.dp)
+                                                    .height(150.dp)
                                                     .padding(horizontal = 10.dp, vertical = 10.dp),
                                             ) {
                                                 AsyncImage(
@@ -268,13 +279,14 @@ fun HomeContent(
                                             }
                                             Text(
                                                 text = recommendation.name,
-                                                style = MaterialTheme.typography.headlineSmall,
+                                                style = MaterialTheme.typography.titleLarge,
                                                 maxLines = 2,
                                                 overflow = TextOverflow.Ellipsis,
                                                 modifier = Modifier.padding(horizontal = 10.dp)
                                             )
-                                            Spacer(modifier = Modifier.padding(top = 10.dp))
-                                            Text(text = recommendation.brand, style = MaterialTheme.typography.titleLarge.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                                            Spacer(modifier = Modifier.padding(top = 8.dp))
+                                            Text(text = recommendation.brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                                            Spacer(modifier = Modifier.padding(top = 12.dp))
                                         }
                                     }
                                 }

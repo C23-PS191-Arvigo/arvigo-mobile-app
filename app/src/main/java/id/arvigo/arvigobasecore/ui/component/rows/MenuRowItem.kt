@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.component
+package id.arvigo.arvigobasecore.ui.component.rows
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

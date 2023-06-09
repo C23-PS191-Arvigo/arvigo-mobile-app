@@ -10,7 +10,9 @@ import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.domain.repository.AuthRepository
 import id.arvigo.arvigobasecore.domain.usecase.LoginUseCase
 import id.arvigo.arvigobasecore.ui.feature.brand.BrandViewModel
+import id.arvigo.arvigobasecore.ui.feature.brand.brand_detail.BrandDetailViewModel
 import id.arvigo.arvigobasecore.ui.feature.eyewear.EyewearViewModel
+import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapeViewModel
 import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
 import id.arvigo.arvigobasecore.ui.feature.makeup.MakeupViewModel
@@ -19,6 +21,7 @@ import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileRepository
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditViewModel
+import id.arvigo.arvigobasecore.ui.feature.recommendation_store.RecommenStoreViewModel
 import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.ui.feature.search.SearchViewModel
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashViewModel
@@ -33,6 +36,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 val networkModule = module {
     single {
@@ -43,6 +47,9 @@ val networkModule = module {
             }
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .connectTimeout(100, TimeUnit.SECONDS) // Set the connection timeout
+            .readTimeout(30, TimeUnit.SECONDS) // Set the read timeout
+            .writeTimeout(100, TimeUnit.SECONDS)
             .build()
     }
     single {
@@ -69,7 +76,10 @@ val viewModelModules = module {
     viewModel { MakeupViewModel(get()) }
     viewModel { WishListViewModel(get()) }
     viewModel { ProfileEditViewModel(get(),get()) }
-    viewModel { ProductDetailViewModel(get()) }
+    viewModel { ProductDetailViewModel(get(),get()) }
+    viewModel { RecommenStoreViewModel(get()) }
+    viewModel { BrandDetailViewModel(get()) }
+    viewModel { FaceShapeViewModel(get()) }
 }
 
 val useCaseModule = module {
@@ -96,6 +106,7 @@ val useCaseModule = module {
     single { WishListsRepository(get(),get()) }
     single { ProfileRepository(get(),get()) }
     single { ProductDetailRepository(get(),get()) }
+    single { FaceshapeRepository(get(),get()) }
 }
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth_key")

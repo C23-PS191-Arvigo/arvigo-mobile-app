@@ -4,11 +4,6 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,16 +16,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.*
-import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator.popBackStack
 import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.ui.common.UiEvents
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
+import id.arvigo.arvigobasecore.ui.component.textfield.EmailTextField
+import id.arvigo.arvigobasecore.ui.component.textfield.PasswordTextField
 import id.arvigo.arvigobasecore.ui.navigation.Screen
-import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
 
 @NavDestinationDsl
@@ -58,43 +51,8 @@ fun LoginScreenContent(
     val isUserLoggedIn by viewModel.isUserLoggedIn.collectAsState()
     val (snackbarVisibleState, setSnackBarState) = remember { mutableStateOf(false) }
 
-
     val role = "mobile-app"
 
-
-
-//    LaunchedEffect(Unit) {
-//        viewModel.eventFlow.collectLatest { event ->
-//            when (event) {
-//                is UiEvents.SnackbarEvent -> {
-//                    scaffoldState.snackbarHostState.showSnackbar(
-//                        message = event.message,
-//                    )
-//                }
-//                is UiEvents.NavigateEvent -> {
-//                    scaffoldState.snackbarHostState.showSnackbar(
-//                        message = "Login Successful",
-//                    )
-//                    navController.navigate(event.route) {
-//                        popUpTo(Screen.Login.route) {
-//                            inclusive = true
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-//    LaunchedEffect(isUserLoggedIn) {
-//        if (isUserLoggedIn) {
-//            // User is logged in, navigate to the home screen
-//            navController.navigate(Screen.Home.route) {
-//                popUpTo(Screen.Login.route) {
-//                    inclusive = true
-//                }
-//            }
-//        }
-//    }
 
    LaunchedEffect(key1 = loginResult) {
        when (loginResult) {
@@ -147,35 +105,12 @@ fun LoginScreenContent(
             Spacer(modifier = Modifier.padding(6.dp))
             Text(text = "Sign In to Continue", style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray))
             Spacer(modifier = Modifier.padding(32.dp))
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = emailState.text,
-                leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon", tint = Color.LightGray) },
-                onValueChange = {
-                    viewModel.setEmail(it)
-                },
-                shape = RoundedCornerShape(10.dp),
-                placeholder = { Text(text = "Your Email", color =  Color.LightGray) },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = Color.LightGray
-                ),
-            )
+            EmailTextField(value = emailState.text, onValueChange = { viewModel.setEmail(it) })
             Spacer(modifier = Modifier.padding(top = 12.dp))
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
+            PasswordTextField(
                 value = passwordState.text,
-                leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "passIcon", tint =  Color.LightGray) },
-                onValueChange = {
-                    viewModel.setPassword(it)
-                },
-                shape = RoundedCornerShape(10.dp),
-                placeholder = { Text(text = "Password", color =  Color.LightGray) },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = Color.LightGray
-                ),
-                visualTransformation = PasswordVisualTransformation()
+                onValueChange = { viewModel.setPassword(it) },
+                placeHolder = "Password"
             )
             Spacer(modifier = Modifier.padding(60.dp))
             val context = LocalContext.current
