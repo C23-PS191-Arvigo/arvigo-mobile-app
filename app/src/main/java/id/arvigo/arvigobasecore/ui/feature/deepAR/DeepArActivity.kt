@@ -6,14 +6,11 @@ import ai.deepar.ar.CameraResolutionPreset
 import ai.deepar.ar.DeepAR
 import ai.deepar.ar.DeepARImageFormat
 import android.Manifest
-import android.app.role.RoleManager
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.Image
-import android.media.MediaScannerConnection
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.text.format.DateFormat
@@ -26,10 +23,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
 import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -39,17 +33,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.LifecycleOwner
 import com.google.common.util.concurrent.ListenableFuture
 import id.arvigo.arvigobasecore.R
-import id.arvigo.arvigobasecore.databinding.ActivityCameraBinding
-import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -61,9 +51,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.ResourceBundle.clearCache
 import java.util.concurrent.ExecutionException
 
 
@@ -84,7 +72,6 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     private var currentBuffer = 0
     private var buffersInitialized = false
     private var deepAR: DeepAR? = null
-    private val currentMask = 0
     private var currentEffect = 0
 
     private val screenOrientation: Int
@@ -123,7 +110,6 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     private var currentSwitchRecording = false
     private var width = 0
     private var height = 0
-    private var videoFileName: File? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,27 +135,18 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     override fun onStart() {
         val cameraPermission = Manifest.permission.CAMERA
         val recordAudioPermission = Manifest.permission.RECORD_AUDIO
-        val writeExternalStoragePermission = Manifest.permission.WRITE_EXTERNAL_STORAGE
 
         val cameraPermissionGranted =
             ContextCompat.checkSelfPermission(this, cameraPermission) == PackageManager.PERMISSION_GRANTED
         val recordAudioPermissionGranted =
             ContextCompat.checkSelfPermission(this, recordAudioPermission) == PackageManager.PERMISSION_GRANTED
-        val writeExternalStoragePermissionGranted =
-            ContextCompat.checkSelfPermission(
-                this,
-                writeExternalStoragePermission
-            ) == PackageManager.PERMISSION_GRANTED
 
-        if (!cameraPermissionGranted || !recordAudioPermissionGranted || !writeExternalStoragePermissionGranted) {
+        if (!cameraPermissionGranted || !recordAudioPermissionGranted) {
             if (!cameraPermissionGranted) {
                 requestPermissionLauncher.launch(cameraPermission)
             }
             if (!recordAudioPermissionGranted) {
                 requestPermissionLauncher.launch(recordAudioPermission)
-            }
-            if (!writeExternalStoragePermissionGranted) {
-                requestPermissionLauncher.launch(writeExternalStoragePermission)
             }
         } else {
             // Permission has already been granted
@@ -177,14 +154,6 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         }
         super.onStart()
     }
-
-/*    override fun onBackPressed() {
-        // Clear cache
-        clearCache()
-
-        // Finish the activity
-        finish()
-    }*/
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -260,16 +229,10 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         }
     }
 
-
     private fun initializeViews1() {
         val previousMask = findViewById<ImageButton>(R.id.previousMask)
         val nextMask = findViewById<ImageButton>(R.id.nextMask)
-        //  val arView = findViewById<SurfaceView>(R.id.surface)
-        val arView: SurfaceView by lazy {
-            findViewById<SurfaceView>(R.id.surface_deepar).apply {
-                // Set up any required configurations for the arView
-            } //?: throw IllegalStateException("Unable to find SurfaceView with ID R.id.surface_deepar")
-        }
+        val arView: SurfaceView by lazy { findViewById(R.id.surface_deepar) }
         if (arView.isActivated) {
             arView.holder?.addCallback(this)
         } else {
@@ -289,7 +252,7 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
             }
         }
         screenshotBtn.setOnClickListener { deepAR!!.takeScreenshot() }
-        val switchCamera: ImageButton by lazy { findViewById<ImageButton>(R.id.switchCamera) }
+        val switchCamera: ImageButton by lazy { findViewById(R.id.switchCamera) }
         switchCamera.setOnClickListener {
             lensFacing =
                 if (lensFacing == CameraSelector.LENS_FACING_FRONT) CameraSelector.LENS_FACING_BACK else CameraSelector.LENS_FACING_FRONT
@@ -320,10 +283,12 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     private fun setupCamera() {
         Log.d("neo-kaca", "setupCamera: kameraaa JALAN")
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        cameraProviderFuture!!.addListener({
+        cameraProviderFuture?.addListener({
             try {
-                val cameraProvider = cameraProviderFuture!!.get()
-                bindImageAnalysis(cameraProvider)
+                val cameraProvider = cameraProviderFuture?.get()
+                if (cameraProvider !=null) {
+                    bindImageAnalysis(cameraProvider)
+                }
             } catch (e: ExecutionException) {
                 e.printStackTrace()
             } catch (e: InterruptedException) {
@@ -449,7 +414,6 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
     }
 
     private fun getFilterPath(filterName: String): String? {
-        val effectFile = Environment.DIRECTORY_DOWNLOADS
         val file = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filterName).absolutePath
         return if (filterName == "none") {
             null
@@ -476,8 +440,8 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         currentSwitchRecording = false
         val cameraProvider: ProcessCameraProvider?
         try {
-            cameraProvider = cameraProviderFuture!!.get()
-            cameraProvider.unbindAll()
+            cameraProvider = cameraProviderFuture?.get()
+            cameraProvider?.unbindAll()
         } catch (e: ExecutionException) {
             e.printStackTrace()
         } catch (e: InterruptedException) {
@@ -487,7 +451,7 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
             surfaceProvider!!.stop()
             surfaceProvider = null
         }
-        deepAR!!.release()
+        deepAR?.release()
         deepAR = null
         super.onStop()
     }
