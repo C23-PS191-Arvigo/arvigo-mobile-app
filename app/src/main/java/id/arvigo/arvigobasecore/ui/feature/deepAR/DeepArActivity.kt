@@ -214,44 +214,49 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
 
         // Download and save the effect file from the URL
         GlobalScope.launch(Dispatchers.IO) {
-            Log.d("neo-kaca", "initializeFilters: entering coroutine")
             val effectUrl = "https://storage.googleapis.com/arvigo-bucket/object/sample.deepar"
             val effectFileName = "kacamataa.deepar"
 
             val effectFile = File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), effectFileName)
-            val url = URL(effectUrl)
-            val connection = url.openConnection() as HttpURLConnection
-            connection.requestMethod = "GET"
-            connection.connectTimeout = 10000
-            connection.readTimeout = 10000
-            connection.connect()
 
-            if (connection.responseCode == HttpURLConnection.HTTP_OK) {
-                val inputStream = connection.inputStream
-                val outputStream = FileOutputStream(effectFile)
-                val buffer = ByteArray(1024)
-                var bytesRead: Int
-                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
-                    outputStream.write(buffer, 0, bytesRead)
-                }
-                outputStream.close()
-                inputStream.close()
+            if (!effectFile.exists()) { // Check if the file already exists
+                val url = URL(effectUrl)
+                val connection = url.openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+                connection.connectTimeout = 10000
+                connection.readTimeout = 10000
+                connection.connect()
 
-                // Add the local file path to the effects list
-                Log.d("neo-kaca","Success saved.")
-                Log.d("neo-kaca", effectFile.absolutePath.toString())
-                val fileUri = FileProvider.getUriForFile(
-                    applicationContext, applicationContext.packageName.toString(), File(effectFile.absolutePath)
-                )
-                fileUri.path?.let {
-                    effects!!.add(it)
-                    Log.d("neo-kaca", "Masuk let")
+                if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+                    val inputStream = connection.inputStream
+                    val outputStream = FileOutputStream(effectFile)
+                    val buffer = ByteArray(1024)
+                    var bytesRead: Int
+                    while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                        outputStream.write(buffer, 0, bytesRead)
+                    }
+                    outputStream.close()
+                    inputStream.close()
+
+                    // Add the local file path to the effects list
+                    Log.d("neo-kaca", "Success saved.")
+                    Log.d("neo-kaca", effectFile.absolutePath.toString())
+                    val fileUri = FileProvider.getUriForFile(
+                        applicationContext, applicationContext.packageName.toString(), File(effectFile.absolutePath)
+                    )
+                    fileUri.path?.let {
+                        effects!!.add(it)
+                        Log.d("neo-kaca", "Masuk let")
+                    }
+                    Log.d("neo-kaca", "${fileUri.path}")
                 }
-                Log.d("neo-kaca", "${fileUri.path}")
+            } else {
+                // File already exists, so you can handle this case as needed
+                Log.d("neo-kaca", "File already exists. Skipping download.")
             }
         }
-
     }
+
 
     private fun initializeViews1() {
         val previousMask = findViewById<ImageButton>(R.id.previousMask)
