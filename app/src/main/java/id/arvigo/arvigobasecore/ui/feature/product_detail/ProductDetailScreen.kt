@@ -1,6 +1,9 @@
 package id.arvigo.arvigobasecore.ui.feature.product_detail
 
+import android.content.Intent
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -25,14 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
-import com.airbnb.lottie.parser.IntegerParser
 import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
-import id.arvigo.arvigobasecore.ui.component.PrimaryButton
 import id.arvigo.arvigobasecore.ui.component.ProductImageSlider
+import id.arvigo.arvigobasecore.ui.feature.deepAR.DeepArActivity
 import id.arvigo.arvigobasecore.ui.feature.product_detail.uistate.ProductDetailUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.Nullable
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -98,10 +100,9 @@ fun ProductDetailContent(
                 }
             )
         }
-
     ) {
         Column(
-            modifier = androidx.compose.ui.Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
         ) {
@@ -166,6 +167,60 @@ fun ProductDetailContent(
                             }
                        }
                    }
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(0.3f)
+                            .padding(horizontal = 15.dp, vertical = 4.dp)
+                    ) {
+                        val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
+                        val context = LocalContext.current
+                        val openDeepAR = rememberLauncherForActivityResult(
+                            contract = ActivityResultContracts.StartActivityForResult()
+                        ) {
+                        }
+                        Row(
+                            modifier = Modifier
+                                .width(itemSize),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            OutlinedButton(
+                                modifier = Modifier
+                                    .width(itemSize)
+                                    .height(48.dp),
+                                onClick = {
+                                    // TODO: ERROR WHEN CLICKED 
+                                    navController.navigate(Screen.RecommendationStore.createRoute(idState.value))
+                                },
+                                shape = MaterialTheme.shapes.small,
+                                border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary),
+                            )
+                            {
+                                Text(text = "Toko", style = MaterialTheme.typography.titleMedium.copy(
+                                    color = MaterialTheme.colorScheme.primary,
+                                ))
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Button(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(48.dp),
+                                onClick = {
+                                    val link = response.data.variants[0].linkAr
+                                    val intent = Intent(context, DeepArActivity::class.java).apply {
+                                        putExtra("linkAr", link)}
+                                    openDeepAR.launch(intent)
+                                },
+                                shape = MaterialTheme.shapes.small,
+                            )
+                            {
+                                Text(text = "Coba dengan AR", style = MaterialTheme.typography.titleMedium.copy(
+                                    color = Color.White,
+                                ))
+                            }
+                        }
+                    }
                 }
                 is ProductDetailUiState.Failure -> {
                     Text(text = response.error.message ?: "Unknown Error")
@@ -177,50 +232,6 @@ fun ProductDetailContent(
                             .weight(3.8f)
                     ) {
                         Text(text = "Empty", modifier = Modifier.align(Alignment.Center))
-                    }
-                }
-            }
-
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.3f)
-                    .padding(horizontal = 15.dp, vertical = 4.dp)
-            ) {
-                val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
-                Row(
-                    modifier = Modifier
-                        .width(itemSize),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    OutlinedButton(
-                        modifier = Modifier
-                            .width(itemSize)
-                            .height(48.dp),
-                        onClick = {
-                                  navController.navigate(Screen.RecommendationStore.createRoute(idState.value))
-                        },
-                        shape = MaterialTheme.shapes.small,
-                        border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary),
-                    )
-                    {
-                        Text(text = "Toko", style = MaterialTheme.typography.titleMedium.copy(
-                            color = MaterialTheme.colorScheme.primary,
-                        ))
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Button(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp),
-                        onClick = { /*TODO*/ },
-                        shape = MaterialTheme.shapes.small,
-                    )
-                    {
-                        Text(text = "Coba dengan AR", style = MaterialTheme.typography.titleMedium.copy(
-                            color = Color.White,
-                        ))
                     }
                 }
             }
