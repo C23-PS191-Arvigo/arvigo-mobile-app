@@ -144,11 +144,10 @@ fun ProductDetailContent(
                                     ))
                                     IconButton(onClick = {
                                         val requestResult = WishlisthProductRequest(
-                                        productId = response.data.id,
-                                        detailProductMarketplaceId = Any(),
+                                        productId = response.data.id, detailProductMarketplaceId = null,
                                     )
                                         Log.d("ParsData", "${response.data.id}")
-                                        viewModel.addWishlistProduct(request = requestResult )
+                                        viewModel.addWishlistProduct(productId = response.data.id )
                                         viewModel.checkFavoriteStatus(response.data.id.toString())
                                         isFavorite.value = true
                                     }) {

@@ -119,7 +119,7 @@ interface ApiService {
     suspend fun addToWishlist(
         @Header("Authorization") token: String,
         @Body request: WishlisthProductRequest
-    ): AddWishlistResponse
+    ): Call<AddWishlistResponse>
 
     @Multipart
     @POST("/v1/face-shape/check")

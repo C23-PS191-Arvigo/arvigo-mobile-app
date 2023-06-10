@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.arvigo.arvigobasecore.data.repository.ProductDetailRepository
 import id.arvigo.arvigobasecore.data.repository.WishListsRepository
+import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
+import id.arvigo.arvigobasecore.data.source.network.response.wishlist.AddWishlistResponse
 import id.arvigo.arvigobasecore.domain.model.TextFieldState
 import id.arvigo.arvigobasecore.ui.feature.product_detail.uistate.ProductDetailUiState
 import id.arvigo.arvigobasecore.ui.feature.search.uistate.SearchUiState
@@ -18,10 +20,14 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProductDetailViewModel(
     private val productDetailRepository: ProductDetailRepository,
     private val wishListsRepository: WishListsRepository,
+    private val apiService: ApiService,
 ) : ViewModel() {
 
     val response: MutableState<ProductDetailUiState> = mutableStateOf(ProductDetailUiState.Empty)
@@ -49,8 +55,29 @@ class ProductDetailViewModel(
             }
     }
 
-    fun addWishlistProduct(request: WishlisthProductRequest) = viewModelScope.launch {
-        wishListsRepository.addWishlistProduct(request = request)
+    fun addWishlistProduct(productId : Int) = viewModelScope.launch {
+        try {
+            val request = WishlisthProductRequest(
+                    detailProductMarketplaceId = null,
+                    productId = productId,
+            )
+            apiService.addToWishlist(
+                    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZnVsbF9uYW1lIjoiQXJ2aWdvIHRlc3RpbmciLCJyb2xlX2lkIjoyLCJleHAiOjE3MTc1NjY1MTh9.33F7plTR-ngMRpCDzEeXAZQkCaKBr5AMddOXvIpGpaA",
+                    request = request
+            ).enqueue(object : Callback<AddWishlistResponse> {
+                override fun onResponse(call: Call<AddWishlistResponse>, response: Response<AddWishlistResponse>) {
+                    Log.d("ADD WISHLIST SUCCESS", "add wishlist success")
+                }
+
+                override fun onFailure(call: Call<AddWishlistResponse>, t: Throwable) {
+                    Log.d("ADD WISHLIST FAILED", "add wishlist failed ${t.message}")
+                }
+
+            })
+        } catch (e: Exception) {
+            Log.d("ADD WISHLIST FAILED", "add wishlist failed ${e.message}")
+        }
+
     }
 
     fun checkFavoriteStatus(productId: String) = viewModelScope.launch {
