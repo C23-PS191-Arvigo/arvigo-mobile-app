@@ -26,7 +26,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.ui.component.ProductItemCard
@@ -137,7 +139,13 @@ fun SearchScreenContent(
                         .padding(it)
                 ){
                     items(response.data){ data ->
-                        ProductItemCard( name = data.name , image = data.image, brand = data.brand, onClick = {
+                        val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
+                        ProductItemCard(
+                                name = data.name ,
+                                image = data.image,
+                                brand = data.brand,
+                                itemSize = itemSize,
+                                onClick = {
                             navController.navigate(Screen.ProductDetail.createRoute(data.id))
                         } )
                     }

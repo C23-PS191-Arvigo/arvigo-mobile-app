@@ -8,7 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.arvigo.arvigobasecore.data.repository.ProductDetailRepository
 import id.arvigo.arvigobasecore.data.repository.WishListsRepository
+import id.arvigo.arvigobasecore.data.source.local.AuthPreferences
+import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
+import id.arvigo.arvigobasecore.data.source.network.response.wishlist.AddWishlistResponse
 import id.arvigo.arvigobasecore.domain.model.TextFieldState
 import id.arvigo.arvigobasecore.ui.feature.product_detail.uistate.ProductDetailUiState
 import id.arvigo.arvigobasecore.ui.feature.search.uistate.SearchUiState
@@ -18,10 +21,15 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProductDetailViewModel(
     private val productDetailRepository: ProductDetailRepository,
     private val wishListsRepository: WishListsRepository,
+    private val apiService: ApiService,
+    private val authPreferences: AuthPreferences,
 ) : ViewModel() {
 
     val response: MutableState<ProductDetailUiState> = mutableStateOf(ProductDetailUiState.Empty)
@@ -49,8 +57,56 @@ class ProductDetailViewModel(
             }
     }
 
-    fun addWishlistProduct(request: WishlisthProductRequest) = viewModelScope.launch {
-        wishListsRepository.addWishlistProduct(request = request)
+    fun addWishlistProduct(productId : Int) = viewModelScope.launch {
+        try {
+            val token = authPreferences.getAuthToken()
+            val request = WishlisthProductRequest(
+                    detailProductMarketplaceId = null,
+                    productId = productId,
+            )
+            apiService.addToWishlist(
+                    token = "Bearer $token",
+                    request = request
+            ).enqueue(object : Callback<AddWishlistResponse> {
+                override fun onResponse(call: Call<AddWishlistResponse>, response: Response<AddWishlistResponse>) {
+                    Log.d("ADD WISHLIST SUCCESS", "add wishlist success")
+                }
+
+                override fun onFailure(call: Call<AddWishlistResponse>, t: Throwable) {
+                    Log.d("ADD WISHLIST FAILED", "add wishlist failed ${t.message}")
+                }
+
+            })
+        } catch (e: Exception) {
+            Log.d("ADD WISHLIST FAILED", "add wishlist failed ${e.message}")
+        }
+
+    }
+
+    fun deleteWishlistProduct(productId : Int) = viewModelScope.launch {
+        try {
+            val token = authPreferences.getAuthToken()
+            val request = WishlisthProductRequest(
+                detailProductMarketplaceId = null,
+                productId = productId,
+            )
+            apiService.deleteToWishlist(
+                token = "Bearer $token",
+                request = request
+            ).enqueue(object : Callback<AddWishlistResponse> {
+                override fun onResponse(call: Call<AddWishlistResponse>, response: Response<AddWishlistResponse>) {
+                    Log.d("DELETE WISHLIST SUCCESS", "delete wishlist success")
+                }
+
+                override fun onFailure(call: Call<AddWishlistResponse>, t: Throwable) {
+                    Log.d("DELETE WISHLIST FAILED", "delete wishlist failed ${t.message}")
+                }
+
+            })
+        } catch (e: Exception) {
+            Log.d("DELETE WISHLIST FAILED", "delete wishlist failed ${e.message}")
+        }
+
     }
 
     fun checkFavoriteStatus(productId: String) = viewModelScope.launch {
