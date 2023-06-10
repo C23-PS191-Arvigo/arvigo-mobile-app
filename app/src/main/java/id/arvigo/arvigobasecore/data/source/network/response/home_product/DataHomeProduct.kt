@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class DataHomeProduct(
     @SerializedName("face_shapes")
-    val faceShapes: Any,
+    val faceShapes: List<Recommendation>?,
     @SerializedName("personalities")
-    val personalities: Any,
+    val personalities: List<Recommendation>?,
     @SerializedName("recommendations")
     val recommendations: List<Recommendation>
 )
