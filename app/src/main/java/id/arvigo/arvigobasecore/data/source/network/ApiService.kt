@@ -18,6 +18,7 @@ import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
 import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListsResponse
 import okhttp3.MultipartBody
+import okhttp3.internal.http.hasBody
 import retrofit2.Call
 import retrofit2.http.*
 import java.io.File
@@ -119,7 +120,13 @@ interface ApiService {
     suspend fun addToWishlist(
         @Header("Authorization") token: String,
         @Body request: WishlisthProductRequest
-    ): AddWishlistResponse
+    ): Call<AddWishlistResponse>
+
+    @HTTP(method = "DELETE", path = "/v1/wishlists", hasBody = true)
+    suspend fun deleteToWishlist(
+        @Header("Authorization") token: String,
+        @Body request: WishlisthProductRequest
+    ): Call<AddWishlistResponse>
 
     @Multipart
     @POST("/v1/face-shape/check")
