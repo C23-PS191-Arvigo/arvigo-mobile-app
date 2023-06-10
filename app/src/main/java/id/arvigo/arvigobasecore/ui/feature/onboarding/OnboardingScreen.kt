@@ -48,13 +48,13 @@ fun OnboardingScreen(
         "Selamat datang di Arvigo" to "Temukan Gaya Unikmu dengan Rekomendasi Produk Kacamata, Baju, Makeup, Sepatu, dan Tas Terbaik!",
         "Pilih Baju yang Mencerminkan Dirimu!" to "Temukan Fashion yang Menggambarkan Jiwa dan Gaya Anda dengan Rekomendasi Baju Tren dan Klasik!",
         "Temukan Kacamata yang Memukau!" to "Dapatkan Penampilan yang Memikat dengan Koleksi Kacamata Terkini dan Pilihan Terbaik untuk Setiap Gaya!",
-        "Siap untuk Memulai Petualangan Fashion?" to "Temukan Gaya yang Membuatmu Bercahaya dengan Langkah Pertamamu di Arvigo!"
+        "Siap untuk Memulai Petualangan Fashion?" to "" /*to "Temukan Gaya yang Membuatmu Bercahaya dengan Langkah Pertamamu di Arvigo!"*/
 
     ).toList()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary),
+            .background(MaterialTheme.colorScheme.primaryContainer),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = CenterHorizontally
     ) {
@@ -64,14 +64,15 @@ fun OnboardingScreen(
             contentPadding = PaddingValues(5.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .weight(2.5f)
+                .weight(5f)
         ) { index ->
             Pager(title = map[index].first, desc = map[index].second, anim = anim[index])
         }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
+                .weight(1f)
+                .height(50.dp),
             contentAlignment = Center
         ) {
             this@Column.AnimatedVisibility(
@@ -88,8 +89,7 @@ fun OnboardingScreen(
                     },
                     modifier = Modifier.size(height = 55.dp, width = 280.dp),
                     colors = ButtonDefaults.elevatedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondary,
-                        contentColor = Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
                     )
                 ) {
                     AppText(
@@ -102,7 +102,7 @@ fun OnboardingScreen(
             if (pagerState.currentPage != 3) {
                 HorizontalPagerIndicator(
                     pagerState = pagerState,
-                    activeColor = MaterialTheme.colorScheme.onSecondary
+                    activeColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         }
@@ -128,7 +128,7 @@ fun Pager(
                 .padding(horizontal = 10.dp),
             text = title,
             fontSize = 32.sp,
-            color = MaterialTheme.colorScheme.onSecondary,
+            color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.SemiBold,
             lineHeight = 40.sp
@@ -140,7 +140,7 @@ fun Pager(
                 .padding(horizontal = 10.dp),
             text = desc,
             fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.onSecondary,
+            color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center
         )
     }

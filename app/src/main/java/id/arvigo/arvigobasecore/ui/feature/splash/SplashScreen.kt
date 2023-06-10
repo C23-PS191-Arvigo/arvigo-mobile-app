@@ -32,7 +32,7 @@ fun SplashScreen(
 
     LaunchedEffect(isUserLoggedIn) {
 
-        delay(3000)
+        delay(1500)
 
         if (isOnboardingVisited){
             if (isUserLoggedIn) {
