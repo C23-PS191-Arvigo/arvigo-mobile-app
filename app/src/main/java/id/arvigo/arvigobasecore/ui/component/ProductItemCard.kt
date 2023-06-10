@@ -27,9 +27,9 @@ fun ProductItemCard(
     name: String,
     image: String,
     brand: String,
+    itemSize: Dp,
     onClick: () -> Unit
 ) {
-    val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
     Box(
         modifier = androidx.compose.ui.Modifier
             .width(itemSize),
@@ -47,8 +47,8 @@ fun ProductItemCard(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(160.dp)
-                        .padding(horizontal = 10.dp, vertical = 10.dp),
+                        .height(170.dp)
+                        .padding(horizontal = 8.dp, vertical = 8.dp),
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
@@ -67,10 +67,10 @@ fun ProductItemCard(
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(horizontal = 10.dp)
+                    modifier = Modifier.padding(horizontal = 8.dp)
                 )
                 Spacer(modifier = Modifier.padding(top = 8.dp))
-                Text(text = brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                Text(text = brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 8.dp))
                 Spacer(modifier = Modifier.padding(top = 12.dp))
             }
         }

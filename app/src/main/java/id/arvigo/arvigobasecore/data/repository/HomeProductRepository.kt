@@ -13,12 +13,27 @@ class HomeProductRepository(
 ) {
 
     fun getHomeProduct() = flow {
-
         val token = authPreferences.getAuthToken()
         Log.d("Hit API Home Product", "get Home Product")
         emit(apiService.getHomeProduct(
             token = "Bearer $token"
         ).data.recommendations)
+    }.flowOn(Dispatchers.IO)
+
+    fun getHomePersonality() = flow {
+        val token = authPreferences.getAuthToken()
+        Log.d("Hit API Home Personality", "get Home Personaltiy")
+        emit(apiService.getHomeProduct(
+                token = "Bearer $token"
+        ).data.personalities)
+    }.flowOn(Dispatchers.IO)
+
+    fun getHomeFace() = flow {
+        val token = authPreferences.getAuthToken()
+        Log.d("Hit API Home Face", "get Home Face")
+        emit(apiService.getHomeProduct(
+                token = "Bearer $token"
+        ).data.faceShapes)
     }.flowOn(Dispatchers.IO)
 
 }

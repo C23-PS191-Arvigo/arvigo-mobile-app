@@ -11,6 +11,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.ui.component.ProductItemCard
@@ -71,10 +73,12 @@ fun EyewearScreenContent(
                         .padding(it)
                 ){
                     items(response.data){ data ->
+                        val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
                        ProductItemCard(
                            name = data.name ,
                            image = data.image,
                            brand = data.brand,
+                               itemSize = itemSize,
                            onClick = {
                                navController.navigate(Screen.ProductDetail.createRoute(data.id))
                        } )
