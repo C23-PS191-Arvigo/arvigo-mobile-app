@@ -17,9 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
@@ -146,10 +148,12 @@ fun BrandDetailContent(
                            .weight(3.8f)
                    ){
                        items(response.data){ data ->
+                           val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
                            ProductItemCard(
                                name = data.name ,
                                image = data.image,
                                brand = data.brand,
+                                   itemSize = itemSize,
                                onClick = {
                                    navController.navigate(Screen.ProductDetail.createRoute(data.id))
                                } )

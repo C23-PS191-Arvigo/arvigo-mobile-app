@@ -291,8 +291,8 @@ fun HomeContent(
                                                     Card(
                                                             modifier = Modifier
                                                                     .fillMaxWidth()
-                                                                    .height(150.dp)
-                                                                    .padding(horizontal = 10.dp, vertical = 10.dp),
+                                                                    .height(170.dp)
+                                                                    .padding(horizontal = 8.dp, vertical = 8.dp),
                                                     ) {
                                                         AsyncImage(
                                                                 model = ImageRequest.Builder(LocalContext.current)
@@ -311,10 +311,10 @@ fun HomeContent(
                                                             style = MaterialTheme.typography.titleLarge,
                                                             maxLines = 2,
                                                             overflow = TextOverflow.Ellipsis,
-                                                            modifier = Modifier.padding(horizontal = 10.dp)
+                                                            modifier = Modifier.padding(horizontal = 8.dp)
                                                     )
                                                     Spacer(modifier = Modifier.padding(top = 8.dp))
-                                                    Text(text = recommendation.brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                                                    Text(text = recommendation.brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 8.dp))
                                                     Spacer(modifier = Modifier.padding(top = 12.dp))
                                                 }
                                             }
@@ -382,8 +382,8 @@ fun HomeContent(
                                                     Card(
                                                             modifier = Modifier
                                                                     .fillMaxWidth()
-                                                                    .height(150.dp)
-                                                                    .padding(horizontal = 10.dp, vertical = 10.dp),
+                                                                    .height(170.dp)
+                                                                    .padding(horizontal = 8.dp, vertical = 8.dp),
                                                     ) {
                                                         AsyncImage(
                                                                 model = ImageRequest.Builder(LocalContext.current)
@@ -402,10 +402,10 @@ fun HomeContent(
                                                             style = MaterialTheme.typography.titleLarge,
                                                             maxLines = 2,
                                                             overflow = TextOverflow.Ellipsis,
-                                                            modifier = Modifier.padding(horizontal = 10.dp)
+                                                            modifier = Modifier.padding(horizontal = 8.dp)
                                                     )
                                                     Spacer(modifier = Modifier.padding(top = 8.dp))
-                                                    Text(text = recommendation.brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                                                    Text(text = recommendation.brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 8.dp))
                                                     Spacer(modifier = Modifier.padding(top = 12.dp))
                                                 }
                                             }
@@ -471,8 +471,8 @@ fun HomeContent(
                                             Card(
                                                 modifier = Modifier
                                                         .fillMaxWidth()
-                                                        .height(150.dp)
-                                                        .padding(horizontal = 10.dp, vertical = 10.dp),
+                                                        .height(170.dp)
+                                                        .padding(horizontal = 8.dp, vertical = 8.dp),
                                             ) {
                                                 AsyncImage(
                                                     model = ImageRequest.Builder(LocalContext.current)
@@ -491,10 +491,10 @@ fun HomeContent(
                                                 style = MaterialTheme.typography.titleLarge,
                                                 maxLines = 2,
                                                 overflow = TextOverflow.Ellipsis,
-                                                modifier = Modifier.padding(horizontal = 10.dp)
+                                                modifier = Modifier.padding(horizontal = 8.dp)
                                             )
                                             Spacer(modifier = Modifier.padding(top = 8.dp))
-                                            Text(text = recommendation.brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                                            Text(text = recommendation.brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 8.dp))
                                             Spacer(modifier = Modifier.padding(top = 12.dp))
                                         }
                                     }
