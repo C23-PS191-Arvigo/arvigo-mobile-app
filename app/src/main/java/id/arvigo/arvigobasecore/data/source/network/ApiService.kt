@@ -8,6 +8,7 @@ import id.arvigo.arvigobasecore.data.source.network.response.brands.BrandRespons
 import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryResponse
 import id.arvigo.arvigobasecore.data.source.network.response.faceshape.FaceshapeResponse
 import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
+import id.arvigo.arvigobasecore.data.source.network.response.offer.OfferResponse
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
 import id.arvigo.arvigobasecore.data.source.network.response.personality.QuestionnaireResponse
 import id.arvigo.arvigobasecore.data.source.network.response.product_detail.ProductDetailResponse
@@ -134,4 +135,10 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part image: MultipartBody.Part,
     ): FaceshapeResponse
+
+    @GET("/v1/products/initials/marketplace/{id}")
+    suspend fun getOfferDetail(
+            @Header("Authorization") token: String,
+            @Path("id") id: String
+    ): OfferResponse
 }
