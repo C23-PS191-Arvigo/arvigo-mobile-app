@@ -20,7 +20,6 @@ import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListsResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
-import java.io.File
 
 interface ApiService {
     @POST("/v1/auth/register-user")
