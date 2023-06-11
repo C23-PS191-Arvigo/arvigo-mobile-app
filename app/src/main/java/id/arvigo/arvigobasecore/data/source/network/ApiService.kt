@@ -23,7 +23,6 @@ import okhttp3.MultipartBody
 import okhttp3.internal.http.hasBody
 import retrofit2.Call
 import retrofit2.http.*
-import java.io.File
 
 interface ApiService {
     @POST("/v1/auth/register-user")
