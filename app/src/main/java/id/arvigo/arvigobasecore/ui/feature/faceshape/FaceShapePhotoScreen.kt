@@ -176,7 +176,7 @@ fun FaceShapePhotoScreen(
                 Button(
                     onClick = {
                         val encodedUrl = URLEncoder.encode(response.data.imageUrl, StandardCharsets.UTF_8.toString())
-                        navController.navigate(Screen.FaceshapeRecommendation.passData(
+                        navController.navigate(Screen.FaceShapeRecommendation.passData(
                             response.data.result,
                             encodedUrl,
                         ))

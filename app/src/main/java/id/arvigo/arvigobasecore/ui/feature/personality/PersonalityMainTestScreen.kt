@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -21,14 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
-import id.arvigo.arvigobasecore.data.source.network.request.QuestionnaireRequest
 import id.arvigo.arvigobasecore.data.source.network.request.QuestionnaireRequestX
 import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityData
-import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityDataItem
-import id.arvigo.arvigobasecore.data.source.network.response.personality.PersonalityResponse
-import id.arvigo.arvigobasecore.domain.model.QuesResult
 import id.arvigo.arvigobasecore.ui.component.PrimaryButton
 import id.arvigo.arvigobasecore.ui.feature.personality.uistate.PersonalityUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
@@ -161,7 +154,7 @@ fun PersonalityMainTestContent(
             ) {
                if (switchButton.value) {
                    PrimaryButton(title = "Lihat Rekomendasi", onClick = {
-                        navController.navigate(Screen.PersonalRecomendation.passData(personalResult.value))
+                        navController.navigate(Screen.PersonalRecommendation.passData(personalResult.value))
                    })
                } else {
                    PrimaryButton(title = "Submit", onClick = {

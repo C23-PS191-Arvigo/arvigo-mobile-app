@@ -43,7 +43,7 @@ sealed class Screen(val route: String) {
     object StoreDetail : Screen("store_detail")
 
     object Makeup : Screen("makeup")
-    object PersonalRecomendation : Screen("personal_recomendation/{$PERSONALITY_RESULT}") {
+    object PersonalRecommendation : Screen("personal_recomendation/{$PERSONALITY_RESULT}") {
         fun passData(result: String) = "personal_recomendation/$result"
     }
 
@@ -57,7 +57,7 @@ sealed class Screen(val route: String) {
         //fun createRoute(brandId: Int) = "brand_detail/$brandId"
         fun passData(brandId: Int, brandLogo: String, brandName: String) = "brand_detail/$brandId/$brandLogo/$brandName"
     }
-    object FaceshapeRecommendation : Screen("faceshape_recommendation/{$FACESHAPE_RESULT}/{$FACESHAPE_RESULT_IMAGE}") {
+    object FaceShapeRecommendation : Screen("faceshape_recommendation/{$FACESHAPE_RESULT}/{$FACESHAPE_RESULT_IMAGE}") {
         fun passData(result: String, resultImage: String) = "faceshape_recommendation/$result/$resultImage"
     }
     object FaceGuide : Screen("face_guide")
