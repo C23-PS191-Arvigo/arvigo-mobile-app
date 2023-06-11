@@ -61,7 +61,7 @@ fun OfferScreen(
         navController: NavController,
         productId: String,
 ) {
-
+    ProductDetailContent(navController = navController, productId = productId)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -159,17 +159,14 @@ fun ProductDetailContent(
                                             fontWeight = FontWeight.SemiBold,
                                     ))
                                     IconButton(onClick = {
-                                        val requestResult = WishlisthProductRequest(
-                                                productId = response.data.id, detailProductMarketplaceId = null,
-                                        )
                                         if (isWishList) {
                                             Log.d("ParsData", "${response.data.id}")
-                                            viewModel.deleteWishlistProduct(productId = response.data.id )
+                                            viewModel.deleteWishlistStore(id = response.data.id )
                                             viewModel.checkFavoriteStatus(response.data.id.toString())
                                             isFavorite.value = false
                                         } else {
                                             Log.d("ParsData", "${response.data.id}")
-                                            viewModel.addWishlistProduct(productId = response.data.id )
+                                            viewModel.addWishlistStore(id = response.data.id )
                                             viewModel.checkFavoriteStatus(response.data.id.toString())
                                             isFavorite.value = true
                                         }
@@ -185,7 +182,7 @@ fun ProductDetailContent(
                                 Spacer(modifier = Modifier.height(32.dp))
                                 Text(text = "Deskripsi", style = MaterialTheme.typography.titleLarge)
                                 Spacer(modifier = Modifier.height(8.dp))
-                                Text(text = response.data.address, style = MaterialTheme.typography.bodyLarge)
+                                Text(text = response.data.name, style = MaterialTheme.typography.bodyLarge)
                             }
                         }
                     }

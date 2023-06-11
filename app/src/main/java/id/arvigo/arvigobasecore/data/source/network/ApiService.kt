@@ -2,6 +2,7 @@ package id.arvigo.arvigobasecore.data.source.network
 
 import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.data.source.network.request.QuestionnaireRequestX
+import id.arvigo.arvigobasecore.data.source.network.request.WishlistStoreRequest
 import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
 import id.arvigo.arvigobasecore.data.source.network.response.LoginResponse
 import id.arvigo.arvigobasecore.data.source.network.response.brands.BrandResponse
@@ -123,10 +124,22 @@ interface ApiService {
         @Body request: WishlisthProductRequest
     ): Call<AddWishlistResponse>
 
+    @POST("/v1/wishlists")
+    suspend fun addToWishlistStore(
+            @Header("Authorization") token: String,
+            @Body request: WishlistStoreRequest
+    ): Call<AddWishlistResponse>
+
     @HTTP(method = "DELETE", path = "/v1/wishlists", hasBody = true)
     suspend fun deleteToWishlist(
         @Header("Authorization") token: String,
         @Body request: WishlisthProductRequest
+    ): Call<AddWishlistResponse>
+
+    @HTTP(method = "DELETE", path = "/v1/wishlists", hasBody = true)
+    suspend fun deleteToWishlistStore(
+            @Header("Authorization") token: String,
+            @Body request: WishlistStoreRequest
     ): Call<AddWishlistResponse>
 
     @Multipart

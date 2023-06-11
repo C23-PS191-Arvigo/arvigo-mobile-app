@@ -10,6 +10,7 @@ import id.arvigo.arvigobasecore.data.repository.OfferDetailRepository
 import id.arvigo.arvigobasecore.data.repository.WishListsRepository
 import id.arvigo.arvigobasecore.data.source.local.AuthPreferences
 import id.arvigo.arvigobasecore.data.source.network.ApiService
+import id.arvigo.arvigobasecore.data.source.network.request.WishlistStoreRequest
 import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
 import id.arvigo.arvigobasecore.data.source.network.response.wishlist.AddWishlistResponse
 import id.arvigo.arvigobasecore.ui.feature.offer_detail.uistate.OfferUiState
@@ -54,14 +55,14 @@ class OfferViewModel(
                 }
     }
 
-    fun addWishlistProduct(productId : Int) = viewModelScope.launch {
+    fun addWishlistStore(id : Int) = viewModelScope.launch {
         try {
             val token = authPreferences.getAuthToken()
-            val request = WishlisthProductRequest(
-                    detailProductMarketplaceId = null,
-                    productId = productId,
+            val request = WishlistStoreRequest(
+                    detailProductMarketplaceId = id,
+                    productId = null,
             )
-            apiService.addToWishlist(
+            apiService.addToWishlistStore(
                     token = "Bearer $token",
                     request = request
             ).enqueue(object : Callback<AddWishlistResponse> {
@@ -80,14 +81,14 @@ class OfferViewModel(
 
     }
 
-    fun deleteWishlistProduct(productId : Int) = viewModelScope.launch {
+    fun deleteWishlistStore(id : Int) = viewModelScope.launch {
         try {
             val token = authPreferences.getAuthToken()
-            val request = WishlisthProductRequest(
-                    detailProductMarketplaceId = null,
-                    productId = productId,
+            val request = WishlistStoreRequest(
+                    detailProductMarketplaceId = id,
+                    productId = null,
             )
-            apiService.deleteToWishlist(
+            apiService.deleteToWishlistStore(
                     token = "Bearer $token",
                     request = request
             ).enqueue(object : Callback<AddWishlistResponse> {
@@ -106,9 +107,9 @@ class OfferViewModel(
 
     }
 
-    fun checkFavoriteStatus(productId: String) = viewModelScope.launch {
+    fun checkFavoriteStatus(storeId: String) = viewModelScope.launch {
         val wishListsResponse = wishListsRepository.getWishProducts().firstOrNull()
-        val isFavorite = wishListsResponse?.products?.any { product -> product.id.toString() == productId }
+        val isFavorite = wishListsResponse?.stores?.any { store -> store.id.toString() == storeId }
         _isFavorite.value = isFavorite ?: false
     }
 

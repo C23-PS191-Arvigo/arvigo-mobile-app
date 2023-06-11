@@ -81,7 +81,7 @@ val viewModelModules = module {
     viewModel { RecommenStoreViewModel(get()) }
     viewModel { BrandDetailViewModel(get()) }
     viewModel { FaceShapeViewModel(get()) }
-    viewModel { OfferViewModel(get())}
+    viewModel { OfferViewModel(get(), get(), get(), get())}
 }
 
 val useCaseModule = module {
