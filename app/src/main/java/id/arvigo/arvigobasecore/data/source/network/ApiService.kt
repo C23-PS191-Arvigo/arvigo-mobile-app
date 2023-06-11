@@ -2,12 +2,14 @@ package id.arvigo.arvigobasecore.data.source.network
 
 import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.data.source.network.request.QuestionnaireRequestX
+import id.arvigo.arvigobasecore.data.source.network.request.WishlistStoreRequest
 import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
 import id.arvigo.arvigobasecore.data.source.network.response.LoginResponse
 import id.arvigo.arvigobasecore.data.source.network.response.brands.BrandResponse
 import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryResponse
 import id.arvigo.arvigobasecore.data.source.network.response.faceshape.FaceshapeResponse
 import id.arvigo.arvigobasecore.data.source.network.response.home_product.HomeProduct
+import id.arvigo.arvigobasecore.data.source.network.response.offer.OfferResponse
 import id.arvigo.arvigobasecore.data.source.network.response.personality.Personality
 import id.arvigo.arvigobasecore.data.source.network.response.personality.QuestionnaireResponse
 import id.arvigo.arvigobasecore.data.source.network.response.product_detail.ProductDetailResponse
@@ -121,10 +123,22 @@ interface ApiService {
         @Body request: WishlisthProductRequest
     ): Call<AddWishlistResponse>
 
+    @POST("/v1/wishlists")
+    suspend fun addToWishlistStore(
+            @Header("Authorization") token: String,
+            @Body request: WishlistStoreRequest
+    ): Call<AddWishlistResponse>
+
     @HTTP(method = "DELETE", path = "/v1/wishlists", hasBody = true)
     suspend fun deleteToWishlist(
         @Header("Authorization") token: String,
         @Body request: WishlisthProductRequest
+    ): Call<AddWishlistResponse>
+
+    @HTTP(method = "DELETE", path = "/v1/wishlists", hasBody = true)
+    suspend fun deleteToWishlistStore(
+            @Header("Authorization") token: String,
+            @Body request: WishlistStoreRequest
     ): Call<AddWishlistResponse>
 
     @Multipart
@@ -133,4 +147,10 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part image: MultipartBody.Part,
     ): FaceshapeResponse
+
+    @GET("/v1/products/initials/marketplace/{id}")
+    suspend fun getOfferDetail(
+            @Header("Authorization") token: String,
+            @Path("id") id: String
+    ): OfferResponse
 }

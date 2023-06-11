@@ -13,12 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import id.arvigo.arvigobasecore.ui.component.cards.CustomCard
-import id.arvigo.arvigobasecore.ui.component.rows.CustomRowTwo
-import id.arvigo.arvigobasecore.ui.component.rows.MenuRowItem
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.component.alert.AlertFeatureUnavailable
 import id.arvigo.arvigobasecore.ui.component.alert.AlertLogout
+import id.arvigo.arvigobasecore.ui.component.cards.CustomCardThree
+import id.arvigo.arvigobasecore.ui.component.rows.CustomRowTwo
+import id.arvigo.arvigobasecore.ui.component.rows.MenuRowItem
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 import id.arvigo.arvigobasecore.util.Constant.IMAGE_MATRIX
@@ -30,7 +30,6 @@ fun ProfileScreen(
     navController: NavController,
 ) {
     val viewModel: ProfileViewModel = getViewModel()
-    val openDialog = remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
             DefTopBar(onMenuClick = {
@@ -44,12 +43,15 @@ fun ProfileScreen(
             item {
                 Spacer(modifier = Modifier.padding(10.dp))
                 ProfileCard()
-                Spacer(modifier = Modifier.padding(20.dp))
+                Spacer(modifier = Modifier.padding(10.dp))
                 SubscriptionCard(
                     navController = navController
                 )
+                Spacer(modifier = Modifier.padding(top = 12.dp))
                 PersonalityCard(navController)
+                Spacer(modifier = Modifier.padding(top = 12.dp))
                 FaceTypeCard(navController)
+                Spacer(modifier = Modifier.padding(top = 12.dp))
                 ProfileRowItems(
                     navController = navController,
                     viewModel = viewModel,
@@ -89,7 +91,7 @@ fun ProfileCard() {
 fun SubscriptionCard(
     navController: NavController
 ) {
-    CustomCard(
+    CustomCardThree(
         title = "Langganan", desc = "Anda belum berlangganan.",
         button = "Lihat Harga",
         onClick = {
@@ -103,7 +105,7 @@ fun PersonalityCard(
     navController: NavController
 ) {
     val openDialog = remember { mutableStateOf(false) }
-    CustomCard(
+    CustomCardThree(
         title = "Langganan",
         desc = "Personality",
         button = "Lihat",
@@ -119,7 +121,7 @@ fun FaceTypeCard(
     navController: NavController
 ) {
     val openDialog = remember { mutableStateOf(false) }
-    CustomCard(
+    CustomCardThree(
         title = "Tipe Muka",
         desc = "Bulat",
         button = "Ubah",
