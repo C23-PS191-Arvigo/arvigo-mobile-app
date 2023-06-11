@@ -17,14 +17,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -63,6 +61,7 @@ import com.google.accompanist.flowlayout.SizeMode
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.CarouselCard
 import id.arvigo.arvigobasecore.ui.component.PrimaryAlert
+import id.arvigo.arvigobasecore.ui.component.cards.CustomCard
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeFaceState
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomePersonalState
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeUiState
@@ -96,20 +95,20 @@ fun HomeContent(
                 title = {
                     Card(
                         modifier = Modifier
-                                .fillMaxWidth()
-                                .height(64.dp)
-                                .padding(vertical = 8.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .clickable {
-                                    navController.navigate(Screen.Search.route)
-                                }
+                            .fillMaxWidth()
+                            .height(64.dp)
+                            .padding(vertical = 8.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .clickable {
+                                navController.navigate(Screen.Search.route)
+                            }
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(64.dp)
-                                    .padding(horizontal = 12.dp)
+                                .fillMaxWidth()
+                                .height(64.dp)
+                                .padding(horizontal = 12.dp)
                         ) {
                             Icon(imageVector = Icons.Default.Search, contentDescription = "" )
                             Text(text = "Cari", modifier = Modifier.padding(start = 8.dp), fontSize = 16.sp)
@@ -131,8 +130,8 @@ fun HomeContent(
     ) {
         LazyColumn(
             modifier = Modifier
-                    .padding(it)
-                    .fillMaxSize()
+                .padding(it)
+                .fillMaxSize()
         ) {
             item {
                 Spacer(modifier = Modifier.padding(top = 16.dp))
@@ -188,66 +187,23 @@ fun HomeContent(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
                 Spacer(modifier = Modifier.padding(top = 12.dp))
-                Box(
-                    modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                ) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 10.dp, vertical = 8.dp)
-                        ) {
-                            Text(text = "Personalitas", style = MaterialTheme.typography.titleMedium)
-                            Button(
-                                onClick = {
-                                    navController.navigate(Screen.Personality.route)
-                                },
-                                shape = RoundedCornerShape(10.dp)
-                            ) {
-                                Text(text = "Ambil", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
-                            }
-                        }
-                    }
-                }
+                CustomCard(
+                    desc = "Personalitas",
+                    button = "Ambil",
+                    onClick = {
+                        navController.navigate(Screen.Personality.route)
+                    },
+                    title = {}
+                )
                 Spacer(modifier = Modifier.padding(top = 12.dp))
-                Box(
-                    modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                ) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 10.dp, vertical = 8.dp)
-                        ) {
-                            Text(text = "Bentuk wajah", style = MaterialTheme.typography.titleMedium)
-                            Button(
-                                onClick = {
-                                    navController.navigate(Screen.FaceShapeIntro.route)
-                                },
-                                shape = RoundedCornerShape(10.dp)
-                            ) {
-                                Text(text = "Ambil", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold))
-                            }
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.padding(top = 12.dp))
-
+                CustomCard(
+                    desc = "Bentuk Wajah",
+                    button = "Ambil",
+                    onClick = {
+                        navController.navigate(Screen.FaceShapeIntro.route)
+                    },
+                    title = {}
+                )
             }
 
             val responsePersonal = viewModel.responsePersonal.value
@@ -278,11 +234,18 @@ fun HomeContent(
                                         ) {
                                             Card(
                                                     modifier = Modifier
-                                                            .padding(horizontal = 8.dp, vertical = 10.dp)
-                                                            .fillMaxSize()
-                                                            .clickable {
-                                                                navController.navigate(Screen.ProductDetail.createRoute(recommendation.id))
-                                                            },
+                                                        .padding(
+                                                            horizontal = 8.dp,
+                                                            vertical = 10.dp
+                                                        )
+                                                        .fillMaxSize()
+                                                        .clickable {
+                                                            navController.navigate(
+                                                                Screen.ProductDetail.createRoute(
+                                                                    recommendation.id
+                                                                )
+                                                            )
+                                                        },
                                                     elevation = CardDefaults.cardElevation(
                                                             defaultElevation = 2.dp
                                                     )
@@ -290,9 +253,12 @@ fun HomeContent(
                                                 Column() {
                                                     Card(
                                                             modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(170.dp)
-                                                                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                                                                .fillMaxWidth()
+                                                                .height(170.dp)
+                                                                .padding(
+                                                                    horizontal = 8.dp,
+                                                                    vertical = 8.dp
+                                                                ),
                                                     ) {
                                                         AsyncImage(
                                                                 model = ImageRequest.Builder(LocalContext.current)
@@ -327,8 +293,8 @@ fun HomeContent(
                                 HomePersonalState.Loading -> {
                                     CircularProgressIndicator(
                                             modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .wrapContentSize(align = Alignment.Center)
+                                                .fillMaxSize()
+                                                .wrapContentSize(align = Alignment.Center)
                                     )
                                 }
                                 HomePersonalState.Empty -> {
@@ -369,11 +335,18 @@ fun HomeContent(
                                         ) {
                                             Card(
                                                     modifier = Modifier
-                                                            .padding(horizontal = 8.dp, vertical = 10.dp)
-                                                            .fillMaxSize()
-                                                            .clickable {
-                                                                navController.navigate(Screen.ProductDetail.createRoute(recommendation.id))
-                                                            },
+                                                        .padding(
+                                                            horizontal = 8.dp,
+                                                            vertical = 10.dp
+                                                        )
+                                                        .fillMaxSize()
+                                                        .clickable {
+                                                            navController.navigate(
+                                                                Screen.ProductDetail.createRoute(
+                                                                    recommendation.id
+                                                                )
+                                                            )
+                                                        },
                                                     elevation = CardDefaults.cardElevation(
                                                             defaultElevation = 2.dp
                                                     )
@@ -381,9 +354,12 @@ fun HomeContent(
                                                 Column() {
                                                     Card(
                                                             modifier = Modifier
-                                                                    .fillMaxWidth()
-                                                                    .height(170.dp)
-                                                                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                                                                .fillMaxWidth()
+                                                                .height(170.dp)
+                                                                .padding(
+                                                                    horizontal = 8.dp,
+                                                                    vertical = 8.dp
+                                                                ),
                                                     ) {
                                                         AsyncImage(
                                                                 model = ImageRequest.Builder(LocalContext.current)
@@ -418,8 +394,8 @@ fun HomeContent(
                                 HomeFaceState.Loading -> {
                                     CircularProgressIndicator(
                                             modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .wrapContentSize(align = Alignment.Center)
+                                                .fillMaxSize()
+                                                .wrapContentSize(align = Alignment.Center)
                                     )
                                 }
                                 HomeFaceState.Empty -> {
@@ -458,11 +434,15 @@ fun HomeContent(
                                 ) {
                                     Card(
                                         modifier = Modifier
-                                                .padding(horizontal = 8.dp, vertical = 10.dp)
-                                                .fillMaxSize()
-                                                .clickable {
-                                                    navController.navigate(Screen.ProductDetail.createRoute(recommendation.id))
-                                                },
+                                            .padding(horizontal = 8.dp, vertical = 10.dp)
+                                            .fillMaxSize()
+                                            .clickable {
+                                                navController.navigate(
+                                                    Screen.ProductDetail.createRoute(
+                                                        recommendation.id
+                                                    )
+                                                )
+                                            },
                                         elevation = CardDefaults.cardElevation(
                                             defaultElevation = 2.dp
                                         )
@@ -470,9 +450,9 @@ fun HomeContent(
                                         Column() {
                                             Card(
                                                 modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .height(170.dp)
-                                                        .padding(horizontal = 8.dp, vertical = 8.dp),
+                                                    .fillMaxWidth()
+                                                    .height(170.dp)
+                                                    .padding(horizontal = 8.dp, vertical = 8.dp),
                                             ) {
                                                 AsyncImage(
                                                     model = ImageRequest.Builder(LocalContext.current)
@@ -507,8 +487,8 @@ fun HomeContent(
                         HomeUiState.Loading -> {
                             CircularProgressIndicator(
                                 modifier = Modifier
-                                        .fillMaxSize()
-                                        .wrapContentSize(align = Alignment.Center)
+                                    .fillMaxSize()
+                                    .wrapContentSize(align = Alignment.Center)
                             )
                         }
                         HomeUiState.Empty -> {
@@ -531,21 +511,21 @@ fun MainMenu(title: String, icon: Int, onClick: () -> Unit) {
     ) {
         Box(
             modifier = Modifier
-                    .width(85.dp)
-                    .height(85.dp)
-                    .background(Color.Cyan),
+                .width(85.dp)
+                .height(85.dp)
+                .background(Color.Cyan),
             contentAlignment = Alignment.Center
         ) {
             Image(painter = painterResource(id = icon), contentDescription = null,
                 modifier = Modifier
-                        .fillMaxSize()
-                        .clickable { onClick() },
+                    .fillMaxSize()
+                    .clickable { onClick() },
                 contentScale = ContentScale.Crop
             )
             Box(modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(15.dp))
-                    .background(Color.Black.copy(alpha = 0.5f))) {
+                .fillMaxSize()
+                .clip(RoundedCornerShape(15.dp))
+                .background(Color.Black.copy(alpha = 0.5f))) {
             }
             Text(text = title, style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
         }
@@ -557,9 +537,9 @@ fun LazyGridScope.GridContent() {
     items(10) {
         Box(
             modifier = Modifier
-                    .width(200.dp)
-                    .height(200.dp)
-                    .background(Color.Cyan),
+                .width(200.dp)
+                .height(200.dp)
+                .background(Color.Cyan),
             contentAlignment = Alignment.Center
         ) {
             Text(text = "Item $it", style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
