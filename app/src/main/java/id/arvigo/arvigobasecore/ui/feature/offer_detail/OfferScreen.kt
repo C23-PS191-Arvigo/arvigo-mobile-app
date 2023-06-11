@@ -96,7 +96,7 @@ fun ProductDetailContent(
             topBar = {
                 SmallTopAppBar(
                         title = {
-                            Text(text = "Produk Detail")
+                            Text(text = "Penawaran Detail")
                         },
                         navigationIcon = {
                             IconButton(onClick = {
