@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.data.source.network.response.stores.StoreDataItem
 import id.arvigo.arvigobasecore.ui.feature.recommendation_store.RecommenStoreCard
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 
 @Composable
 fun StoreDetail(
@@ -56,7 +57,9 @@ fun StoreDetailContent(
                 .padding(16.dp)
         ) {
             items(storeDataItem) { item ->
-                RecommenStoreCard(name = item.name, image = item.image, price = item.price.toString(), storeName = item.merchant, brand = item.brand)
+                RecommenStoreCard(name = item.name, image = item.image, price = item.price.toString(), storeName = item.merchant, brand = item.brand, onClick = {
+                    navController.navigate(Screen.OfferDetail.createRoute(item.id))
+                })
             }
         }
     }

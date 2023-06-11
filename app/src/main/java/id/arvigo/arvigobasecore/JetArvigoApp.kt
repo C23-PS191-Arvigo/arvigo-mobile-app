@@ -30,6 +30,7 @@ import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
 import id.arvigo.arvigobasecore.ui.feature.login.LoginScreen
 import id.arvigo.arvigobasecore.ui.feature.makeup.MakeupScreen
 import id.arvigo.arvigobasecore.ui.feature.notification.NotificationScreen
+import id.arvigo.arvigobasecore.ui.feature.offer_detail.OfferScreen
 import id.arvigo.arvigobasecore.ui.feature.onboarding.OnboardingScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityMainTestScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityResultScreen
@@ -84,6 +85,7 @@ fun JetArvigoApp(
                 Screen.FaceshapeRecommendation.route,
                 Screen.FaceGuide.route,
                 Screen.Notification.route,
+                    Screen.OfferDetail.route,
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)
@@ -300,6 +302,22 @@ fun JetArvigoApp(
             composable(Screen.Notification.route){
                 NotificationScreen(
                     navController = navController,
+                )
+            }
+            //offer detail
+            composable(
+                    route = Screen.OfferDetail.route,
+                    arguments = listOf(
+                            navArgument(PRODUCT_ID) {
+                                type = NavType.IntType
+                            }
+                    )
+            ) {
+                Log.d("Args", it.arguments?.getInt(PRODUCT_ID).toString())
+                val productId = it.arguments?.getInt(PRODUCT_ID).toString()
+                OfferScreen(
+                        navController = navController,
+                        productId = productId,
                 )
             }
         }

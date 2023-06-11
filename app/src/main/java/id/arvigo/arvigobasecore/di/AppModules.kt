@@ -16,6 +16,7 @@ import id.arvigo.arvigobasecore.ui.feature.faceshape.FaceShapeViewModel
 import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
 import id.arvigo.arvigobasecore.ui.feature.login.LoginViewModel
 import id.arvigo.arvigobasecore.ui.feature.makeup.MakeupViewModel
+import id.arvigo.arvigobasecore.ui.feature.offer_detail.OfferViewModel
 import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
 import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailViewModel
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileRepository
@@ -80,6 +81,7 @@ val viewModelModules = module {
     viewModel { RecommenStoreViewModel(get()) }
     viewModel { BrandDetailViewModel(get()) }
     viewModel { FaceShapeViewModel(get()) }
+    viewModel { OfferViewModel(get(), get(), get(), get())}
 }
 
 val useCaseModule = module {
@@ -107,6 +109,7 @@ val useCaseModule = module {
     single { ProfileRepository(get(),get()) }
     single { ProductDetailRepository(get(),get()) }
     single { FaceshapeRepository(get(),get()) }
+    single { OfferDetailRepository(get(),get()) }
 }
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth_key")

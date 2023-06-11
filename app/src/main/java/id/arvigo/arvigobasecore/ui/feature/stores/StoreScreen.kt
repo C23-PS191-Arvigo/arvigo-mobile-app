@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
@@ -163,7 +164,9 @@ fun StoreCard(
                 }
                 androidx.compose.material3.Button(onClick = {
                     onClick()
-                }) {
+                },
+                        shape = RoundedCornerShape(10.dp),
+                        ) {
                     Text(text = "Lihat", style = TextStyle(color = Color.White, fontWeight = FontWeight.SemiBold))
                 }
             }
