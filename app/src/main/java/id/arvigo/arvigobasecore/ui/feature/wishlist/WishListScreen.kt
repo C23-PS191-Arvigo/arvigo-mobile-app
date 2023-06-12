@@ -23,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import id.arvigo.arvigobasecore.ui.feature.offer_detail.OfferScreen
 import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.screen.ProductWishlistScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.screen.StoreWishListScreen
@@ -85,10 +86,25 @@ fun WishListScreen(
             startDestination = Screen.ProductWishlist.route,
         ) {
             composable(Screen.StoreWishlist.route){
-                StoreWishListScreen()
+                StoreWishListScreen(navController)
             }
             composable(Screen.ProductWishlist.route){
                 ProductWishlistScreen(navController)
+            }
+            composable(
+                route = Screen.OfferDetail.route,
+                arguments = listOf(
+                    navArgument(PRODUCT_ID) {
+                        type = NavType.IntType
+                    }
+                )
+            ) {
+                Log.d("Args", it.arguments?.getInt(PRODUCT_ID).toString())
+                val productId = it.arguments?.getInt(PRODUCT_ID).toString()
+                OfferScreen(
+                    navController = navController,
+                    productId = productId,
+                )
             }
             composable(
                 route = Screen.ProductDetail.route,
@@ -108,14 +124,6 @@ fun WishListScreen(
         }
     }
 }
-
-/*@Preview(showBackground = true)
-@Composable
-fun WishListPreview() {
-    ArvigoBaseCoreTheme {
-        ProductWishlistScreen()
-    }
-}*/
 
 @Preview(showBackground = true)
 @Composable

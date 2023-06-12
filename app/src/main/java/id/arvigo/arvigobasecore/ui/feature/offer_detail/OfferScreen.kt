@@ -58,8 +58,8 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun OfferScreen(
-        navController: NavController,
-        productId: String,
+    navController: NavController,
+    productId: String,
 ) {
     ProductDetailContent(navController = navController, productId = productId)
 }
@@ -67,8 +67,8 @@ fun OfferScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailContent(
-        navController: NavController,
-        productId: String,
+    navController: NavController,
+    productId: String,
 ) {
 
     val viewModel: OfferViewModel = getViewModel()
@@ -79,7 +79,7 @@ fun ProductDetailContent(
 
     val isWishList = viewModel.isFavorite.value
 
-    val lifecycle : Lifecycle = LocalLifecycleOwner.current.lifecycle
+    val lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle
 
     LaunchedEffect(key1 = Unit) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -92,144 +92,170 @@ fun ProductDetailContent(
 
     Scaffold(
 
-            modifier = Modifier,
-            topBar = {
-                SmallTopAppBar(
-                        title = {
-                            Text(text = "Penawaran Detail")
-                        },
-                        navigationIcon = {
-                            IconButton(onClick = {
-                                navController.popBackStack()
-                            }) {
-                                Icon(
-                                        imageVector = Icons.Default.ArrowBack,
-                                        contentDescription = "back",
-                                )
-                            }
-                        },
-                        actions = {
-                            IconButton(onClick = {
-                            }) {
-                                Icon(imageVector = Icons.Default.Share, contentDescription = "")
-                            }
-                        }
-                )
-            }
+        modifier = Modifier,
+        topBar = {
+            SmallTopAppBar(
+                title = {
+                    Text(text = "Penawaran Detail")
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "back",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = {
+                    }) {
+                        Icon(imageVector = Icons.Default.Share, contentDescription = "")
+                    }
+                }
+            )
+        }
     ) {
         Column(
-                modifier = Modifier
-                        .fillMaxSize()
-                        .padding(it)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
         ) {
 
             val response = viewModel.response.value
 
-            when(response) {
+            when (response) {
                 is OfferUiState.Loading -> {
                     CircularProgressIndicator(
-                            modifier = Modifier
-                                    .fillMaxSize()
-                                    .wrapContentSize(align = Alignment.Center)
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(align = Alignment.Center)
                     )
                 }
+
                 is OfferUiState.Success -> {
                     LazyColumn(
-                            modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(3.8f)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(3.8f)
                     ) {
                         item {
                             ProductImageSlider(
-                                    imageData = response.data.images,
+                                imageData = response.data.images,
                             )
                             Column(
-                                    modifier = Modifier
-                                            .padding(horizontal = 16.dp, vertical = 16.dp)
-                                            .fillMaxWidth()
+                                modifier = Modifier
+                                    .padding(horizontal = 16.dp, vertical = 16.dp)
+                                    .fillMaxWidth()
                             ) {
                                 Row(
-                                        modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(top = 12.dp),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 12.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    Text(text = response.data.name, style = MaterialTheme.typography.headlineSmall.copy(
+                                    Text(
+                                        text = response.data.name,
+                                        style = MaterialTheme.typography.headlineSmall.copy(
                                             fontWeight = FontWeight.SemiBold,
-                                    ))
+                                        )
+                                    )
                                     IconButton(onClick = {
                                         if (isWishList) {
                                             Log.d("ParsData", "${response.data.id}")
-                                            viewModel.deleteWishlistStore(id = response.data.id )
+                                            viewModel.deleteWishlistStore(id = response.data.id)
                                             viewModel.checkFavoriteStatus(response.data.id.toString())
                                             isFavorite.value = false
                                         } else {
                                             Log.d("ParsData", "${response.data.id}")
-                                            viewModel.addWishlistStore(id = response.data.id )
+                                            viewModel.addWishlistStore(id = response.data.id)
                                             viewModel.checkFavoriteStatus(response.data.id.toString())
                                             isFavorite.value = true
                                         }
                                     }) {
                                         if (isWishList) {
-                                            Icon(imageVector = Icons.Default.Favorite, contentDescription = "", tint = Color.Red)
+                                            Icon(
+                                                imageVector = Icons.Default.Favorite,
+                                                contentDescription = "",
+                                                tint = Color.Red
+                                            )
                                         } else {
-                                            Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = "")
+                                            Icon(
+                                                imageVector = Icons.Default.FavoriteBorder,
+                                                contentDescription = ""
+                                            )
                                         }
                                     }
                                 }
-                                Text(text = response.data.brand, style = MaterialTheme.typography.titleMedium)
+                                Text(
+                                    text = response.data.brand,
+                                    style = MaterialTheme.typography.titleMedium
+                                )
                                 Spacer(modifier = Modifier.height(32.dp))
-                                Text(text = "Deskripsi", style = MaterialTheme.typography.titleLarge)
+                                Text(
+                                    text = "Deskripsi",
+                                    style = MaterialTheme.typography.titleLarge
+                                )
                                 Spacer(modifier = Modifier.height(8.dp))
-                                Text(text = response.data.name, style = MaterialTheme.typography.bodyLarge)
+                                Text(
+                                    text = response.data.name,
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
                             }
                         }
                     }
                     Surface(
-                            modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(0.3f)
-                                    .padding(horizontal = 15.dp, vertical = 4.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(0.3f)
+                            .padding(horizontal = 15.dp, vertical = 4.dp)
                     ) {
                         val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
                         val context = LocalContext.current
                         val openDeepAR = rememberLauncherForActivityResult(
-                                contract = ActivityResultContracts.StartActivityForResult()
+                            contract = ActivityResultContracts.StartActivityForResult()
                         ) {
                         }
                         Row(
-                                modifier = Modifier
-                                        .width(itemSize),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .width(itemSize),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             OutlinedButton(
-                                    modifier = Modifier
-                                            .width(itemSize)
-                                            .height(48.dp),
-                                    onClick = {
-                                        // TODO: ERROR WHEN CLICKED
-                                        //navController.navigate(Screen.RecommendationStore.createRoute(idState.value))
-                                    },
-                                    shape = MaterialTheme.shapes.small,
-                                    border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary),
+                                modifier = Modifier
+                                    .width(itemSize)
+                                    .height(48.dp),
+                                onClick = {
+                                    // TODO: ERROR WHEN CLICKED
+                                    //navController.navigate(Screen.RecommendationStore.createRoute(idState.value))
+                                },
+                                shape = MaterialTheme.shapes.small,
+                                border = BorderStroke(
+                                    width = 2.dp,
+                                    color = MaterialTheme.colorScheme.primary
+                                ),
                             )
                             {
-                                Text(text = "Beli Sekarang", style = MaterialTheme.typography.titleMedium.copy(
+                                Text(
+                                    text = "Beli Sekarang",
+                                    style = MaterialTheme.typography.titleMedium.copy(
                                         color = MaterialTheme.colorScheme.primary,
-                                ))
+                                    )
+                                )
                             }
-                            Spacer(modifier = Modifier.width(8.dp))
+                            /*Spacer(modifier = Modifier.width(8.dp))
                             Button(
                                     modifier = Modifier
                                             .fillMaxWidth()
                                             .height(48.dp),
                                     onClick = {
-//                                        val link = response.data.variants[0].linkAr
-//                                        val intent = Intent(context, DeepArActivity::class.java).apply {
-//                                            putExtra("linkAr", link)}
-//                                        openDeepAR.launch(intent)
+                                        val link = response.data. variants[0].linkAr
+                                        val intent = Intent(context, DeepArActivity::class.java).apply {
+                                            putExtra("linkAr", link)}
+                                        openDeepAR.launch(intent)
                                     },
                                     shape = MaterialTheme.shapes.small,
                             )
@@ -237,18 +263,20 @@ fun ProductDetailContent(
                                 Text(text = "Coba dengan AR", style = MaterialTheme.typography.titleMedium.copy(
                                         color = Color.White,
                                 ))
-                            }
+                            }*/
                         }
                     }
                 }
+
                 is OfferUiState.Failure -> {
                     Text(text = response.error.message ?: "Unknown Error")
                 }
+
                 OfferUiState.Empty -> {
                     Box(
-                            modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(3.8f)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(3.8f)
                     ) {
                         Text(text = "Empty", modifier = Modifier.align(Alignment.Center))
                     }

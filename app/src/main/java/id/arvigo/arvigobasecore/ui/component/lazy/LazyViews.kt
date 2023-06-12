@@ -30,11 +30,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.data.source.network.response.wishlist.WishListsProductsItem
 import id.arvigo.arvigobasecore.data.source.network.response.wishlist.WishListsStoreItem
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 
 @Composable
@@ -47,8 +49,8 @@ fun ProductLazyGrid(
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
-    ){
-        items(itemList){
+    ) {
+        items(itemList) {
             ItemProduct(image = it.image, name = it.name, store = it.brand)
         }
     }
@@ -56,15 +58,20 @@ fun ProductLazyGrid(
 
 @Composable
 fun StoreLazyGrid(
-    itemList: List<WishListsStoreItem>
+    itemList: List<WishListsStoreItem>,
+    navController: NavController
 ) {
     LazyColumn(
         state = LazyListState(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
-    ){
-        items(itemList){
-            ItemBrand(image = it.image, name = it.name, store = it.merchant)
+    ) {
+        items(itemList) {
+            ItemBrand(image = it.image, name = it.name, store = it.merchant,
+                onClick = {
+                    navController.navigate(Screen.OfferDetail.createRoute(it.id))
+                }
+            )
         }
     }
 }
@@ -80,37 +87,41 @@ fun ItemProduct(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 10.dp),
-        ) {
-            Column() {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(160.dp)
-                        .padding(horizontal = 4.dp, vertical = 4.dp),
-                ) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(image)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        placeholder = painterResource(id = R.drawable.img_placeholder),
-                        alignment = Alignment.Center,
-                    )
-                }
-                Spacer(modifier = Modifier.padding(top = 2.dp))
-                Text(text = store, style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
-                Spacer(modifier = Modifier.padding(top = 2.dp))
-                Text(
-                    text = name,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(horizontal = 10.dp)
+    ) {
+        Column() {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(160.dp)
+                    .padding(horizontal = 4.dp, vertical = 4.dp),
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(image)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    placeholder = painterResource(id = R.drawable.img_placeholder),
+                    alignment = Alignment.Center,
                 )
-                Spacer(modifier = Modifier.padding(top = 2.dp))
             }
+            Spacer(modifier = Modifier.padding(top = 2.dp))
+            Text(
+                text = store,
+                style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
+                modifier = Modifier.padding(horizontal = 10.dp)
+            )
+            Spacer(modifier = Modifier.padding(top = 2.dp))
+            Text(
+                text = name,
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(horizontal = 10.dp)
+            )
+            Spacer(modifier = Modifier.padding(top = 2.dp))
+        }
     }
 }
 
@@ -119,9 +130,12 @@ fun ItemProduct(
 fun ItemBrand(
     image: String,
     name: String,
-    store: String
+    store: String,
+    onClick: () -> Unit
 ) {
-    Card() {
+    Card(
+        onClick = onClick
+    ) {
         Row(
             modifier = Modifier
                 .height(160.dp)
@@ -133,7 +147,7 @@ fun ItemBrand(
                 modifier = Modifier
                     .height(200.dp)
                     .width(150.dp)
-                    .padding(horizontal = 4.dp, vertical = 4.dp),
+                    .padding(horizontal = 4.dp, vertical = 4.dp)
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
@@ -158,8 +172,16 @@ fun ItemBrand(
                     modifier = Modifier.padding(horizontal = 10.dp),
                 )
                 Spacer(modifier = Modifier.padding(top = 10.dp))
-                Text(text = store, style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
-                Text(text = store, style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 10.dp))
+                Text(
+                    text = store,
+                    style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                )
+                Text(
+                    text = store,
+                    style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                )
             }
         }
     }
@@ -170,6 +192,6 @@ fun ItemBrand(
 @Composable
 fun ItemPreview() {
     ArvigoBaseCoreTheme {
-        ItemBrand(image = "", name = "hello", store = "store")
+        //    ItemBrand(image = "", name = "hello", store = "store")
     }
 }
