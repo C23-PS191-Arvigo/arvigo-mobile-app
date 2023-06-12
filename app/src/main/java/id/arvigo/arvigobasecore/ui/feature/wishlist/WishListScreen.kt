@@ -1,5 +1,6 @@
 package id.arvigo.arvigobasecore.ui.feature.wishlist
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,13 +17,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import id.arvigo.arvigobasecore.ui.feature.home.HomeScreen
+import androidx.navigation.navArgument
+import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.screen.ProductWishlistScreen
 import id.arvigo.arvigobasecore.ui.feature.wishlist.screen.StoreWishListScreen
+import id.arvigo.arvigobasecore.ui.navigation.PRODUCT_ID
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.navigation.TabItems
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
@@ -84,19 +88,34 @@ fun WishListScreen(
                 StoreWishListScreen()
             }
             composable(Screen.ProductWishlist.route){
-                ProductWishlistScreen()
+                ProductWishlistScreen(navController)
+            }
+            composable(
+                route = Screen.ProductDetail.route,
+                arguments = listOf(
+                    navArgument(PRODUCT_ID) {
+                        type = NavType.IntType
+                    }
+                )
+            ) {
+                Log.d("Args", it.arguments?.getInt(PRODUCT_ID).toString())
+                val productId = it.arguments?.getInt(PRODUCT_ID).toString()
+                ProductDetailScreen(
+                    navController = navController,
+                    productId = productId,
+                )
             }
         }
     }
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun WishListPreview() {
     ArvigoBaseCoreTheme {
         ProductWishlistScreen()
     }
-}
+}*/
 
 @Preview(showBackground = true)
 @Composable

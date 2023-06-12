@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -62,6 +60,7 @@ import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.CarouselCard
 import id.arvigo.arvigobasecore.ui.component.PrimaryAlert
 import id.arvigo.arvigobasecore.ui.component.cards.CustomCard
+import id.arvigo.arvigobasecore.ui.component.cards.ItemListOne
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeFaceState
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomePersonalState
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeUiState
@@ -432,52 +431,13 @@ fun HomeContent(
                                         .width(itemSize),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Card(
-                                        modifier = Modifier
-                                            .padding(horizontal = 8.dp, vertical = 10.dp)
-                                            .fillMaxSize()
-                                            .clickable {
-                                                navController.navigate(
-                                                    Screen.ProductDetail.createRoute(
-                                                        recommendation.id
-                                                    )
-                                                )
-                                            },
-                                        elevation = CardDefaults.cardElevation(
-                                            defaultElevation = 2.dp
-                                        )
-                                    ) {
-                                        Column() {
-                                            Card(
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .height(170.dp)
-                                                    .padding(horizontal = 8.dp, vertical = 8.dp),
-                                            ) {
-                                                AsyncImage(
-                                                    model = ImageRequest.Builder(LocalContext.current)
-                                                        .data(recommendation.image)
-                                                        .crossfade(true)
-                                                        .build(),
-                                                    contentDescription = null,
-                                                    contentScale = ContentScale.Crop,
-                                                    placeholder = painterResource(id = R.drawable.img_placeholder),
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                )
-                                            }
-                                            Text(
-                                                text = recommendation.name,
-                                                style = MaterialTheme.typography.titleLarge,
-                                                maxLines = 2,
-                                                overflow = TextOverflow.Ellipsis,
-                                                modifier = Modifier.padding(horizontal = 8.dp)
-                                            )
-                                            Spacer(modifier = Modifier.padding(top = 8.dp))
-                                            Text(text = recommendation.brand, style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray), modifier = Modifier.padding(horizontal = 8.dp))
-                                            Spacer(modifier = Modifier.padding(top = 12.dp))
-                                        }
-                                    }
+                                    ItemListOne(
+                                        navController = navController,
+                                        id = recommendation.id,
+                                        image = recommendation.image,
+                                        name = recommendation.name,
+                                        brand = recommendation.brand
+                                    )
                                 }
                             }
                         }
@@ -528,21 +488,6 @@ fun MainMenu(title: String, icon: Int, onClick: () -> Unit) {
                 .background(Color.Black.copy(alpha = 0.5f))) {
             }
             Text(text = title, style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
-        }
-    }
-}
-
-fun LazyGridScope.GridContent() {
-    GridCells.Fixed(2)
-    items(10) {
-        Box(
-            modifier = Modifier
-                .width(200.dp)
-                .height(200.dp)
-                .background(Color.Cyan),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(text = "Item $it", style = MaterialTheme.typography.titleMedium.copy(color = Color.White, fontWeight = FontWeight.Bold), textAlign = TextAlign.Center)
         }
     }
 }
