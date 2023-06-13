@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
+import id.arvigo.arvigobasecore.ui.component.alert.AlertAbout
 import id.arvigo.arvigobasecore.ui.component.alert.AlertFeatureUnavailable
 import id.arvigo.arvigobasecore.ui.component.alert.AlertLogout
 import id.arvigo.arvigobasecore.ui.component.cards.CustomCardThree
@@ -139,8 +140,10 @@ fun ProfileRowItems(
 ) {
     val openDialog = remember { mutableStateOf(false) }
     val unavailableDialog = remember { mutableStateOf(false) }
-    MenuRowItem(name = "Tentang Aplikasi") {
-        unavailableDialog.value = true
+    val aboutDialog = remember { mutableStateOf(false) }
+    MenuRowItem(name = "Tentang Aplikasi", onMenuClick = {aboutDialog.value=true})
+    if (aboutDialog.value) {
+        AlertAbout(openDialog = aboutDialog)
     }
     MenuRowItem(name = "Logout", onMenuClick = { openDialog.value = true })
     if (openDialog.value) {
