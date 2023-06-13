@@ -9,7 +9,6 @@ fun AlertFeatureUnavailable(
 ) {
     AlertStateless(
         openDialog = openDialog,
-        confirmButton = {  },
         title = "Fitur dalam pengembangan",
         desc = "Mohon maaf untuk saat ini fitur masih dalam tahap pengembangan."
     )

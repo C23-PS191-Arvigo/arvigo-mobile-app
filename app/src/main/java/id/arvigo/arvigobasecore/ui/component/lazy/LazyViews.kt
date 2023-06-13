@@ -67,7 +67,7 @@ fun StoreLazyGrid(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(itemList) {
-            ItemBrand(image = it.image, name = it.name, store = it.merchant,
+            ItemBrand(image = it.image, name = it.name, store = it.merchant, brand = it.brand,
                 onClick = {
                     navController.navigate(Screen.OfferDetail.createRoute(it.id))
                 }
@@ -131,6 +131,7 @@ fun ItemBrand(
     image: String,
     name: String,
     store: String,
+    brand: String,
     onClick: () -> Unit
 ) {
     Card(
@@ -178,7 +179,7 @@ fun ItemBrand(
                     modifier = Modifier.padding(horizontal = 10.dp)
                 )
                 Text(
-                    text = store,
+                    text = brand,
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                     modifier = Modifier.padding(horizontal = 10.dp)
                 )

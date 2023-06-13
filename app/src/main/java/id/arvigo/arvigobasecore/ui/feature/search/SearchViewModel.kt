@@ -7,9 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.arvigo.arvigobasecore.data.repository.SearchProductRepository
-import id.arvigo.arvigobasecore.data.source.network.response.category.CategoryItem
 import id.arvigo.arvigobasecore.domain.model.TextFieldState
-import id.arvigo.arvigobasecore.ui.feature.eyewear.uistate.EyewearUiState
 import id.arvigo.arvigobasecore.ui.feature.search.uistate.SearchUiState
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
@@ -25,7 +23,11 @@ class SearchViewModel(
     val queryState: State<TextFieldState> = _queryState
 
     fun setQuery(value:String){
-        _queryState.value = queryState.value.copy(text = value)
+        if (value.length < 3) {
+            _queryState.value = queryState.value.copy(text = value, error = "Text length must be at least 3 characters")
+        } else {
+            _queryState.value = queryState.value.copy(text = value, error = "")
+        }
     }
 
     init {
