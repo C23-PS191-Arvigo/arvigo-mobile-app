@@ -2,8 +2,12 @@ package id.arvigo.arvigobasecore.ui.feature.search
 
 import android.util.Log
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -13,9 +17,17 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -28,8 +40,10 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.ui.component.ProductItemCard
 import id.arvigo.arvigobasecore.ui.feature.search.uistate.SearchUiState
@@ -74,7 +88,8 @@ fun SearchScreenContent(
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp)
+                          //  .height(64.dp)
+                            .padding(vertical = 8.dp, horizontal = 12.dp)
                             .focusRequester(focusRequester) // Use the FocusRequester
                             .onFocusChanged { focusState ->
                                 if (focusState.isFocused) {
@@ -109,7 +124,8 @@ fun SearchScreenContent(
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
                             cursorColor = MaterialTheme.colorScheme.primary,
-                        )
+                        ),
+                        textStyle = TextStyle(fontSize = 18.sp)
                     )
                 },
                 navigationIcon = {
@@ -126,9 +142,17 @@ fun SearchScreenContent(
         }
     ) {
         val response = viewModel.response.value
+        if (queryState.error?.isNotEmpty() == true) {
+            Text(
+                text = queryState.error,
+                style = TextStyle(color = Color.Red),
+                modifier = Modifier.padding(it),
+            )
+        }
 
         when(response) {
             is SearchUiState.Success -> {
+
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(180.dp),
                     state = LazyGridState(),
