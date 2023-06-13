@@ -8,10 +8,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Card
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -21,16 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -63,9 +57,11 @@ fun StoreScreenContent(
         topBar = {
             SmallTopAppBar(
                 title = {
-                    Text(text = "Toko", style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = FontWeight.SemiBold
-                    ))
+                    Text(
+                        text = "Toko", style = MaterialTheme.typography.headlineSmall.copy(
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -82,7 +78,7 @@ fun StoreScreenContent(
     ) {
         val response = viewModel.response.value
 
-        when(response) {
+        when (response) {
             is StoreUiState.Loading -> {
                 CircularProgressIndicator(
                     modifier = Modifier
@@ -90,6 +86,7 @@ fun StoreScreenContent(
                         .wrapContentSize(align = Alignment.Center)
                 )
             }
+
             is StoreUiState.Success -> {
                 LazyColumn(
                     modifier = Modifier
@@ -112,9 +109,11 @@ fun StoreScreenContent(
                     }
                 }
             }
+
             is StoreUiState.Failure -> {
                 Text(text = "Error")
             }
+
             else -> {
                 Text(text = "Empty")
             }
@@ -132,7 +131,7 @@ fun StoreCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            
+
     ) {
         Column(
             modifier = Modifier
@@ -156,25 +155,35 @@ fun StoreCard(
                     )
                     Column(
                         modifier = Modifier
-                            .padding(start = 8.dp)
+                            .padding(start = 8.dp),
                     ) {
-                        Text(text = data.merchantName, style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            text = data.merchantName,
+                            style = MaterialTheme.typography.titleMedium,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                            modifier = Modifier.width(150.dp)
+                        )
                         Text(text = data.location, style = MaterialTheme.typography.bodySmall)
                     }
                 }
-                androidx.compose.material3.Button(onClick = {
-                    onClick()
-                },
-                        shape = RoundedCornerShape(10.dp),
-                        ) {
-                    Text(text = "Lihat", style = TextStyle(color = Color.White, fontWeight = FontWeight.SemiBold))
+                Button(
+                    onClick = {
+                        onClick()
+                    },
+                    shape = RoundedCornerShape(10.dp),
+                ) {
+                    Text(
+                        text = "Lihat",
+                        style = TextStyle(color = Color.White, fontWeight = FontWeight.SemiBold)
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(12.dp))
             LazyRow(
                 contentPadding = PaddingValues(start = 2.dp, end = 2.dp),
             ) {
-                if(data.storeDataItems.size >= 3) {
+                if (data.storeDataItems.size >= 3) {
                     items(data.storeDataItems.subList(0, 3)) { data ->
                         StoreProductItemCard(
                             data = data
@@ -192,7 +201,6 @@ fun StoreCard(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoreProductItemCard(
     data: StoreDataItem

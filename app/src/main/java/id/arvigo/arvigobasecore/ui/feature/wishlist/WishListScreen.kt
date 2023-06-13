@@ -56,31 +56,41 @@ fun WishListScreen(
     }
     
     Column(modifier = Modifier.fillMaxSize()) {
-        TabRow(
-            selectedTabIndex = selectedTabIndex,
-            modifier = Modifier.background(Color.White)
-        ) {
-            tabs.forEachIndexed {index, item ->
-                Tab(
-                    text = { Text(item.title) },
-                    selected = currentRoute == item.screen.route,
-                    onClick = {
-                        navController.navigate(
-                            route = item.screen.route,
-                            builder = {
-                                navController.navigate(route = item.screen.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+        val excludedRoutes = listOf(
+            Screen.ProductDetail.route,
+            Screen.RecommendationStore.route,
+            Screen.BrandDetail.route,
+            Screen.StoreDetail.route,
+            Screen.OfferDetail.route,
+        )
+        if (currentRoute !in excludedRoutes) {
+            TabRow(
+                selectedTabIndex = selectedTabIndex,
+                modifier = Modifier.background(Color.White)
+            ) {
+                tabs.forEachIndexed {index, item ->
+                    Tab(
+                        text = { Text(item.title) },
+                        selected = currentRoute == item.screen.route,
+                        onClick = {
+                            navController.navigate(
+                                route = item.screen.route,
+                                builder = {
+                                    navController.navigate(route = item.screen.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
                                     }
-                                    launchSingleTop = true
+                                    selectedTabIndex = index
                                 }
-                                selectedTabIndex = index
-                            }
-                        )
-                    }
-                )
+                            )
+                        }
+                    )
+                }
             }
         }
+
         NavHost(
             navController = navController,
             startDestination = Screen.ProductWishlist.route,

@@ -176,7 +176,7 @@ fun ProductDetailContent(
                     Surface(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(0.3f)
+                            .weight(0.5f)
                             .padding(horizontal = 15.dp, vertical = 4.dp)
                     ) {
                         val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
@@ -221,7 +221,7 @@ fun ProductDetailContent(
                                 shape = MaterialTheme.shapes.small,
                             )
                             {
-                                Text(text = "Coba dengan AR", style = MaterialTheme.typography.titleMedium.copy(
+                                Text(text = "Coba AR", style = MaterialTheme.typography.titleMedium.copy(
                                     color = Color.White,
                                 ))
                             }
