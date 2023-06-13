@@ -58,7 +58,7 @@ import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.CarouselCard
-import id.arvigo.arvigobasecore.ui.component.PrimaryAlert
+import id.arvigo.arvigobasecore.ui.component.alert.PrimaryAlert
 import id.arvigo.arvigobasecore.ui.component.cards.CustomCard
 import id.arvigo.arvigobasecore.ui.component.cards.ItemListOne
 import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomeFaceState

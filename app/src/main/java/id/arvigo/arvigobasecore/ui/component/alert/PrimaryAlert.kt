@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.component
+package id.arvigo.arvigobasecore.ui.component.alert
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import id.arvigo.arvigobasecore.ui.component.alert.AlertStateless
 import id.arvigo.arvigobasecore.util.Constant.ALERT_HOMESCREEN
 
 @Composable
