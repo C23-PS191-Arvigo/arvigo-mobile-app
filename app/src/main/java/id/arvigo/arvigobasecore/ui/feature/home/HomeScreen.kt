@@ -191,8 +191,7 @@ fun HomeContent(
                     button = "Ambil",
                     onClick = {
                         navController.navigate(Screen.Personality.route)
-                    },
-                    title = {}
+                    }
                 )
                 Spacer(modifier = Modifier.padding(top = 12.dp))
                 CustomCard(

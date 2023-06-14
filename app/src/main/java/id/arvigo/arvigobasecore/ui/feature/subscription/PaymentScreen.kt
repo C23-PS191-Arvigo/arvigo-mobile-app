@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -50,7 +51,8 @@ import org.koin.androidx.compose.get
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaymentScreen(
-    navController: NavController
+    navController: NavController,
+    uniqueCode: Int
 ) {
     val viewModel: SubscriptionViewModel = get()
     val isLoading = viewModel.isLoading.value // Collect the isLoading state as a Compose state
@@ -89,18 +91,17 @@ fun PaymentScreen(
                     arrangement = Arrangement.Top
                 )
                 CustomLineTwo(
-                    textOne = "Unique Code",
-                    textTwo = "2423908",
+                    textOne = "Kode Unik",
+                    textTwo = uniqueCode.toString(),
                     arrangement = Arrangement.Top
                 )
                 CustomLineTwo(
-                    textOne = "Total Price",
+                    textOne = "Total Harga",
                     textTwo = "Rp. 212.000",
                     arrangement = Arrangement.Bottom
                 )
                 Button(
                     onClick = {
-                        val uniqueCode = (100 until 1000).random()
                         val request = SubscriptionRequest(
                             price = 20000,
                             uniqueCode = uniqueCode,
@@ -110,11 +111,14 @@ fun PaymentScreen(
                         viewModel.subscribe(request)
                         Log.d("neo-tag", responseMessage.toString())
                     },
+                    shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
                         .padding(16.dp)
-                        .width(150.dp)
                 ) {
-                    Text(text = "Bayar Sekarang")
+                    Text(text = "Bayar Sekarang",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
                 }
             }
         }

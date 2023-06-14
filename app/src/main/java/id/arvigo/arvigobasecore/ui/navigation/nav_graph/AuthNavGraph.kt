@@ -22,7 +22,7 @@ fun NavGraphBuilder.authNavGraph(
             )
         }
         composable(Screen.Register.route) {
-            RegisterScreen()
+            RegisterScreen(navController = navController)
         }
     }
 }
