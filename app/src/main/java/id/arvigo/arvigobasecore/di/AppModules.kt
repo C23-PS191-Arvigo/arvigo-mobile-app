@@ -27,6 +27,7 @@ import id.arvigo.arvigobasecore.ui.feature.register.RegisterViewModel
 import id.arvigo.arvigobasecore.ui.feature.search.SearchViewModel
 import id.arvigo.arvigobasecore.ui.feature.splash.SplashViewModel
 import id.arvigo.arvigobasecore.ui.feature.stores.StoreViewModel
+import id.arvigo.arvigobasecore.ui.feature.subscription.SubscriptionViewModel
 import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListViewModel
 import id.arvigo.arvigobasecore.util.Constant.BASE_URL
 import okhttp3.OkHttpClient
@@ -82,6 +83,7 @@ val viewModelModules = module {
     viewModel { BrandDetailViewModel(get()) }
     viewModel { FaceShapeViewModel(get()) }
     viewModel { OfferViewModel(get(), get(), get(), get())}
+    viewModel { SubscriptionViewModel(get(), get()) }
 }
 
 val useCaseModule = module {

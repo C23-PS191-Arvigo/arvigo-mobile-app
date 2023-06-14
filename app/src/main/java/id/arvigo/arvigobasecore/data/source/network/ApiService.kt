@@ -18,9 +18,10 @@ import id.arvigo.arvigobasecore.data.source.network.response.wishlist.AddWishlis
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileResponse
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterResponse
+import id.arvigo.arvigobasecore.ui.feature.subscription.model.SubscriptionRequest
+import id.arvigo.arvigobasecore.ui.feature.subscription.model.SubscriptionResponse
 import id.arvigo.arvigobasecore.ui.feature.wishlist.model.WishListsResponse
 import okhttp3.MultipartBody
-import okhttp3.internal.http.hasBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -77,10 +78,6 @@ interface ApiService {
         @Body request: QuestionnaireRequestX
     ): QuestionnaireResponse
 
-/*    @POST("/v1/auth/login")
-    suspend fun loginNew(
-        @Body request: LoginRequest
-    ):*/
     @GET("/v1/wishlists")
     suspend fun getWishLists(
         @Header("Authorization") token: String,
@@ -153,4 +150,10 @@ interface ApiService {
             @Header("Authorization") token: String,
             @Path("id") id: String
     ): OfferResponse
+
+    @POST("/v1/subscription/user")
+    fun addSubscription(
+        @Header("Authorization") token: String,
+        @Body request: SubscriptionRequest
+    ): Call<SubscriptionResponse>
 }

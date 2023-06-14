@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.feature.profile.screen
+package id.arvigo.arvigobasecore.ui.feature.subscription
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
