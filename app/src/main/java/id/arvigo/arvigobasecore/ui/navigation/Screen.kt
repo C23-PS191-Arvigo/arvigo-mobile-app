@@ -12,6 +12,7 @@ const val BRAND_NAME = "brandName"
 const val FACESHAPE_RESULT_IMAGE = "faceshapeResultImage"
 const val FACESHAPE_RESULT = "faceshapeResult"
 const val PERSONALITY_RESULT = "personalityResult"
+const val UNIQUE_CODE = "uniqueCode"
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -21,9 +22,7 @@ sealed class Screen(val route: String) {
     object Profile : Screen("profile")
     object Login : Screen("login")
     object Register : Screen("register")
-    object DetailReward : Screen("home/{rewardId}") {
-        fun createRoute(rewardId: Long) = "home/$rewardId"
-    }
+
     object StoreWishlist : Screen("store_wishlist")
     object ProductWishlist : Screen("product_wishlist")
 
@@ -33,7 +32,9 @@ sealed class Screen(val route: String) {
 
     object ProfileEdit : Screen("profile_edit")
     object Pricing : Screen("pricing_screen")
-    object Payment : Screen("payment_screen")
+    object Payment : Screen("payment_screen/{$UNIQUE_CODE}"){
+        fun createRoute(uniqueCode: Int) = "payment_screen/$uniqueCode"
+    }
     object Brand : Screen("brand")
     object Eyewear : Screen("eyewear")
     object FaceShapeIntro : Screen("faceshape_intro")

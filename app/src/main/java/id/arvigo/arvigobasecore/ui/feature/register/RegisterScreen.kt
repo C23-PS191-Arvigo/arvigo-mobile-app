@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.textfield.EmailTextField
 import id.arvigo.arvigobasecore.ui.component.textfield.NameTextField
@@ -39,14 +40,15 @@ import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun RegisterScreen() {
-    RegisterScreenContent()
+fun RegisterScreen(navController: NavController,) {
+    RegisterScreenContent(navController = navController)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreenContent(
-    viewModel: RegisterViewModel = getViewModel()
+    viewModel: RegisterViewModel = getViewModel(),
+    navController: NavController,
 ) {
     val isLoading = viewModel.isLoading.value // Collect the isLoading state as a Compose state
     val responseMessage by viewModel.responseMessage.collectAsState()
@@ -122,6 +124,11 @@ fun RegisterScreenContent(
                         val registerRequest =
                             RegisterRequest(email, password, confirmPassword, fullName)
                         viewModel.register(registerRequest)
+                        /*navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Login.route) {
+                                inclusive = true
+                            }
+                        }*/
                     },
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
@@ -147,6 +154,6 @@ fun RegisterScreenContent(
 @Composable
 fun RegisterPreview() {
     ArvigoBaseCoreTheme {
-        RegisterScreen()
+        //RegisterScreen()
     }
 }

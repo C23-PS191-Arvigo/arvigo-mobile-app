@@ -1,5 +1,7 @@
-package id.arvigo.arvigobasecore.ui.feature.profile.screen
+package id.arvigo.arvigobasecore.ui.feature.subscription
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -23,6 +26,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,13 +44,20 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
+import id.arvigo.arvigobasecore.ui.feature.subscription.model.SubscriptionRequest
 import id.arvigo.arvigobasecore.util.Constant.IMAGE_BCA
+import org.koin.androidx.compose.get
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaymentScreen(
-    navController: NavController
+    navController: NavController,
+    uniqueCode: Int
 ) {
+    val viewModel: SubscriptionViewModel = get()
+    val isLoading = viewModel.isLoading.value // Collect the isLoading state as a Compose state
+    val responseMessage by viewModel.responseMessage.collectAsState()
+    val context = LocalContext.current // Get the current context for showing toast
     Scaffold(
         topBar = { PaymentTopBar(onMenuClick = { navController.popBackStack() }) }
     ) {
@@ -56,7 +69,7 @@ fun PaymentScreen(
         ) {
             item {
                 Text(
-                    text = "Payment Method",
+                    text = "Metode Pembayaran",
                     modifier = Modifier,
                 )
                 CustomRowOne(image = IMAGE_BCA, textOne = "11000929443")
@@ -66,7 +79,7 @@ fun PaymentScreen(
                 CustomRowOne(image = IMAGE_BCA, textOne = "11000929443")
                 CustomDivider()
                 Text(
-                    text = "Ordering",
+                    text = "Rangkuman Pembayaran",
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -78,19 +91,42 @@ fun PaymentScreen(
                     arrangement = Arrangement.Top
                 )
                 CustomLineTwo(
-                    textOne = "Unique Code",
-                    textTwo = "2423908",
+                    textOne = "Kode Unik",
+                    textTwo = uniqueCode.toString(),
                     arrangement = Arrangement.Top
                 )
-                CustomLineTwo(textOne = "Total Price", textTwo = "Rp. 212.000", arrangement = Arrangement.Bottom)
+                CustomLineTwo(
+                    textOne = "Total Harga",
+                    textTwo = "Rp. 212.000",
+                    arrangement = Arrangement.Bottom
+                )
                 Button(
-                    onClick = {},
+                    onClick = {
+                        val request = SubscriptionRequest(
+                            price = 20000,
+                            uniqueCode = uniqueCode,
+                            message = viewModel.responseMessage.toString(),
+                            bank = "BCA"
+                        )
+                        viewModel.subscribe(request)
+                        Log.d("neo-tag", responseMessage.toString())
+                    },
+                    shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
                         .padding(16.dp)
-                        .width(150.dp)
                 ) {
-                    Text(text = "Bayar Sekarang")
+                    Text(text = "Bayar Sekarang",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
                 }
+            }
+        }
+        //Show Toasts
+        LaunchedEffect(responseMessage) {
+            responseMessage?.let {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                viewModel.clearResponseMessage()
             }
         }
     }
@@ -98,9 +134,9 @@ fun PaymentScreen(
 
 @Composable
 fun CustomLineTwo(
-   textOne: String,
-   textTwo: String,
-   arrangement: Arrangement.Vertical
+    textOne: String,
+    textTwo: String,
+    arrangement: Arrangement.Vertical
 ) {
     Column(
         verticalArrangement = arrangement

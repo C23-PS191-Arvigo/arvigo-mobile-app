@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomCard(
-    title: (@Composable () -> Unit)?,
+    title: (@Composable () -> Unit)? = null,
     desc: String,
     button: String,
     onClick: () -> Unit,

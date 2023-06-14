@@ -24,8 +24,8 @@ import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityScreen
 import id.arvigo.arvigobasecore.ui.feature.personality.recommendation.PersonalRecomenScreen
 import id.arvigo.arvigobasecore.ui.feature.product_detail.ProductDetailScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.ProfileScreen
-import id.arvigo.arvigobasecore.ui.feature.profile.screen.PaymentScreen
-import id.arvigo.arvigobasecore.ui.feature.profile.screen.PricingScreen
+import id.arvigo.arvigobasecore.ui.feature.subscription.PaymentScreen
+import id.arvigo.arvigobasecore.ui.feature.subscription.PricingScreen
 import id.arvigo.arvigobasecore.ui.feature.profile.screen.ProfileEditScreen
 import id.arvigo.arvigobasecore.ui.feature.recommendation_store.RecommenStoreScreen
 import id.arvigo.arvigobasecore.ui.feature.search.SearchScreen
@@ -40,6 +40,7 @@ import id.arvigo.arvigobasecore.ui.navigation.FACESHAPE_RESULT_IMAGE
 import id.arvigo.arvigobasecore.ui.navigation.PERSONALITY_RESULT
 import id.arvigo.arvigobasecore.ui.navigation.PRODUCT_ID
 import id.arvigo.arvigobasecore.ui.navigation.Screen
+import id.arvigo.arvigobasecore.ui.navigation.UNIQUE_CODE
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavHostController
@@ -59,11 +60,20 @@ fun NavGraphBuilder.homeNavGraph(
     composable(Screen.ProfileEdit.route) {
         ProfileEditScreen(navController)
     }
-    composable(Screen.Pricing.route) {
-        PricingScreen(navController = navController)
+    composable(
+        route = Screen.Pricing.route
+    ) {
+        PricingScreen(navController = navController,)
     }
-    composable(Screen.Payment.route) {
-        PaymentScreen(navController = navController)
+    composable(
+        route = Screen.Payment.route,
+        arguments = listOf(
+            navArgument(UNIQUE_CODE) {
+                type = NavType.IntType
+            })
+    ) {
+        val uniqueCode = it.arguments?.getInt(UNIQUE_CODE) ?: 0
+        PaymentScreen(navController = navController, uniqueCode = uniqueCode)
     }
     //category
     composable(Screen.Eyewear.route) {

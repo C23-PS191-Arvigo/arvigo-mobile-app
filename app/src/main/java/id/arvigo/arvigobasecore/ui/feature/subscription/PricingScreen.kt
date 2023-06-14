@@ -1,4 +1,4 @@
-package id.arvigo.arvigobasecore.ui.feature.profile.screen
+package id.arvigo.arvigobasecore.ui.feature.subscription
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -62,7 +62,11 @@ fun CardPricePremium(
             Text(text = "✅ Dapatkan benefit 3")
         },
         button = {
-            Button(onClick = { navController.navigate(Screen.Payment.route) }) {
+            val uniqueCode = (100 until 1000).random()
+            Button(onClick = {
+                navController.navigate(
+                    route = Screen.Payment.createRoute(uniqueCode = uniqueCode)
+            ) }) {
                 Text(text = "Beli Sekarang")
             }
         }
