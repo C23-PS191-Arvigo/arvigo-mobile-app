@@ -36,4 +36,12 @@ class HomeProductRepository(
         ).data.faceShapes)
     }.flowOn(Dispatchers.IO)
 
+    fun getPersonalFace() = flow {
+        val token = authPreferences.getAuthToken()
+        Log.d("Hit API Home Checking", "get Home Checking")
+        emit(apiService.getHomeProduct(
+            token = "Bearer $token"
+        ).data)
+    }.flowOn(Dispatchers.IO)
+
 }
