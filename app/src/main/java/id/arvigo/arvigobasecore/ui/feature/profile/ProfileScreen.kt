@@ -1,5 +1,6 @@
 package id.arvigo.arvigobasecore.ui.feature.profile
 
+import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -41,6 +42,7 @@ fun ProfileScreen(
         LazyColumn(
             modifier = Modifier.padding(it)
         ) {
+            Log.d("neo-tag", "")
             item {
                 Spacer(modifier = Modifier.padding(10.dp))
                 ProfileCard()
@@ -112,7 +114,7 @@ fun PersonalityCard(
         button = "Lihat",
         onClick = { openDialog.value = true }
     )
-    if(openDialog.value) {
+    if (openDialog.value) {
         AlertFeatureUnavailable(openDialog = openDialog)
     }
 }
@@ -122,13 +124,19 @@ fun FaceTypeCard(
     navController: NavController
 ) {
     val openDialog = remember { mutableStateOf(false) }
+    val viewModel : ProfileViewModel = getViewModel()
+    val faceShape = if (viewModel.faceShape.toString() == "null") {
+        "Belum melakukan test muka."
+    } else {
+        viewModel.faceShape.toString()
+    }
     CustomCardThree(
         title = "Tipe Muka",
-        desc = "Bulat",
+        desc = faceShape,
         button = "Ubah",
         onClick = { openDialog.value = true }
     )
-    if(openDialog.value) {
+    if (openDialog.value) {
         AlertFeatureUnavailable(openDialog = openDialog)
     }
 }
@@ -141,7 +149,7 @@ fun ProfileRowItems(
     val openDialog = remember { mutableStateOf(false) }
     val unavailableDialog = remember { mutableStateOf(false) }
     val aboutDialog = remember { mutableStateOf(false) }
-    MenuRowItem(name = "Tentang Aplikasi", onMenuClick = {aboutDialog.value=true})
+    MenuRowItem(name = "Tentang Aplikasi", onMenuClick = { aboutDialog.value = true })
     if (aboutDialog.value) {
         AlertAbout(openDialog = aboutDialog)
     }
@@ -160,7 +168,7 @@ fun ProfileRowItems(
             }
         }
     }
-    if(unavailableDialog.value) {
+    if (unavailableDialog.value) {
         AlertFeatureUnavailable(openDialog = unavailableDialog)
     }
 }

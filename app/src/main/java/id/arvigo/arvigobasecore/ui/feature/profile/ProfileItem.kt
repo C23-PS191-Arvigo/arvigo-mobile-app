@@ -10,5 +10,13 @@ data class ProfileItem(
     @SerializedName("full_name")
     val fullName: String,
     @SerializedName("avatar")
-    val avatar: String
+    val avatar: String,
+    @SerializedName("is_complete_personality_test")
+    val isPersonalityTest: Boolean,
+    @SerializedName("is_complete_face_test")
+    val isFaceTest: Boolean,
+    @SerializedName("is_subscription_active")
+    val isSubscription: Boolean,
+    @SerializedName("face_shape")
+    val faceShape: String
 )
