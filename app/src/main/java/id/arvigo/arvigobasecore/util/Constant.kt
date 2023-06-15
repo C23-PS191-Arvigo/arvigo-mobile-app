@@ -22,5 +22,7 @@ object Constant {
 
     //Pictures
     const val IMAGE_BCA = "https://marcopolis.net/images/stories/indonesia-report/2016/companies/Bank_Central_Asia.jpg"
+    const val IMAGE_MANDIRI = "https://assets.weforum.org/organization/image/responsive_small_webp_NsSr9Pm0VMIbvt2UpLt0qMal8KKBy1MrjG2U5IgTxVQ.webp"
+    const val IMAGE_BRI = "https://companiesmarketcap.com/img/company-logos/256/BBRI.JK.webp"
     const val IMAGE_MATRIX = "https://media.wired.com/photos/5ca648a330f00e47fd82ae77/master/w_2560%2Cc_limit/Culture_Matrix_Code_corridor.jpg"
 }
