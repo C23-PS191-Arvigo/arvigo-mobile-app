@@ -45,6 +45,7 @@ import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.feature.subscription.model.SubscriptionRequest
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.util.Constant.IMAGE_BCA
 import org.koin.androidx.compose.get
 
@@ -127,6 +128,13 @@ fun PaymentScreen(
             responseMessage?.let {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 viewModel.clearResponseMessage()
+                navController.navigate(Screen.Home.route){
+                    popUpTo(Screen.Home.route){
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
             }
         }
     }
