@@ -1,15 +1,18 @@
 package id.arvigo.arvigobasecore.ui.feature.subscription
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,23 +53,49 @@ fun CardPricePremium(
     navController: NavController
 ) {
     CustomCardTwo(
-        columnOne = {
-            Text(text = "Premium")
-            Text(text = "Rp 20.000 per user/month")
-        },
+        columnOneText = "Premium",
+        columnOneTextTwo = "Rp. 20.000 / Bulan",
         columnTwo = {
-            Text(text = "✅ Dapatkan benefit 1")
+            Row {
+                Icon(
+                    imageVector = Icons.Default.Done,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+                Text(text = "Rekomendasi Produk Teratas")
+            }
             Spacer(modifier = Modifier.padding(5.dp))
-            Text(text = "✅ Dapatkan benefit 2")
+            Row {
+                Icon(
+                    imageVector = Icons.Default.Done,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+                Text(text = "Coba produk dengan menggunakan AR tanpa ada batasan pemakaian!")
+            }
             Spacer(modifier = Modifier.padding(5.dp))
-            Text(text = "✅ Dapatkan benefit 3")
+            Row {
+                Icon(
+                    imageVector = Icons.Default.Done,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+                Text(text = "Customer Service prioritas")
+            }
         },
         button = {
             val uniqueCode = (100 until 1000).random()
-            Button(onClick = {
-                navController.navigate(
-                    route = Screen.Payment.createRoute(uniqueCode = uniqueCode)
-            ) }) {
+            Button(
+                onClick = {
+                    navController.navigate(
+                        route = Screen.Payment.createRoute(uniqueCode = uniqueCode)
+                    )
+                },
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
                 Text(text = "Beli Sekarang")
             }
         }
@@ -76,16 +105,25 @@ fun CardPricePremium(
 @Composable
 fun CardPriceFree() {
     CustomCardTwo(
-        columnOne = {
-            Text(text = "Free")
-            Text(text = "Rp 0 per user/month")
-        },
+        columnOneText = "Free",
+        columnOneTextTwo = "Rp. 0 / Bulan",
         columnTwo = {
-            Text(text = "✅ Dapatkan benefit 1")
-            Spacer(modifier = Modifier.padding(5.dp))
-            Text(text = "✅ Dapatkan benefit 2")
-            Spacer(modifier = Modifier.padding(5.dp))
-            Text(text = "✅ Dapatkan benefit 3")
+            Row {
+                Icon(
+                    imageVector = Icons.Default.Done,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+                Text(text = "Fitur basic dari Arvigo for Consumer")
+            }
+            Row {
+                Icon(
+                    imageVector = Icons.Default.Done,
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+                Text(text = "Coba produk dengan menggunakan AR")
+            }
         },
         button = {}
     )
