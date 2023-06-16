@@ -81,14 +81,19 @@ fun StoreLazyGrid(
 fun ItemProduct(
     image: String,
     name: String,
-    store: String
+    store: String,
+    onClick: (() -> Unit)? = null
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 10.dp),
+        onClick = onClick ?: {}
     ) {
-        Column() {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.padding(top = 2.dp))
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -107,19 +112,23 @@ fun ItemProduct(
                 )
             }
             Spacer(modifier = Modifier.padding(top = 2.dp))
-            Text(
-                text = store,
-                style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
-                modifier = Modifier.padding(horizontal = 10.dp)
-            )
-            Spacer(modifier = Modifier.padding(top = 2.dp))
-            Text(
-                text = name,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(horizontal = 10.dp)
-            )
+            Column(
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = store,
+                    style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                )
+                Spacer(modifier = Modifier.padding(top = 2.dp))
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                )
+            }
             Spacer(modifier = Modifier.padding(top = 2.dp))
         }
     }

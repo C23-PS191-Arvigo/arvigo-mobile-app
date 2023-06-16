@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -26,18 +27,17 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
-import id.arvigo.arvigobasecore.data.source.network.response.product_detail.Variant
 import id.arvigo.arvigobasecore.ui.component.ProductImageSlider
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
-import id.arvigo.arvigobasecore.ui.component.alert.AlertDialogCustom
 import id.arvigo.arvigobasecore.ui.component.alert.AlertDialogCustomDesc
-import id.arvigo.arvigobasecore.ui.component.alert.AlertLogout
+import id.arvigo.arvigobasecore.ui.component.lazy.ItemProduct
 import id.arvigo.arvigobasecore.ui.feature.deepAR.DeepArActivity
 import id.arvigo.arvigobasecore.ui.feature.product_detail.uistate.ProductDetailUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
@@ -197,6 +197,25 @@ fun ProductDetailContent(
                                     text = response.data.description,
                                     style = MaterialTheme.typography.bodyLarge
                                 )
+                            }
+                            Spacer(modifier = Modifier.padding(top = 30.dp))
+                            Text(
+                                text = "Rekomendasi lainnya",
+                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            )
+                            val variantList = response.data.recommendation
+                            LazyRow() {
+                                items(variantList) {
+                                    ItemProduct(image = it.image, name = it.name, store = it.brand,
+                                    onClick = {
+                                        navController.navigate(
+                                            Screen.ProductDetail.createRoute(
+                                                it.id
+                                            )
+                                        )
+                                    })
+                                }
                             }
                         }
                     }

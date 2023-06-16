@@ -23,5 +23,18 @@ data class ProductDetailData(
     @SerializedName("tags")
     val tags: List<String>,
     @SerializedName("variants")
-    val variants: List<Variant>
+    val variants: List<Variant>,
+    @SerializedName("recommendation_product")
+    val recommendation: List<RecommendationItem>
+)
+
+data class RecommendationItem(
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("image")
+    val image: String,
+    @SerializedName("brand_name")
+    val brand: String
 )
