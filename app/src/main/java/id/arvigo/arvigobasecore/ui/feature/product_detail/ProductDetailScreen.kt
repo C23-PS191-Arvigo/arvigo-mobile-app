@@ -8,7 +8,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -27,7 +26,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -37,7 +35,6 @@ import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequ
 import id.arvigo.arvigobasecore.ui.component.ProductImageSlider
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.component.alert.AlertDialogCustomDesc
-import id.arvigo.arvigobasecore.ui.component.lazy.ItemProduct
 import id.arvigo.arvigobasecore.ui.feature.deepAR.DeepArActivity
 import id.arvigo.arvigobasecore.ui.feature.product_detail.uistate.ProductDetailUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
