@@ -17,7 +17,7 @@ data class ProductDetailData(
     @SerializedName("link_external")
     val linkExternal: String,
     @SerializedName("marketplaces")
-    val marketplaces: List<Marketplace>,
+    val marketplaces: List<Marketplace>?,
     @SerializedName("name")
     val name: String,
     @SerializedName("tags")

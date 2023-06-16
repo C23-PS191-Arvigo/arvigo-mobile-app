@@ -45,10 +45,10 @@ fun OnboardingScreen(
         R.raw.ecommerce,
     )
     val map = mapOf(
-        "Selamat datang di Arvigo" to "Temukan Gaya Unikmu dengan Rekomendasi Produk Kacamata, Baju, Makeup, Sepatu, dan Tas Terbaik!",
-        "Pilih Baju yang Mencerminkan Dirimu!" to "Temukan Fashion yang Menggambarkan Jiwa dan Gaya Anda dengan Rekomendasi Baju Tren dan Klasik!",
-        "Temukan Kacamata yang Memukau!" to "Dapatkan Penampilan yang Memikat dengan Koleksi Kacamata Terkini dan Pilihan Terbaik untuk Setiap Gaya!",
-        "Siap untuk Memulai Petualangan Fashion?" to "" /*to "Temukan Gaya yang Membuatmu Bercahaya dengan Langkah Pertamamu di Arvigo!"*/
+        "Dapatkan Rekomendasi Fesyen Terbaik" to "Dapatkan rekomendasi produk fesyen terbaik buat kamu berdasarkan bentuk wajah, kepribadian, dan melalui pertanyaan",
+        "Mencoba Produk Fesyen Hanya Melalui Aplikasi" to "Bingung memilih produk fesyen di e-commerce karena tidak bisa mencobanya? Tenang, kamu bisa mencobanya di Arvigo",
+        "Depatkan Penawaran Produk Fesyen Terbaik" to "Belanja makin hemat dengan mendapatkan penawaran produk fesyen terbaik dari berbagai toko online & offline di seluruh Indonesia",
+        "Semuanya Ada Dalam Satu Aplikasi di Arvigo" to "Jadikan dirimu #MakinPercayaDiri dengan memulai langkah pertamamu di Arvigo"
 
     ).toList()
     Column(

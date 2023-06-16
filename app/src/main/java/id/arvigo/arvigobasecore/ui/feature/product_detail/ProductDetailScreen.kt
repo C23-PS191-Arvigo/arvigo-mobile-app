@@ -62,6 +62,8 @@ fun ProductDetailContent(
         mutableStateOf(false)
     }
 
+    val isButtonEnable = remember { mutableStateOf(false) }
+
     val isWishList = viewModel.isFavorite.value
 
     val lifecycle : Lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -116,6 +118,14 @@ fun ProductDetailContent(
                     )
                 }
                 is ProductDetailUiState.Success -> {
+                    when (response.data.marketplaces) {
+                        null -> {
+                            isButtonEnable.value = false
+                        }
+                        else -> {
+                            isButtonEnable.value = true
+                        }
+                    }
                    LazyColumn(
                        modifier = Modifier
                            .fillMaxWidth()
@@ -190,6 +200,7 @@ fun ProductDetailContent(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             OutlinedButton(
+                                enabled = isButtonEnable.value,
                                 modifier = Modifier
                                     .width(itemSize)
                                     .height(48.dp),
@@ -198,11 +209,11 @@ fun ProductDetailContent(
                                     navController.navigate(Screen.RecommendationStore.createRoute(idState.value))
                                 },
                                 shape = MaterialTheme.shapes.small,
-                                border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary),
+                                border = BorderStroke(width = 2.dp, color = if (isButtonEnable.value) MaterialTheme.colorScheme.primary else Color.LightGray),
                             )
                             {
                                 Text(text = "Toko", style = MaterialTheme.typography.titleMedium.copy(
-                                    color = MaterialTheme.colorScheme.primary,
+                                    color = if (isButtonEnable.value) MaterialTheme.colorScheme.primary else Color.LightGray,
                                 ))
                             }
                             Spacer(modifier = Modifier.width(8.dp))

@@ -25,7 +25,7 @@ class RecommenStoreViewModel(
             }.catch {
                 response.value = RecommenStoreUiState.Failure(it)
             }.collect {
-                response.value = RecommenStoreUiState.Success(it)
+                response.value = RecommenStoreUiState.Success(it ?: emptyList())
                 Log.d("DETAIL PRODUCT SUCCESS", "get Product Detail")
             }
     }
