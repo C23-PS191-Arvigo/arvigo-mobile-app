@@ -18,9 +18,13 @@ import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.component.alert.AlertAbout
 import id.arvigo.arvigobasecore.ui.component.alert.AlertFeatureUnavailable
 import id.arvigo.arvigobasecore.ui.component.alert.AlertLogout
+import id.arvigo.arvigobasecore.ui.component.cards.CustomCard
 import id.arvigo.arvigobasecore.ui.component.cards.CustomCardThree
 import id.arvigo.arvigobasecore.ui.component.rows.CustomRowTwo
 import id.arvigo.arvigobasecore.ui.component.rows.MenuRowItem
+import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
+import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomePersonalState
+import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 import id.arvigo.arvigobasecore.util.Constant.IMAGE_MATRIX
@@ -94,8 +98,14 @@ fun ProfileCard() {
 fun SubscriptionCard(
     navController: NavController
 ) {
+    val viewModel: ProfileViewModel = getViewModel()
+    val subscribed = if (viewModel.isSubscribed == true) {
+        viewModel.isSubscribed.toString()
+    } else {
+        "Anda belum berlangganan."
+    }
     CustomCardThree(
-        title = "Langganan", desc = "Anda belum berlangganan.",
+        title = "Langganan", desc = subscribed,
         button = "Lihat Harga",
         onClick = {
             navController.navigate(Screen.Pricing.route)
@@ -107,12 +117,20 @@ fun SubscriptionCard(
 fun PersonalityCard(
     navController: NavController
 ) {
+    val viewModel: ProfileViewModel = getViewModel()
+    val personalityModel : PersonalityViewModel = getViewModel()
+    val model = ""//personalityModel.testP.toString()
     val openDialog = remember { mutableStateOf(false) }
+    val testValue = if (viewModel.isPersonalityTest == true) {
+        viewModel.isPersonalityTest.toString()
+    } else {
+        "Belum melakukan test personalitas."
+    }
     CustomCardThree(
-        title = "Langganan",
-        desc = "Personality",
+        title = "Personality",
+        desc = testValue,
         button = "Lihat",
-        onClick = { openDialog.value = true }
+        onClick = { navController.navigate(Screen.Personality.route) }
     )
     if (openDialog.value) {
         AlertFeatureUnavailable(openDialog = openDialog)
@@ -123,7 +141,6 @@ fun PersonalityCard(
 fun FaceTypeCard(
     navController: NavController
 ) {
-    val openDialog = remember { mutableStateOf(false) }
     val viewModel : ProfileViewModel = getViewModel()
     val faceShape = if (viewModel.faceShape.toString() == "null") {
         "Belum melakukan test muka."
@@ -134,11 +151,8 @@ fun FaceTypeCard(
         title = "Tipe Muka",
         desc = faceShape,
         button = "Ubah",
-        onClick = { openDialog.value = true }
+        onClick = { navController.navigate(Screen.FaceShapeIntro.route) }
     )
-    if (openDialog.value) {
-        AlertFeatureUnavailable(openDialog = openDialog)
-    }
 }
 
 @Composable

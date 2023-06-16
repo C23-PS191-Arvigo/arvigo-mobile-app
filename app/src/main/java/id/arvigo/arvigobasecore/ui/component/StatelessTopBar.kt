@@ -7,12 +7,12 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun StatelessTopBar(
-    navigationIcon: @Composable () -> Unit,
+    navigationIcon: (@Composable () -> Unit)?=null,
     title: String,
     actionIcon: @Composable RowScope.() -> Unit
 ) {
     SmallTopAppBar(
-        navigationIcon = navigationIcon,
+        navigationIcon = { navigationIcon?.invoke() },
         title = { Text(text = title) },
         actions = actionIcon,
     )

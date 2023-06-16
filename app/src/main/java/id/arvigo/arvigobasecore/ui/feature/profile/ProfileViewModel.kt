@@ -14,6 +14,7 @@ class ProfileViewModel(
     private val profileRepo: ProfileRepository
 ) : ViewModel() {
     val response: MutableState<ProfileUiState> = mutableStateOf(ProfileUiState.Empty)
+    val personalityResponse: MutableState<PersonalityUiState> = mutableStateOf(PersonalityUiState.Empty)
     val id: Int?
         get() = (response.value as? ProfileUiState.Success)?.data?.id
     val email: String?
@@ -22,15 +23,18 @@ class ProfileViewModel(
         get() = (response.value as? ProfileUiState.Success)?.data?.fullName
     val faceShape: String?
         get() = (response.value as? ProfileUiState.Success)?.data?.faceShape
-    val isSubscribed: Boolean
-        get() = (response.value as ProfileUiState.Success).data.isSubscription
-    val isFaceTest: Boolean
-        get() = (response.value as ProfileUiState.Success).data.isFaceTest
+    val isSubscribed: Boolean?
+        get() = (response.value as? ProfileUiState.Success)?.data?.isSubscription
+    val isPersonalityTest: Boolean?
+        get() = (response.value as? ProfileUiState.Success)?.data?.isPersonalityTest
+    val isFaceTest: Boolean?
+        get() = (response.value as? ProfileUiState.Success)?.data?.isFaceTest
     val avatar: String?
         get() = (response.value as? ProfileUiState.Success)?.data?.avatar
 
     init {
         profileDetails()
+      //  personalityDetails()
     }
 
     private fun profileDetails() = viewModelScope.launch {
@@ -43,6 +47,17 @@ class ProfileViewModel(
                 response.value = ProfileUiState.Success(it)
             }
     }
+
+    /*private fun personalityDetails() = viewModelScope.launch {
+        profileRepo.profileDetails()
+            .onStart {
+                personalityResponse.value = PersonalityUiState.Loading
+            }.catch {
+                personalityResponse.value = PersonalityUiState.Failure(it)
+            }.collect {
+                personalityResponse.value = PersonalityUiState.Success(it.personality)
+            }
+    }*/
 
     fun logout() {
        viewModelScope.launch {

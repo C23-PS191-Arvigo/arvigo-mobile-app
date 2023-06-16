@@ -10,14 +10,10 @@ import id.arvigo.arvigobasecore.data.source.local.AuthPreferences
 import id.arvigo.arvigobasecore.data.source.network.ApiService
 import id.arvigo.arvigobasecore.data.source.network.request.LoginRequest
 import id.arvigo.arvigobasecore.data.source.network.response.LoginResponse
-import id.arvigo.arvigobasecore.data.source.network.response.LoginResult
 import id.arvigo.arvigobasecore.domain.model.TextFieldState
-import id.arvigo.arvigobasecore.domain.usecase.LoginUseCase
 import id.arvigo.arvigobasecore.ui.common.UiEvents
 import id.arvigo.arvigobasecore.ui.feature.login.model.AuthState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
-import id.arvigo.arvigobasecore.util.Resource
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -60,9 +56,13 @@ class LoginViewModel(
     private val _isUserLoggedIn = MutableStateFlow(false)
     val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
 
+    private val _isLoading = mutableStateOf(false)
+    val isLoading: State<Boolean> = _isLoading
+
 
     fun loginNew(email: String, password: String, role: String){
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 val request = LoginRequest(email, password, role)
 
@@ -72,6 +72,7 @@ class LoginViewModel(
                         response: Response<LoginResponse>,
                     ) {
                        if (response.isSuccessful) {
+                           _isLoading.value = false
                            val responseBody = response.body()?.data
                            val userId = responseBody?.userId
                            val token = responseBody?.token
@@ -95,6 +96,7 @@ class LoginViewModel(
                                clearPassword()
                            }
                        } else {
+                           _isLoading.value = false
                            _loginResult.value = LoginApiResults.Error(response.message())
                            viewModelScope.launch {
                                  _eventFlow.emit(
@@ -107,20 +109,11 @@ class LoginViewModel(
                     }
 
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                        _isLoading.value = false
                         _loginResult.value = LoginApiResults.Error(t.localizedMessage ?: "Unknown error occurred")
                     }
 
                 })
-
-//                val response = apiService.login(request)
-//                val userId = response.request().body.
-//                val token = response.token
-//
-//                authPreferences.saveAuthToken(token)
-//
-//                // Update the login result with success
-//                _loginResult.value = LoginApiResults.Success(userId, token)
-//                _navigateToHome.value = true
             } catch (e: Exception) {
                 // Update the login result with error
                 _loginResult.value = LoginApiResults.Error(e.localizedMessage ?: "Unknown error occurred")
@@ -136,50 +129,6 @@ class LoginViewModel(
         setPassword("")
     }
 
-
-//    private fun checkLogin() {
-//        viewModelScope.launch {
-//            val token = authPreferences.getAuthToken()
-//            _isUserLoggedIn.value = !token.isNullOrEmpty()
-//        }
-//    }
-
-//    fun loginUser(){
-//        viewModelScope.launch {
-//            _loginState.value = loginState.value.copy(isLoading = false)
-//
-//            val loginResult = loginUseCase(
-//                email = emailState.value.text,
-//                password = passwordState.value.text,
-//                role = "mobile-app"
-//            )
-//
-//            _loginState.value = loginState.value.copy(isLoading = false)
-//
-//            if (loginResult.emailError != null){
-//                _emailState.value=emailState.value.copy(error = loginResult.emailError)
-//            }
-//            if (loginResult.passwordError != null){
-//                _passwordState.value = passwordState.value.copy(error = loginResult.passwordError)
-//            }
-//
-//            when(loginResult.result){
-//                is Resource.Success->{
-//                    _eventFlow.emit(
-//                        UiEvents.NavigateEvent(Screen.Home.route)
-//                    )
-//                }
-//                is Resource.Error->{
-//                    UiEvents.SnackbarEvent(
-//                        loginResult.result.message ?: "Error!"
-//                    )
-//                }
-//                else -> {
-//
-//                }
-//            }
-//        }
-//    }
 }
 
 

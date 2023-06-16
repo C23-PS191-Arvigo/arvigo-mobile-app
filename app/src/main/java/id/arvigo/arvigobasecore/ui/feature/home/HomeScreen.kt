@@ -78,7 +78,7 @@ fun HomeScreen(
    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeContent(
    navController: NavController,
