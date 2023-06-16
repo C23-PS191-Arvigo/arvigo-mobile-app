@@ -182,7 +182,7 @@ fun HomeContent(
                 Spacer(modifier = Modifier.padding(top = 30.dp))
                 val responseFaceShape = viewModel.responseFace.value
                 if (responseFaceShape is HomeFaceState.SuccessChecking ) {
-                    if(responseFaceShape.data.faceShapes != null) {
+                    if(responseFaceShape.data.faceShapes == null) {
                         Text(
                             text = "Rekomendasi untuk kamu",
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
@@ -192,7 +192,7 @@ fun HomeContent(
                 }
                 val responsePersonality = viewModel.responsePersonal.value
                 if (responsePersonality is HomePersonalState.SuccessPersonal ) {
-                    if(responsePersonality.data.personalities != null) {
+                    if(responsePersonality.data.personalities == null) {
                         Spacer(modifier = Modifier.padding(top = 12.dp))
                         CustomCard(
                             desc = "Personalitas",
@@ -204,7 +204,7 @@ fun HomeContent(
                     }
                 }
                 if (responseFaceShape is HomeFaceState.SuccessChecking ) {
-                    if(responseFaceShape.data.faceShapes != null) {
+                    if(responseFaceShape.data.faceShapes == null) {
                         Spacer(modifier = Modifier.padding(top = 12.dp))
                         CustomCard(
                             desc = "Bentuk Wajah",
