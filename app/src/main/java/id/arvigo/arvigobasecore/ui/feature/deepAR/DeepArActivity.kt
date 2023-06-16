@@ -190,11 +190,18 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
         // Get the bundle extras from the intent
         val extras = intent.extras
         val link = extras?.getString("linkAr")
-        val linkName = link?.substringAfterLast("/")?.substringBeforeLast(".") + ".deepar"
+        val linkName = link?.replace("http", "")
+            ?.replace("/", "")
+            ?.replace(":", "")
+            ?.substringAfter("/arvigo-bucket")
+        /*?.substringAfterLast("/")?.substringBeforeLast(".") + ".deepar"*/
         Log.d("neo-tag", "initializeFilters: $link")
+        Log.d("neo-tag", "initializeString: $linkName")
 
         effects = ArrayList()
-        effects!!.add(linkName)
+        if (linkName != null) {
+            effects!!.add(linkName)
+        }
         // Download and save the effect file from the URL
         GlobalScope.launch(Dispatchers.IO) {
 
@@ -232,6 +239,11 @@ class DeepArActivity : AppCompatActivity(), SurfaceHolder.Callback, AREventListe
                         Log.d("neo-kaca", "Masuk let")
                     }
                     Log.d("neo-kaca", "${fileUri.path}")
+
+                    // Restart the activity
+                    runOnUiThread {
+                        recreate()
+                    }
                 }
             } else {
                 // File already exists, so you can handle this case as needed
