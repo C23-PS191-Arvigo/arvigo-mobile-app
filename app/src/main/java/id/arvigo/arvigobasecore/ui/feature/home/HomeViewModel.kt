@@ -20,6 +20,8 @@ class HomeViewModel(
     val responsePersonal: MutableState<HomePersonalState> = mutableStateOf(HomePersonalState.Empty)
     val responseFace: MutableState<HomeFaceState> = mutableStateOf(HomeFaceState.Empty)
 
+    val isSkipPersonal: MutableState<Boolean> = mutableStateOf(false)
+
     init {
         getHomeProduct()
         getHomePersonal()
@@ -58,6 +60,20 @@ class HomeViewModel(
                 }.collect {
                     responseFace.value = HomeFaceState.Success(it ?: emptyList())
                 }
+    }
+
+    fun getChecking() = viewModelScope.launch {
+        homeProductRepository.getPersonalFace()
+            .onStart {
+                responseFace.value = HomeFaceState.Loading
+                responsePersonal.value = HomePersonalState.Loading
+            }.catch {
+                responseFace.value = HomeFaceState.Failure(it)
+                responsePersonal.value = HomePersonalState.Failure(it)
+            }.collect {
+                responseFace.value = HomeFaceState.SuccessChecking(it)
+                responsePersonal.value = HomePersonalState.SuccessPersonal(it)
+            }
     }
 
 }

@@ -57,6 +57,8 @@ fun JetArvigoApp(
                 Screen.FaceGuide.route,
                 Screen.Notification.route,
                 Screen.OfferDetail.route,
+                Screen.Pricing.route,
+                Screen.Payment.route
             )
             if (currentRoute !in excludedRoutes) {
                 BottomBar(navController)

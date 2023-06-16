@@ -32,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -87,6 +88,11 @@ fun HomeContent(
     var openDialog = remember { mutableStateOf(false) }
     var url by remember { mutableStateOf("") }
     val ctx = LocalContext.current
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getChecking()
+    }
+
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -161,59 +167,76 @@ fun HomeContent(
                 ) {
                     MainMenu(title = "Topi", icon = R.drawable.ic_headwear, onClick = {
                         openDialog.value = true
-                        url = "https://www.google.com"
+                        url = "https://hat-deepar-wf7cinod4a-et.a.run.app"
                     })
                     MainMenu(title = "Arloji", icon = R.drawable.ic_watch, onClick = {
                         openDialog.value = true
-                        url = "https://www.twitter.com"
+                        url = "https://try.deepar.ai/wrist/rolex"
                     })
                     MainMenu(title = "Sepatu", icon = R.drawable.ic_shoes, onClick = {
                         openDialog.value = true
-                        url = "https://www.google.com"
+                        url = "https://demo.ar.wanna.fashion/"
                     })
                     MainMenu(title = "Ransel", icon = R.drawable.ic_bags, onClick = {
                         openDialog.value = true
-                        url = "https://www.google.com"
+                        url = "https://demo-bag.ar.wanna.fashion/?modelid=wanna_bag&showonboarding=3d"
                     })
                 }
                 if(openDialog.value) {
                     PrimaryAlert(openDialog = openDialog, ctx = ctx, url = url)
                 }
                 Spacer(modifier = Modifier.padding(top = 30.dp))
-                Text(
-                    text = "Rekomendasi untuk kamu",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-                Spacer(modifier = Modifier.padding(top = 12.dp))
-                CustomCard(
-                    desc = "Personalitas",
-                    button = "Ambil",
-                    onClick = {
-                        navController.navigate(Screen.Personality.route)
+                val responseFaceShape = viewModel.responseFace.value
+                if (responseFaceShape is HomeFaceState.SuccessChecking ) {
+                    if(responseFaceShape.data.faceShapes == null) {
+                        Text(
+                            text = "Rekomendasi untuk kamu",
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
                     }
-                )
-                Spacer(modifier = Modifier.padding(top = 12.dp))
-                CustomCard(
-                    desc = "Bentuk Wajah",
-                    button = "Ambil",
-                    onClick = {
-                        navController.navigate(Screen.FaceShapeIntro.route)
-                    },
-                    title = {}
-                )
+                }
+                val responsePersonality = viewModel.responsePersonal.value
+                if (responsePersonality is HomePersonalState.SuccessPersonal ) {
+                    if(responsePersonality.data.personalities == null) {
+                        Spacer(modifier = Modifier.padding(top = 12.dp))
+                        CustomCard(
+                            desc = "Personalitas",
+                            button = "Ambil",
+                            onClick = {
+                                navController.navigate(Screen.Personality.route)
+                            }
+                        )
+                    }
+                }
+                if (responseFaceShape is HomeFaceState.SuccessChecking ) {
+                    if(responseFaceShape.data.faceShapes == null) {
+                        Spacer(modifier = Modifier.padding(top = 12.dp))
+                        CustomCard(
+                            desc = "Bentuk Wajah",
+                            button = "Ambil",
+                            onClick = {
+                                navController.navigate(Screen.FaceShapeIntro.route)
+                            },
+                            title = {}
+                        )
+                    }
+                }
+
             }
 
             val responsePersonal = viewModel.responsePersonal.value
-            if (responsePersonal is HomePersonalState.Success) {
-                if (responsePersonal.data != null) {
-                    item {
-                        Spacer(modifier = Modifier.padding(top = 30.dp))
-                        Text(
+            if (responsePersonal is HomePersonalState.SuccessPersonal) {
+                if (responsePersonal.data.personalities != null) {
+                    if (responsePersonal.data.personalities.isNotEmpty()) {
+                        item {
+                            Spacer(modifier = Modifier.padding(top = 30.dp))
+                            Text(
                                 text = "Berdasarkan personalitas kamu",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
                                 modifier = Modifier.padding(horizontal = 16.dp)
-                        )
+                            )
+                        }
                     }
                     item {
                         val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
@@ -223,8 +246,8 @@ fun HomeContent(
                         ) {
 
                             when (responsePersonal) {
-                                is HomePersonalState.Success -> {
-                                    responsePersonal.data?.take(2)?.forEachIndexed { index, recommendation ->
+                                is HomePersonalState.SuccessPersonal -> {
+                                    responsePersonal.data.personalities.take(2)?.forEachIndexed { index, recommendation ->
                                         Box(
                                                 modifier = Modifier
                                                         .width(itemSize),
@@ -298,6 +321,8 @@ fun HomeContent(
                                 HomePersonalState.Empty -> {
                                     Text(text = "Empty Data")
                                 }
+
+                                else -> {}
                             }
                         }
                     }
@@ -305,15 +330,17 @@ fun HomeContent(
             }
 
             val responseFace = viewModel.responseFace.value
-            if (responseFace is HomeFaceState.Success) {
-                if (responseFace.data != null) {
-                    item {
-                        Spacer(modifier = Modifier.padding(top = 30.dp))
-                        Text(
+            if (responseFace is HomeFaceState.SuccessChecking) {
+                if (responseFace.data.faceShapes != null) {
+                    if (responseFace.data.faceShapes.isNotEmpty()) {
+                        item {
+                            Spacer(modifier = Modifier.padding(top = 30.dp))
+                            Text(
                                 text = "Berdasarkan Bentuk Wajah",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
                                 modifier = Modifier.padding(horizontal = 16.dp)
-                        )
+                            )
+                        }
                     }
                     item {
                         val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
@@ -324,8 +351,8 @@ fun HomeContent(
 
 
                             when (responseFace) {
-                                is HomeFaceState.Success -> {
-                                    responseFace.data?.take(2)?.forEachIndexed { index, recommendation ->
+                                is HomeFaceState.SuccessChecking -> {
+                                    responseFace.data.faceShapes.take(2)?.forEachIndexed { index, recommendation ->
                                         Box(
                                                 modifier = Modifier
                                                         .width(itemSize),
@@ -398,6 +425,8 @@ fun HomeContent(
                                 }
                                 HomeFaceState.Empty -> {
                                     Text(text = "Empty Data")
+                                } else -> {
+
                                 }
                             }
                         }

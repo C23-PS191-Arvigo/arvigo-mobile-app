@@ -36,6 +36,7 @@ import id.arvigo.arvigobasecore.ui.component.textfield.NameTextField
 import id.arvigo.arvigobasecore.ui.component.textfield.PasswordTextField
 import id.arvigo.arvigobasecore.ui.component.textfield.RePasswordTextField
 import id.arvigo.arvigobasecore.ui.feature.register.model.RegisterRequest
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 import org.koin.androidx.compose.getViewModel
 
@@ -124,11 +125,6 @@ fun RegisterScreenContent(
                         val registerRequest =
                             RegisterRequest(email, password, confirmPassword, fullName)
                         viewModel.register(registerRequest)
-                        /*navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.Login.route) {
-                                inclusive = true
-                            }
-                        }*/
                     },
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
@@ -145,6 +141,13 @@ fun RegisterScreenContent(
             responseMessage?.let {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 viewModel.clearResponseMessage()
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Login.route) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
             }
         }
     }

@@ -20,6 +20,12 @@ class ProfileViewModel(
         get() = (response.value as? ProfileUiState.Success)?.data?.email
     val fullName: String?
         get() = (response.value as? ProfileUiState.Success)?.data?.fullName
+    val faceShape: String?
+        get() = (response.value as? ProfileUiState.Success)?.data?.faceShape
+    val isSubscribed: Boolean
+        get() = (response.value as ProfileUiState.Success).data.isSubscription
+    val isFaceTest: Boolean
+        get() = (response.value as ProfileUiState.Success).data.isFaceTest
     val avatar: String?
         get() = (response.value as? ProfileUiState.Success)?.data?.avatar
 

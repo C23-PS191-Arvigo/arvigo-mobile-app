@@ -45,7 +45,10 @@ import coil.request.ImageRequest
 import id.arvigo.arvigobasecore.R
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.feature.subscription.model.SubscriptionRequest
+import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.util.Constant.IMAGE_BCA
+import id.arvigo.arvigobasecore.util.Constant.IMAGE_BRI
+import id.arvigo.arvigobasecore.util.Constant.IMAGE_MANDIRI
 import org.koin.androidx.compose.get
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,10 +77,11 @@ fun PaymentScreen(
                 )
                 CustomRowOne(image = IMAGE_BCA, textOne = "11000929443")
                 CustomDivider()
-                CustomRowOne(image = IMAGE_BCA, textOne = "11000929443")
+                CustomRowOne(image = IMAGE_MANDIRI, textOne = "11000929443")
                 CustomDivider()
-                CustomRowOne(image = IMAGE_BCA, textOne = "11000929443")
+                CustomRowOne(image = IMAGE_BRI, textOne = "11000929443")
                 CustomDivider()
+                Spacer(modifier = Modifier.padding(8.dp))
                 Text(
                     text = "Rangkuman Pembayaran",
                     style = MaterialTheme.typography.titleLarge,
@@ -85,6 +89,7 @@ fun PaymentScreen(
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(horizontal = 10.dp),
                 )
+                Spacer(modifier = Modifier.padding(4.dp))
                 CustomLineTwo(
                     textOne = "Premium",
                     textTwo = "Rp. 20.000",
@@ -97,7 +102,7 @@ fun PaymentScreen(
                 )
                 CustomLineTwo(
                     textOne = "Total Harga",
-                    textTwo = "Rp. 212.000",
+                    textTwo = "Rp. 20.000",
                     arrangement = Arrangement.Bottom
                 )
                 Button(
@@ -127,6 +132,13 @@ fun PaymentScreen(
             responseMessage?.let {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 viewModel.clearResponseMessage()
+                navController.navigate(Screen.Home.route){
+                    popUpTo(Screen.Home.route){
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
             }
         }
     }
@@ -190,7 +202,7 @@ fun CustomRowOne(
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Fit,
                 placeholder = painterResource(id = R.drawable.img_placeholder),
                 alignment = Alignment.Center,
                 modifier = Modifier.clip(CircleShape)
