@@ -32,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -87,6 +88,11 @@ fun HomeContent(
     var openDialog = remember { mutableStateOf(false) }
     var url by remember { mutableStateOf("") }
     val ctx = LocalContext.current
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getChecking()
+    }
+
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -220,15 +226,17 @@ fun HomeContent(
             }
 
             val responsePersonal = viewModel.responsePersonal.value
-            if (responsePersonal is HomePersonalState.Success) {
-                if (responsePersonal.data != null) {
-                    item {
-                        Spacer(modifier = Modifier.padding(top = 30.dp))
-                        Text(
+            if (responsePersonal is HomePersonalState.SuccessPersonal) {
+                if (responsePersonal.data.personalities != null) {
+                    if (responsePersonal.data.personalities.isNotEmpty()) {
+                        item {
+                            Spacer(modifier = Modifier.padding(top = 30.dp))
+                            Text(
                                 text = "Berdasarkan personalitas kamu",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
                                 modifier = Modifier.padding(horizontal = 16.dp)
-                        )
+                            )
+                        }
                     }
                     item {
                         val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
@@ -238,8 +246,8 @@ fun HomeContent(
                         ) {
 
                             when (responsePersonal) {
-                                is HomePersonalState.Success -> {
-                                    responsePersonal.data?.take(2)?.forEachIndexed { index, recommendation ->
+                                is HomePersonalState.SuccessPersonal -> {
+                                    responsePersonal.data.personalities.take(2)?.forEachIndexed { index, recommendation ->
                                         Box(
                                                 modifier = Modifier
                                                         .width(itemSize),
@@ -322,15 +330,17 @@ fun HomeContent(
             }
 
             val responseFace = viewModel.responseFace.value
-            if (responseFace is HomeFaceState.Success) {
-                if (responseFace.data != null) {
-                    item {
-                        Spacer(modifier = Modifier.padding(top = 30.dp))
-                        Text(
+            if (responseFace is HomeFaceState.SuccessChecking) {
+                if (responseFace.data.faceShapes != null) {
+                    if (responseFace.data.faceShapes.isNotEmpty()) {
+                        item {
+                            Spacer(modifier = Modifier.padding(top = 30.dp))
+                            Text(
                                 text = "Berdasarkan Bentuk Wajah",
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
                                 modifier = Modifier.padding(horizontal = 16.dp)
-                        )
+                            )
+                        }
                     }
                     item {
                         val itemSize: Dp = (LocalConfiguration.current.screenWidthDp.dp / 2)
@@ -341,8 +351,8 @@ fun HomeContent(
 
 
                             when (responseFace) {
-                                is HomeFaceState.Success -> {
-                                    responseFace.data?.take(2)?.forEachIndexed { index, recommendation ->
+                                is HomeFaceState.SuccessChecking -> {
+                                    responseFace.data.faceShapes.take(2)?.forEachIndexed { index, recommendation ->
                                         Box(
                                                 modifier = Modifier
                                                         .width(itemSize),

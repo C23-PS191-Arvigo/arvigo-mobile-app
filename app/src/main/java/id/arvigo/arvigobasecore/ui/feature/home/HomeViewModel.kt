@@ -26,7 +26,6 @@ class HomeViewModel(
         getHomeProduct()
         getHomePersonal()
         getHomeFace()
-        getChecking()
     }
 
 
