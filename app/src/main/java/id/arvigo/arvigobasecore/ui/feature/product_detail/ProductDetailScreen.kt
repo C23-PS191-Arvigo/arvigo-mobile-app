@@ -31,6 +31,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequest
 import id.arvigo.arvigobasecore.ui.component.ProductImageSlider
+import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.feature.deepAR.DeepArActivity
 import id.arvigo.arvigobasecore.ui.feature.product_detail.uistate.ProductDetailUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
@@ -78,10 +79,7 @@ fun ProductDetailContent(
 
         modifier = Modifier,
         topBar = {
-            SmallTopAppBar(
-                title = {
-                    Text(text = "Produk Detail")
-                },
+            StatelessTopBar(
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.popBackStack()
@@ -90,9 +88,9 @@ fun ProductDetailContent(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "back",
                         )
-                    }
-                },
-                actions = {
+                    } },
+                title = "Produk Detail",
+                actionIcon = {
                     IconButton(onClick = {
                     }) {
                         Icon(imageVector = Icons.Default.Share, contentDescription = "")

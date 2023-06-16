@@ -49,12 +49,14 @@ fun LoginScreenContent(
     val scaffoldState = rememberScaffoldState()
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
     val isUserLoggedIn by viewModel.isUserLoggedIn.collectAsState()
+    val isLoading = viewModel.isLoading.value // Collect the isLoading state as a Compose state
     val (snackbarVisibleState, setSnackBarState) = remember { mutableStateOf(false) }
 
     val role = "mobile-app"
 
 
    LaunchedEffect(key1 = loginResult) {
+
        when (loginResult) {
            is LoginApiResults.Success -> {
                val userId = (loginResult as LoginApiResults.Success).userId
@@ -79,9 +81,7 @@ fun LoginScreenContent(
        }
    }
 
-    Scaffold(
-
-    ) {
+    Scaffold {
         Column(
             modifier = Modifier
                 .padding(it)
@@ -114,10 +114,21 @@ fun LoginScreenContent(
             )
             Spacer(modifier = Modifier.padding(60.dp))
             val context = LocalContext.current
-            PrimaryButton(title = "Sign In", onClick = {
-                viewModel.loginNew(emailState.text, passwordState.text, role)
+            Box() {
+                if (isLoading) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    ) {
+                        CircularProgressIndicator() // Show the loading indicator in the center
+                    }
+                } else {
+                    PrimaryButton(title = "Sign In", onClick = {
+                        viewModel.loginNew(emailState.text, passwordState.text, role)
 
-            })
+                    })
+                }
+            }
             Spacer(modifier = Modifier.padding(24.dp))
             LoginCheck(
                navController = navController,
