@@ -18,13 +18,9 @@ import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.component.alert.AlertAbout
 import id.arvigo.arvigobasecore.ui.component.alert.AlertFeatureUnavailable
 import id.arvigo.arvigobasecore.ui.component.alert.AlertLogout
-import id.arvigo.arvigobasecore.ui.component.cards.CustomCard
 import id.arvigo.arvigobasecore.ui.component.cards.CustomCardThree
 import id.arvigo.arvigobasecore.ui.component.rows.CustomRowTwo
 import id.arvigo.arvigobasecore.ui.component.rows.MenuRowItem
-import id.arvigo.arvigobasecore.ui.feature.home.HomeViewModel
-import id.arvigo.arvigobasecore.ui.feature.home.uistate.HomePersonalState
-import id.arvigo.arvigobasecore.ui.feature.personality.PersonalityViewModel
 import id.arvigo.arvigobasecore.ui.navigation.Screen
 import id.arvigo.arvigobasecore.ui.theme.ArvigoBaseCoreTheme
 import id.arvigo.arvigobasecore.util.Constant.IMAGE_MATRIX
@@ -106,7 +102,7 @@ fun SubscriptionCard(
     }
     CustomCardThree(
         title = "Langganan", desc = subscribed,
-        button = "Lihat Harga",
+        button = "Lihat Paket",
         onClick = {
             navController.navigate(Screen.Pricing.route)
         }
@@ -118,18 +114,16 @@ fun PersonalityCard(
     navController: NavController
 ) {
     val viewModel: ProfileViewModel = getViewModel()
-    val personalityModel : PersonalityViewModel = getViewModel()
-    val model = ""//personalityModel.testP.toString()
     val openDialog = remember { mutableStateOf(false) }
     val testValue = if (viewModel.isPersonalityTest == true) {
-        viewModel.isPersonalityTest.toString()
+        viewModel.personalityType.toString()
     } else {
         "Belum melakukan test personalitas."
     }
     CustomCardThree(
         title = "Personality",
         desc = testValue,
-        button = "Lihat",
+        button = "Ubah",
         onClick = { navController.navigate(Screen.Personality.route) }
     )
     if (openDialog.value) {
