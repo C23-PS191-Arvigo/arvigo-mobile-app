@@ -19,19 +19,6 @@ data class ProfileItem(
     val isSubscription: Boolean,
     @SerializedName("face_shape")
     val faceShape: String,
-   // @SerializedName("personality")
-  //  val personality: PersonalityResponseItem
-)
-
-data class PersonalityResponseItem(
-    @SerializedName("percentage_of_agreeable")
-    val agreeable: Int,
-    @SerializedName("percentage_of_conscientious")
-    val conscientious: Int,
-    @SerializedName("percentage_of_extraversion")
-    val extraVersion: Int,
-    @SerializedName("percentage_of_neurotic")
-    val neurotic: Int,
-    @SerializedName("percentage_of_openess")
-    val openness: Int
+    @SerializedName("personality_type")
+    val personalityType: String
 )

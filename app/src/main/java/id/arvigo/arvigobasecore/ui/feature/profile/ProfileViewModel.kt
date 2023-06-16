@@ -14,7 +14,6 @@ class ProfileViewModel(
     private val profileRepo: ProfileRepository
 ) : ViewModel() {
     val response: MutableState<ProfileUiState> = mutableStateOf(ProfileUiState.Empty)
-    val personalityResponse: MutableState<PersonalityUiState> = mutableStateOf(PersonalityUiState.Empty)
     val id: Int?
         get() = (response.value as? ProfileUiState.Success)?.data?.id
     val email: String?
@@ -31,10 +30,11 @@ class ProfileViewModel(
         get() = (response.value as? ProfileUiState.Success)?.data?.isFaceTest
     val avatar: String?
         get() = (response.value as? ProfileUiState.Success)?.data?.avatar
+    val personalityType: String?
+        get() = (response.value as? ProfileUiState.Success)?.data?.personalityType
 
     init {
         profileDetails()
-      //  personalityDetails()
     }
 
     private fun profileDetails() = viewModelScope.launch {
@@ -47,17 +47,6 @@ class ProfileViewModel(
                 response.value = ProfileUiState.Success(it)
             }
     }
-
-    /*private fun personalityDetails() = viewModelScope.launch {
-        profileRepo.profileDetails()
-            .onStart {
-                personalityResponse.value = PersonalityUiState.Loading
-            }.catch {
-                personalityResponse.value = PersonalityUiState.Failure(it)
-            }.collect {
-                personalityResponse.value = PersonalityUiState.Success(it.personality)
-            }
-    }*/
 
     fun logout() {
        viewModelScope.launch {
