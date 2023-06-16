@@ -8,7 +8,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -27,7 +26,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -37,7 +35,6 @@ import id.arvigo.arvigobasecore.data.source.network.request.WishlisthProductRequ
 import id.arvigo.arvigobasecore.ui.component.ProductImageSlider
 import id.arvigo.arvigobasecore.ui.component.StatelessTopBar
 import id.arvigo.arvigobasecore.ui.component.alert.AlertDialogCustomDesc
-import id.arvigo.arvigobasecore.ui.component.lazy.ItemProduct
 import id.arvigo.arvigobasecore.ui.feature.deepAR.DeepArActivity
 import id.arvigo.arvigobasecore.ui.feature.product_detail.uistate.ProductDetailUiState
 import id.arvigo.arvigobasecore.ui.navigation.Screen
@@ -68,9 +65,11 @@ fun ProductDetailContent(
         mutableStateOf(false)
     }
 
+    val isButtonEnable = remember { mutableStateOf(false) }
+
     val isWishList = viewModel.isFavorite.value
 
-    val lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle
+    val lifecycle : Lifecycle = LocalLifecycleOwner.current.lifecycle
 
     LaunchedEffect(key1 = Unit) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -115,7 +114,7 @@ fun ProductDetailContent(
 
             val response = viewModel.response.value
 
-            when (response) {
+            when(response) {
                 is ProductDetailUiState.Loading -> {
                     CircularProgressIndicator(
                         modifier = Modifier
@@ -123,14 +122,21 @@ fun ProductDetailContent(
                             .wrapContentSize(align = Alignment.Center)
                     )
                 }
-
                 is ProductDetailUiState.Success -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(3.8f)
-                    ) {
-                        item {
+                    when (response.data.marketplaces) {
+                        null -> {
+                            isButtonEnable.value = false
+                        }
+                        else -> {
+                            isButtonEnable.value = true
+                        }
+                    }
+                   LazyColumn(
+                       modifier = Modifier
+                           .fillMaxWidth()
+                           .weight(3.8f)
+                   ) {
+                       item {
                             ProductImageSlider(
                                 imageData = response.data.images,
                             )
@@ -146,79 +152,40 @@ fun ProductDetailContent(
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    Text(
-                                        text = response.data.name,
-                                        style = MaterialTheme.typography.headlineSmall.copy(
-                                            fontWeight = FontWeight.SemiBold,
-                                        )
-                                    )
+                                    Text(text = response.data.name, style = MaterialTheme.typography.headlineSmall.copy(
+                                        fontWeight = FontWeight.SemiBold,
+                                    ))
                                     IconButton(onClick = {
                                         val requestResult = WishlisthProductRequest(
-                                            productId = response.data.id,
-                                            detailProductMarketplaceId = null,
-                                        )
+                                        productId = response.data.id, detailProductMarketplaceId = null,
+                                    )
                                         if (isWishList) {
                                             Log.d("ParsData", "${response.data.id}")
-                                            viewModel.deleteWishlistProduct(productId = response.data.id)
+                                            viewModel.deleteWishlistProduct(productId = response.data.id )
                                             viewModel.checkFavoriteStatus(response.data.id.toString())
                                             isFavorite.value = false
                                         } else {
                                             Log.d("ParsData", "${response.data.id}")
-                                            viewModel.addWishlistProduct(productId = response.data.id)
+                                            viewModel.addWishlistProduct(productId = response.data.id )
                                             viewModel.checkFavoriteStatus(response.data.id.toString())
                                             isFavorite.value = true
                                         }
                                     }) {
                                         if (isWishList) {
-                                            Icon(
-                                                imageVector = Icons.Default.Favorite,
-                                                contentDescription = "",
-                                                tint = Color.Red
-                                            )
+                                            Icon(imageVector = Icons.Default.Favorite, contentDescription = "", tint = Color.Red)
                                         } else {
-                                            Icon(
-                                                imageVector = Icons.Default.FavoriteBorder,
-                                                contentDescription = ""
-                                            )
+                                            Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = "")
                                         }
                                     }
                                 }
-                                Text(
-                                    text = response.data.brandName,
-                                    style = MaterialTheme.typography.titleMedium
-                                )
+                                Text(text = response.data.brandName, style = MaterialTheme.typography.titleMedium)
                                 Spacer(modifier = Modifier.height(32.dp))
-                                Text(
-                                    text = "Deskripsi",
-                                    style = MaterialTheme.typography.titleLarge
-                                )
+                                Text(text = "Deskripsi", style = MaterialTheme.typography.titleLarge)
                                 Spacer(modifier = Modifier.height(8.dp))
-                                Text(
-                                    text = response.data.description,
-                                    style = MaterialTheme.typography.bodyLarge
-                                )
+                                Text(text = response.data.description, style = MaterialTheme.typography.bodyLarge)
                             }
-                            Spacer(modifier = Modifier.padding(top = 30.dp))
-                            Text(
-                                text = "Rekomendasi lainnya",
-                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold), textAlign = TextAlign.Start,
-                                modifier = Modifier.padding(horizontal = 16.dp)
-                            )
-                            val variantList = response.data.recommendation
-                            LazyRow() {
-                                items(variantList) {
-                                    ItemProduct(image = it.image, name = it.name, store = it.brand,
-                                    onClick = {
-                                        navController.navigate(
-                                            Screen.ProductDetail.createRoute(
-                                                it.id
-                                            )
-                                        )
-                                    })
-                                }
-                            }
-                        }
-                    }
+                       }
+                   }
                     Surface(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -272,33 +239,21 @@ fun ProductDetailContent(
                                 )
                             }
                             OutlinedButton(
+                                enabled = isButtonEnable.value,
                                 modifier = Modifier
                                     .width(itemSize)
                                     .height(48.dp),
                                 onClick = {
-                                    // TODO: ERROR WHEN CLICKED
-                                    if (idState.value != ""){
-                                        Toast.makeText(context, "Belum tersedia", Toast.LENGTH_SHORT).show()
-                                   /* navController.navigate(
-                                        Screen.RecommendationStore.createRoute(
-                                            idState.value
-                                        )
-                                    )*/} else {
-                                        Toast.makeText(context, "Belum ada store", Toast.LENGTH_SHORT).show()}
+                                    // TODO: ERROR WHEN CLICKED 
+                                    navController.navigate(Screen.RecommendationStore.createRoute(idState.value))
                                 },
                                 shape = MaterialTheme.shapes.small,
-                                border = BorderStroke(
-                                    width = 2.dp,
-                                    color = MaterialTheme.colorScheme.primary
-                                ),
+                                border = BorderStroke(width = 2.dp, color = if (isButtonEnable.value) MaterialTheme.colorScheme.primary else Color.LightGray),
                             )
                             {
-                                Text(
-                                    text = "Toko",
-                                    style = MaterialTheme.typography.titleMedium.copy(
-                                        color = MaterialTheme.colorScheme.primary,
-                                    )
-                                )
+                                Text(text = "Toko", style = MaterialTheme.typography.titleMedium.copy(
+                                    color = if (isButtonEnable.value) MaterialTheme.colorScheme.primary else Color.LightGray,
+                                ))
                             }
                             Spacer(modifier = Modifier.width(8.dp))
                             Button(
@@ -311,21 +266,16 @@ fun ProductDetailContent(
                                 shape = MaterialTheme.shapes.small,
                             )
                             {
-                                Text(
-                                    text = "Coba AR",
-                                    style = MaterialTheme.typography.titleMedium.copy(
-                                        color = Color.White,
-                                    )
-                                )
+                                Text(text = "Coba AR", style = MaterialTheme.typography.titleMedium.copy(
+                                    color = Color.White,
+                                ))
                             }
                         }
                     }
                 }
-
                 is ProductDetailUiState.Failure -> {
                     Text(text = response.error.message ?: "Unknown Error")
                 }
-
                 ProductDetailUiState.Empty -> {
                     Box(
                         modifier = Modifier
