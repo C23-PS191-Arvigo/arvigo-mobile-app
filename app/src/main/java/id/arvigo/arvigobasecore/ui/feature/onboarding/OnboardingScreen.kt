@@ -39,10 +39,10 @@ fun OnboardingScreen(
     val viewModel: SplashViewModel = getViewModel()
     val pagerState = rememberPagerState(0)
     val anim = listOf(
-        R.raw.welcome,
-        R.raw.shop,
+        R.raw.one,
+        R.raw.three,
         R.raw.eyewear,
-        R.raw.ecommerce,
+        R.raw.four,
     )
     val map = mapOf(
         "Dapatkan Rekomendasi Fesyen Terbaik" to "Dapatkan rekomendasi produk fesyen terbaik buat kamu berdasarkan bentuk wajah, kepribadian, dan melalui pertanyaan",
