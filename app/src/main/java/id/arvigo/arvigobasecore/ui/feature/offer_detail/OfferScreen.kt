@@ -1,7 +1,9 @@
 package id.arvigo.arvigobasecore.ui.feature.offer_detail
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -77,6 +79,12 @@ fun ProductDetailContent(
         mutableStateOf(false)
     }
 
+    val merchantLink = remember {
+        mutableStateOf("")
+    }
+
+    val ctx = LocalContext.current
+
     val isWishList = viewModel.isFavorite.value
 
     val lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -135,6 +143,7 @@ fun ProductDetailContent(
                 }
 
                 is OfferUiState.Success -> {
+                    merchantLink.value = response.data.marketplaceLink
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -231,6 +240,19 @@ fun ProductDetailContent(
                                 onClick = {
                                     // TODO: ERROR WHEN CLICKED
                                     //navController.navigate(Screen.RecommendationStore.createRoute(idState.value))
+                                    if (merchantLink.value != "") {
+                                        val urlIntent = Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse(merchantLink.value)
+                                        )
+                                        ctx.startActivity(urlIntent)
+                                    } else {
+                                        Toast.makeText(
+                                            ctx,
+                                            "Link tidak tersedia",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 },
                                 shape = MaterialTheme.shapes.small,
                                 border = BorderStroke(
