@@ -43,11 +43,10 @@ import kotlin.math.absoluteValue
 fun CarouselCard() {
     val pageState = rememberPagerState(2)
     val sliderList = listOf(
-        "https://picsum.photos/id/237/500/800",
-        "https://picsum.photos/id/233/500/800",
-        "https://picsum.photos/id/236/500/800",
-        "https://picsum.photos/id/232/500/800",
-        "https://picsum.photos/id/240/500/800",
+        "https://raw.githubusercontent.com/irfanrev/arvigo-banner/main/img_banner1.png",
+        "https://raw.githubusercontent.com/irfanrev/arvigo-banner/main/img_banner2.png",
+        "https://raw.githubusercontent.com/irfanrev/arvigo-banner/main/img_banner3.png",
+        "https://raw.githubusercontent.com/irfanrev/arvigo-banner/main/img_banner4.png",
     )
     Column(
         modifier = Modifier
