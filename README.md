@@ -4,7 +4,15 @@ This repository contains the front end implementation of the Arvigo app, which i
 
 ## Project Description
 
-The Arvigo mobile app is built using the Kotlin programming language and Jetpack Compose as the UI framework. It consumes the API from the backend and provides a consumer-ready interface through the mobile software.
+The Arvigo mobile app is built using the Kotlin programming language and Jetpack Compose as the UI framework. It consumes the API from the backend and provides a consumer-ready interface through the mobile software. It uses AR technology to preview the product directly to consumer.
+
+## Screenshot
+<img width="20%" alt="image" src="https://github.com/C23-PS191-Arvigo/arvigo-mobile-app/assets/100233549/fb04c475-4b11-4e17-9596-06ad7a866138">
+<img width="20%" alt="image" src="https://github.com/C23-PS191-Arvigo/arvigo-mobile-app/assets/100233549/0f785174-387f-46b3-ad1d-5ff86e379c3a">
+<img width="20%" alt="image" src="https://github.com/C23-PS191-Arvigo/arvigo-mobile-app/assets/100233549/c72050dd-37ab-4e5b-9f1d-cbe92e010f86">
+
+## Video
+[![Watch the video](https://markdown-videos-api.jorgenkh.no/youtube/TrwxRsYD5Qc)](https://youtu.be/vt5fpE0bzSY)
 
 ## Getting Started
 **soon to be developed**
